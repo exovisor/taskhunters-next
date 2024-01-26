@@ -6,5 +6,6 @@ export interface User {
 	display_name: string;
 	role: Role;
 	image: string;
-	email: string;
+	email?: string;
+	telegram_id?: string;
 }

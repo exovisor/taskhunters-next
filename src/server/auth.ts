@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
 		async jwt({ token, user}) {
 			if (user) {
-				token.user = {...user} as any;
+				token.user = {...user} as User;
 			}
 			return token;
 		},
@@ -68,8 +68,8 @@ export const authOptions: NextAuthOptions = {
 				const user = await validator.validate(data);
 
 				if (user.id && user.first_name) {
-					const returned = {
-						id: user.id.toString(),
+					let returned = {
+						telegram_id: user.id.toString(),
 						username: user.username,
 						display_name: [user.first_name, user.last_name ?? ""].filter(Boolean).join(" "),
 						image: user.photo_url,
@@ -77,7 +77,12 @@ export const authOptions: NextAuthOptions = {
 
 					try {
 						const dbUser = await createUserOrUpdate(user);
-						returned.role = dbUser.role;
+						returned = {
+							...returned,
+							id: dbUser.id,
+							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+							role: dbUser.role,
+						}
 					} catch {
 						console.log(
 							"Something went wrong while creating the user."
