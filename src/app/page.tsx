@@ -4,8 +4,8 @@ import Link from "next/link";
 import { getServerAuthSession } from "@/server/auth";
 import {env} from "@/env";
 
-import SignIn from "@/app/_components/auth/sign-in";
-import SignOut from "@/app/_components/auth/sign-out"
+import SignIn from "@/components/auth/sign-in";
+import SignOut from "@/components/auth/sign-out"
 
 export default async function Home() {
   noStore();
