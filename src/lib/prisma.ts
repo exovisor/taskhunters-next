@@ -1,10 +1,8 @@
 import type { TelegramUserData } from "@telegram-auth/server";
-import { PrismaClient } from "@prisma/client";
-
-export const prisma = new PrismaClient();
+import { db } from "@/server/db";
 
 export async function createUserOrUpdate(user: TelegramUserData) {
-	return prisma.user.upsert({
+	return db.user.upsert({
 		where: {
 			id: user.id.toString(),
 		},
