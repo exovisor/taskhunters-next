@@ -25,9 +25,7 @@ export default async function Home() {
 					{
 						session
 						?
-							<><Link href='/theme' passHref legacyBehavior><Button variant='link'>Перейти на домашнюю страницу</Button></Link>
-								{JSON.stringify(session)}
-							</>
+							<Link href='/student' passHref legacyBehavior><Button variant='link'>Перейти на домашнюю страницу</Button></Link>
 						:
 							<SignIn botUsername={env.TELEGRAM_BOT_NAME} />
 					}

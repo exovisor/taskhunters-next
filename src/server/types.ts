@@ -8,4 +8,6 @@ export interface User {
 	image: string;
 	email?: string;
 	telegram_id?: string;
+
+	studentProfileId?: number | null;
 }

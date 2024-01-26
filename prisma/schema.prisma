@@ -14,6 +14,8 @@ datasource db {
 	url      = env("DATABASE_URL")
 }
 
+// PRIMARY TABLES
+
 enum Role {
 	SUPERADMIN
 	ADMIN
@@ -31,4 +33,55 @@ model User {
 	image         String?
 
 	role Role @default(STUDENT)
+
+	studentProfileId Int?            @unique
+	studentProfile   StudentProfile? @relation(fields: [studentProfileId], references: [id])
+}
+
+model StudentProfile {
+	id       Int    @id @default(autoincrement())
+	fullname String
+	phone    String
+
+	practices Practice[]
+	User      User?
+}
+
+enum PracticeStatus {
+	UNVERIFIED
+	REJECTED
+	APPROVED
+}
+
+model Practice {
+	id             Int            @id @default(autoincrement())
+	status         PracticeStatus @default(UNVERIFIED)
+	start_date     DateTime
+	end_date       DateTime
+	specialization String
+	institute      String
+	year           String
+
+	typeId Int
+	type   PracticeType @relation(fields: [typeId], references: [id])
+
+	student          StudentProfile @relation(fields: [studentProfileId], references: [id])
+	studentProfileId Int
+}
+
+// INFO TABLES
+model Institutes {
+	id   Int    @id @default(autoincrement())
+	name String
+}
+
+model Specialization {
+	id   Int    @id @default(autoincrement())
+	name String
+}
+
+model PracticeType {
+	id       Int        @id @default(autoincrement())
+	name     String
+	Practice Practice[]
 }
