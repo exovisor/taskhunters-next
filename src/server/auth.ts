@@ -4,6 +4,7 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
+import type {DefaultJWT} from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { objectToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
@@ -11,6 +12,7 @@ import { objectToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
 import { createUserOrUpdate } from "@/lib/prisma";
 import { env } from "@/env";
 import { db } from "@/server/db";
+import type {User} from "@/server/types";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -20,13 +22,13 @@ import { db } from "@/server/db";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-			name: string;
-			image: string;
-			email: string;
-    } & DefaultSession["user"];
+    user: User & DefaultSession["user"];
   }
+}
+declare module "next-auth/jwt" {
+	interface JWT extends DefaultJWT {
+		user: User | null;
+	}
 }
 
 /**
@@ -36,10 +38,17 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
+		async jwt({ token, user}) {
+			if (user) {
+				token.user = {...user} as any;
+			}
+			return token;
+		},
     session: ({ session, token }) => ({
 			...session,
 			user: {
 				...session.user,
+				...token.user,
 				id: token.sub!,
 			},
 		}),
@@ -50,24 +59,25 @@ export const authOptions: NextAuthOptions = {
 			id: 'telegram-login',
 			name: 'Telegram Login',
 			credentials: {},
-			async authorize(credentials, req) {
+			async authorize(_credentials, req) {
 				const validator = new AuthDataValidator({
 					botToken: env.TELEGRAM_BOT_TOKEN,
 				});
 
-				const data = objectToAuthDataMap(req.query || {});
+				const data = objectToAuthDataMap(req.query ?? {});
 				const user = await validator.validate(data);
 
 				if (user.id && user.first_name) {
 					const returned = {
 						id: user.id.toString(),
-						email: user.id.toString(),
-						name: user.username,
+						username: user.username,
+						display_name: [user.first_name, user.last_name ?? ""].filter(Boolean).join(" "),
 						image: user.photo_url,
-					}
+					} as User;
 
 					try {
-						await createUserOrUpdate(user);
+						const dbUser = await createUserOrUpdate(user);
+						returned.role = dbUser.role;
 					} catch {
 						console.log(
 							"Something went wrong while creating the user."

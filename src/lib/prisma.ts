@@ -1,4 +1,4 @@
-import { TelegramUserData } from "@telegram-auth/server";
+import type { TelegramUserData } from "@telegram-auth/server";
 import { PrismaClient } from "@prisma/client";
 
 export const prisma = new PrismaClient();
@@ -10,11 +10,13 @@ export async function createUserOrUpdate(user: TelegramUserData) {
 		},
 		create: {
 			id: user.id.toString(),
-			name: user.username,
+			username: user.username,
+			display_name: [user.first_name, user.last_name ?? ""].filter(Boolean).join(" "),
 			image: user.photo_url,
 		},
 		update: {
-			name: user.username,
+			username: user.username,
+			display_name: [user.first_name, user.last_name ?? ""].filter(Boolean).join(" "),
 			image: user.photo_url
 		}
 	})
