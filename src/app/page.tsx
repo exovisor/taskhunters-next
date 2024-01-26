@@ -6,9 +6,12 @@ import {env} from "@/env";
 
 import SignIn from "@/components/auth/sign-in";
 import {Button} from "@/components/ui/button";
+import {useNoAuth} from "@/components/auth/useNoAuth";
 
 export default async function Home() {
   noStore();
+	await useNoAuth();
+
   const session = await getServerAuthSession();
 
   return (
