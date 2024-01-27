@@ -13,6 +13,7 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import type {User} from "@/server/types";
 import {Button} from "@/components/ui/button";
+import {getRoleHomepath} from "@/lib/utils";
 
 export const ProfileDropdown = ({ user }: { user: User }) => {
 	return (
@@ -31,7 +32,7 @@ export const ProfileDropdown = ({ user }: { user: User }) => {
 					user.username && user.username != '[hidden]' && <DropdownMenuLabel>@{user.username}</DropdownMenuLabel>
 				}
 				<DropdownMenuSeparator />
-				<Link href="/student/profile">
+				<Link href={getRoleHomepath(user.role) + '/profile'}>
 					<DropdownMenuItem>Профиль</DropdownMenuItem>
 				</Link>
 				<DropdownMenuItem

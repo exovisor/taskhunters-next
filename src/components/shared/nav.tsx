@@ -5,21 +5,19 @@ import {Button} from "@/components/ui/button";
 import {type getServerAuthSession} from "@/server/auth";
 import {ThemeToggle} from "@/components/theme-toggle";
 import {ProfileDropdown} from "@/components/shared/profile-dropdown";
-import {
-	NavigationMenu,
-	NavigationMenuItem,
-	NavigationMenuLink, NavigationMenuList,
-	navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu";
+import {PropsWithChildren} from "react";
 
 type Session = ReturnType<typeof getServerAuthSession> extends Promise<infer U> ? U : never;
+type Props = PropsWithChildren<{
+	session: Session;
+}>
 
 // TODO: Add mobile dropdown
-export default function StudentNav({session}: { session: Session }) {
+export default function StudentNav({session, children}: Props) {
 	return (
 		<nav className="nav flex w-full justify-between p-2 border border-input rounded-md">
 			<div className="flex">
-				<Link href="/" passHref legacyBehavior>
+				<Link href="/public" passHref legacyBehavior>
 					<Button variant="link" className="flex gap-4">
 						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 text-primary dark:text-foreground" fill="currentColor"
 								 version="1.1" viewBox="0 0 70 40">
@@ -28,26 +26,16 @@ export default function StudentNav({session}: { session: Session }) {
 						</svg>
 					</Button>
 				</Link>
-				<NavigationMenu>
-					<NavigationMenuList>
-						<NavigationMenuItem>
-							<Link href="/student" legacyBehavior passHref>
-								<NavigationMenuLink className={navigationMenuTriggerStyle()}>
-									Практика
-								</NavigationMenuLink>
-							</Link>
-						</NavigationMenuItem>
-					</NavigationMenuList>
-				</NavigationMenu>
+				{children}
 			</div>
-			{session?.user && (
-				<div className="flex items-center space-x-2">
+			<div className="flex items-center space-x-2">
+				{session?.user && (
 					<ProfileDropdown
 						user={session.user}
 					/>
-					<ThemeToggle/>
-				</div>
-			)}
+				)}
+				<ThemeToggle/>
+			</div>
 		</nav>
 	)
 }
