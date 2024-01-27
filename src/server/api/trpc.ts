@@ -99,3 +99,26 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     },
   });
 });
+
+/**
+ * Role based procedures
+ *
+ * If you want a quary or mutation to ONLY be accessible to loggen in users WITH specific ROLE, use one of these.
+ * It is based on protectedProcedure and also verifies user role if it's set in session.
+ */
+export const studentProcedure = t.procedure.use(({ ctx, next }) => {
+	if (!ctx.session || !ctx.session.user) {
+		throw new TRPCError({ code: "UNAUTHORIZED" });
+	}
+
+	if (ctx.session.user && ctx.session.user.role !== "STUDENT") {
+		throw new TRPCError({ code: "FORBIDDEN" });
+	}
+
+	return next({
+		ctx: {
+			// infers the `session` as non-nullable
+			session: { ...ctx.session, user: ctx.session.user },
+		},
+	});
+});

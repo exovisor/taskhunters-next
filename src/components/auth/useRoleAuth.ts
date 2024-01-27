@@ -1,6 +1,6 @@
 'use server';
 
-import {Role} from "@prisma/client";
+import type {Role} from "@prisma/client";
 import {getServerAuthSession} from "@/server/auth";
 import {redirect} from "next/navigation";
 import {getRoleHomepath} from "@/lib/utils";

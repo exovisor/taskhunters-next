@@ -6,8 +6,8 @@ export interface User {
 	display_name: string;
 	role: Role;
 	image: string;
-	email?: string;
-	telegram_id?: string;
+	email?: string | null;
+	telegram_id?: string | null;
 
 	studentProfileId?: number | null;
 }

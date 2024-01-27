@@ -80,10 +80,9 @@ export const authOptions: NextAuthOptions = {
 						returned = {
 							...returned,
 							id: dbUser.id,
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 							role: dbUser.role,
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-							studentProfileId: dbUser.studentProfileId
+							studentProfileId: dbUser.studentProfileId,
+							email: dbUser.email,
 						}
 					} catch {
 						console.log(
