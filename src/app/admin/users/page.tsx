@@ -1,3 +1,5 @@
+import {UsersTable} from "@/app/admin/users/UsersTable";
+
 export default async function AdminUsers() {
 	return (
 		<div>
@@ -5,6 +7,7 @@ export default async function AdminUsers() {
 				<h1>Список пользователей</h1>
 				<p className="text-sm text-muted-foreground">Список всех пользователей приложения</p>
 			</div>
+			<UsersTable />
 		</div>
 	)
 }

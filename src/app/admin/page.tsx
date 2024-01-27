@@ -1,5 +1,5 @@
-import {useRoleAuth} from "@/components/auth/useRoleAuth";
+import {NotImplementedAlert} from "@/components/internal/not-implemented-alert";
 
 export default async function AdminTest() {
-	return <h1>TEST</h1>
+	return <NotImplementedAlert />
 }

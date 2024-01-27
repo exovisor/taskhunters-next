@@ -20,10 +20,10 @@ export async function ProfileBadge() {
 				{
 					session?.user.telegram_id && session.user.telegram_id !== '[hidden]'
 						?
-						<Link href={'https://t.me/' + session.user.username}
+						<a href={'https://t.me/' + session.user.username} target="_blank"
 									className="text-sm text-muted-foreground hover:underline">
 							@{session.user.username} (Id: {session.user.telegram_id})
-						</Link>
+						</a>
 						:
 						<span>Id: {session?.user.telegram_id ?? '[hidden]'}</span>
 				}

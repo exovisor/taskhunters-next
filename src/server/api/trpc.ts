@@ -122,3 +122,20 @@ export const studentProcedure = t.procedure.use(({ ctx, next }) => {
 		},
 	});
 });
+
+export const adminProcedure = t.procedure.use(({ ctx, next }) => {
+	if (!ctx.session || !ctx.session.user) {
+		throw new TRPCError({ code: "UNAUTHORIZED" });
+	}
+
+	if (ctx.session.user && !["ADMIN", "SUPERADMIN"].includes(ctx.session.user.role)) {
+		throw new TRPCError({ code: "FORBIDDEN" });
+	}
+
+	return next({
+		ctx: {
+			// infers the `session` as non-nullable
+			session: { ...ctx.session, user: ctx.session.user },
+		},
+	});
+});

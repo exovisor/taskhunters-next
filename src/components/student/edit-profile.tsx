@@ -48,10 +48,9 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
 	})
 
 	async function onSubmit(values: z.infer<typeof updateStudentProfileSchema>) {
-		console.log(JSON.stringify(values));
 		updateFn(values);
 		if (!hasProfile) {
-			void signOut({ callbackUrl: '/' });
+			await signOut({ callbackUrl: '/' });
 		}
 	}
 

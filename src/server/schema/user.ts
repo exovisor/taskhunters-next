@@ -11,3 +11,7 @@ export const updateStudentProfileSchema = z.object({
 	email: z.string().email()
 });
 
+export const userIdSchema = z.object({
+	id: z.string(),
+})
+
