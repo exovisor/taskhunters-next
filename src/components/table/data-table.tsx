@@ -3,6 +3,7 @@
 import {
 	type ColumnDef,
 	type PaginationState,
+	type SortingState,
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
@@ -41,7 +42,7 @@ export function DataTable<TValue, TData>({
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
-	})
+	});
 	const pagination = useMemo(
 		() => ({
 			pageIndex,
@@ -50,11 +51,19 @@ export function DataTable<TValue, TData>({
 		[pageIndex, pageSize]
 	);
 
+	const defaultSort = {
+		id: 'id',
+		desc: true
+	}
+	const [sortingState, setSorting] = useState<SortingState>([defaultSort]);
+	const sorting = useMemo(() => (sortingState), [sortingState]);
+
 	useEffect(() => {
 		setQueryOptions({
-			paginationOptions: pagination
+			paginationOptions: pagination,
+			sortingOptions: sorting.length > 0 && sorting[0] ? sorting[0] : undefined,
 		})
-	}, [setQueryOptions, pagination]);
+	}, [setQueryOptions, pagination, sorting]);
 
 	const table = useReactTable({
 		data: payload?.rows ?? [],
@@ -62,10 +71,13 @@ export function DataTable<TValue, TData>({
 		pageCount: payload?.meta?.totalCount ? Math.ceil(payload.meta.totalCount / pageSize) : -1,
 		state: {
 			pagination,
+			sorting: sorting
 		},
 		onPaginationChange: setPagination,
+		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
+		manualSorting:true,
 		debugTable: true,
 	});
 
