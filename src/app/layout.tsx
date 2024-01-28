@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" suppressHydrationWarning>
-      <body className={`${openSans.className} pb-16`}>
+      <body className={`${openSans.className} pb-8`}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

@@ -2,10 +2,10 @@
 
 import {
 	type ColumnDef,
+	type PaginationState,
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
-	getPaginationRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -18,21 +18,55 @@ import {
 } from "@/components/ui/table";
 import {DataTablePagination} from "@/components/table/pagination";
 import {DataTableViewOptions} from "@/components/table/column-toggle";
+import {useEffect, useMemo, useState} from "react";
+import type {z} from "zod";
+import type {queryOptionsSchema} from "@/server/schema/query";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TValue, TData> {
 	columns: ColumnDef<TData, TValue>[];
-	data: TData[] | undefined;
+	payload: {
+		rows: TData[];
+		meta: {
+			totalCount: number;
+		}
+	} | undefined;
+	setQueryOptions: (opts: z.infer<typeof queryOptionsSchema>) => void;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TValue, TData>({
 	columns,
-	data,
-}: DataTableProps<TData, TValue>) {
+ 	payload,
+ 	setQueryOptions,
+}: DataTableProps<TValue, TData>) {
+	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 10,
+	})
+	const pagination = useMemo(
+		() => ({
+			pageIndex,
+			pageSize,
+		}),
+		[pageIndex, pageSize]
+	);
+
+	useEffect(() => {
+		setQueryOptions({
+			paginationOptions: pagination
+		})
+	}, [setQueryOptions, pagination]);
+
 	const table = useReactTable({
-		data: data ?? [],
+		data: payload?.rows ?? [],
 		columns,
+		pageCount: payload?.meta?.totalCount ? Math.ceil(payload.meta.totalCount / pageSize) : -1,
+		state: {
+			pagination,
+		},
+		onPaginationChange: setPagination,
 		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
+		manualPagination: true,
+		debugTable: true,
 	});
 
 	return (

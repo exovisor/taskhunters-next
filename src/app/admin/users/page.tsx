@@ -1,4 +1,4 @@
-import {UsersTable} from "@/app/admin/users/UsersTable";
+import {UsersTable} from "@/app/admin/users/users-table";
 
 export default async function AdminUsers() {
 	return (
