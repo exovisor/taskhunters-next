@@ -7,12 +7,15 @@ export const userRouter = createTRPCRouter({
 	getUsers: adminProcedure
 		.input(queryOptionsSchema)
 		.query(async ({ input: options}) => {
-			const query = buildQueryFromOptions(options);
+			const { where, ...query } = buildQueryFromOptions(options);
 			const [users, totalUsers] = await db.$transaction([
 				db.user.findMany({
 					...query,
+					where: where
 				}),
-				db.user.count()
+				db.user.count({
+					where: where
+				})
 			]);
 			return {
 				rows: users,

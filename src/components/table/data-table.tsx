@@ -4,6 +4,7 @@ import {
 	type ColumnDef,
 	type PaginationState,
 	type SortingState,
+	type ColumnFiltersState,
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
@@ -18,10 +19,23 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import {DataTablePagination} from "@/components/table/pagination";
-import {DataTableViewOptions} from "@/components/table/column-toggle";
 import {useEffect, useMemo, useState} from "react";
 import type {z} from "zod";
-import type {queryOptionsSchema} from "@/server/schema/query";
+import type {filterTypes, queryOptionsSchema} from "@/server/schema/query";
+import {DataTableToolbar} from "@/components/table/toolbar";
+import type {RowData} from "@tanstack/table-core";
+import * as React from "react";
+
+declare module '@tanstack/react-table' {
+	interface ColumnMeta<TData extends RowData, TValue> {
+		filterType?: typeof filterTypes[number] | undefined;
+		enumSource?: {
+			label: string
+			value: string
+			icon?: React.ComponentType<{ className?: string }>
+		}[];
+	}
+}
 
 interface DataTableProps<TValue, TData> {
 	columns: ColumnDef<TData, TValue>[];
@@ -58,35 +72,43 @@ export function DataTable<TValue, TData>({
 	const [sortingState, setSorting] = useState<SortingState>([defaultSort]);
 	const sorting = useMemo(() => (sortingState), [sortingState]);
 
-	useEffect(() => {
-		setQueryOptions({
-			paginationOptions: pagination,
-			sortingOptions: sorting.length > 0 && sorting[0] ? sorting[0] : undefined,
-		})
-	}, [setQueryOptions, pagination, sorting]);
+	const [filtersState, setFitlersState] = useState<ColumnFiltersState>([]);
+	const columnFilters = useMemo(() => filtersState, [filtersState]);
 
 	const table = useReactTable({
 		data: payload?.rows ?? [],
 		columns,
 		pageCount: payload?.meta?.totalCount ? Math.ceil(payload.meta.totalCount / pageSize) : -1,
 		state: {
-			pagination,
-			sorting: sorting
+			pagination: pagination,
+			sorting: sorting,
+			columnFilters: columnFilters
 		},
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
+		onColumnFiltersChange: setFitlersState,
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
-		manualSorting:true,
+		manualSorting: true,
+		manualFiltering: true,
 		debugTable: true,
 	});
 
+	useEffect(() => {
+		setQueryOptions({
+			paginationOptions: pagination,
+			sortingOptions: sorting.length > 0 ? sorting[0] : undefined,
+			filterOptions: columnFilters.length > 0 ? columnFilters.map((cf) => ({
+				id: cf.id,
+				value: cf.value as string[],
+				type: table.getColumn(cf.id ?? "")?.columnDef?.meta?.filterType
+			})) : undefined,
+		})
+	}, [table, setQueryOptions, pagination, sorting, columnFilters]);
+
 	return (
 		<div className="space-y-4">
-			{JSON.stringify(table.getState().sorting)}
-			{JSON.stringify(table.getState().pagination)}
-			{JSON.stringify(table.getState().columnFilters)}
-			<DataTableViewOptions table={table} />
+			<DataTableToolbar table={table} />
 			<div className="rounded-md border">
 				<Table>
 					<TableHeader>

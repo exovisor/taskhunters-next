@@ -1,6 +1,6 @@
 import {
-	ArrowDownNarrowWide,
-	ArrowUpWideNarrow,
+	ArrowDownWideNarrow,
+	ArrowUpNarrowWide,
 	GripVertical,
 	EyeOff,
 } from "lucide-react"
@@ -43,9 +43,9 @@ export function DataTableColumnHeader<TData, TValue>({
 					>
 						<span>{title}</span>
 						{column.getIsSorted() === "desc" ? (
-							<ArrowDownNarrowWide className="ml-2 h-4 w-4" />
+							<ArrowDownWideNarrow className="ml-2 h-4 w-4" />
 						) : column.getIsSorted() === "asc" ? (
-							<ArrowUpWideNarrow className="ml-2 h-4 w-4" />
+							<ArrowUpNarrowWide className="ml-2 h-4 w-4" />
 						) : (
 							<GripVertical className="ml-2 h-4 w-4" />
 						)}
@@ -53,11 +53,11 @@ export function DataTableColumnHeader<TData, TValue>({
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="start">
 					<DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-						<ArrowUpWideNarrow className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+						<ArrowUpNarrowWide className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
 						По возрастанию
 					</DropdownMenuItem>
 					<DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-						<ArrowDownNarrowWide className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+						<ArrowDownWideNarrow className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
 						По убыванию
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />

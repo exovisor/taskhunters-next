@@ -1,7 +1,6 @@
 'use server';
 
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import Link from "next/link";
 import {BadgeCheck, GraduationCap, ShieldCheck} from "lucide-react";
 import {getServerAuthSession} from "@/server/auth";
 import type {Role} from "@prisma/client";
@@ -43,7 +42,7 @@ function getRoleBadge(role: Role | undefined) {
 		return <><ShieldCheck className="w-4 h-4 inline"/><span>Администратор</span></>
 	}
 	if (role === "SUPERVISOR") {
-		return <><BadgeCheck className="w-4 h-4 inline"/><span>Руководитель</span></>
+		return <><BadgeCheck className="w-4 h-4 inline"/><span>Куратор</span></>
 	}
 
 	return <span>Гость</span>

@@ -13,6 +13,8 @@ export function getRoleHomepath(role: Role | undefined) {
 			return '/admin';
 		case "STUDENT":
 			return '/student';
+		case "SUPERVISOR":
+			return '/'
 		default:
 			return '/';
 	}
@@ -20,12 +22,13 @@ export function getRoleHomepath(role: Role | undefined) {
 export function roleToString(role: Role | undefined) {
 	switch (role) {
 		case "SUPERADMIN":
+			return 'Руководитель';
 		case "ADMIN":
 			return 'Администратор';
 		case "STUDENT":
 			return 'Студент';
 		case "SUPERVISOR":
-			return "Руководитель";
+			return "Куратор";
 		default:
 			return '/';
 	}
