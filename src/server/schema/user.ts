@@ -1,4 +1,5 @@
 import {z} from "zod";
+import {Role} from "@prisma/client";
 
 // Student profile
 export const studentProfileIdSchema = z.object({
@@ -13,5 +14,10 @@ export const updateStudentProfileSchema = z.object({
 
 export const userIdSchema = z.object({
 	id: z.string(),
+})
+
+export const userRoleSchema = z.object({
+	id: z.string(),
+	role: z.nativeEnum(Role)
 })
 

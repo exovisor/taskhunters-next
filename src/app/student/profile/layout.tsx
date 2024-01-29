@@ -11,7 +11,7 @@ export default async function StudentProfileLayout({ children }: PropsWithChildr
 	return (
 		<div className="py-4 mx-auto flex flex-col max-w-screen-lg">
 			<FillProfileAlert initState={session?.user && session.user.role === "STUDENT" && !session.user.studentProfileId} />
-			<ProfileBadge />
+			{ session?.user && <ProfileBadge user={session.user} /> }
 			{children}
 		</div>
 	)

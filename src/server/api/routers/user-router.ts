@@ -1,7 +1,8 @@
 import { db } from '@/server/db';
 import {createTRPCRouter, adminProcedure} from "@/server/api/trpc";
-import {userIdSchema} from "@/server/schema/user";
+import {userIdSchema, userRoleSchema} from "@/server/schema/user";
 import {buildQueryFromOptions, queryOptionsSchema} from "@/server/schema/query";
+import {TRPCError} from "@trpc/server";
 
 export const userRouter = createTRPCRouter({
 	getUsers: adminProcedure
@@ -25,6 +26,19 @@ export const userRouter = createTRPCRouter({
 			}
 		}),
 
+	getUserWithProfilesById: adminProcedure
+		.input(userIdSchema)
+		.query(async ({ input: { id }}) => {
+			return db.user.findFirst({
+				where: {
+					id: id
+				},
+				include: {
+					studentProfile: true,
+				}
+			})
+		}),
+
 	deleteUser: adminProcedure
 		.input(userIdSchema)
 		.mutation(async ({ input: { id }}) => {
@@ -33,5 +47,24 @@ export const userRouter = createTRPCRouter({
 					id: id
 				}
 			});
+		}),
+
+	changeUserRole: adminProcedure
+		.input(userRoleSchema)
+		.mutation(async ({ input: { id, role }}) => {
+			if (role === 'SUPERADMIN') {
+				throw new TRPCError({
+					code: 'FORBIDDEN',
+					message: 'Only one user with ROOT privileges can exist in application'
+				});
+			}
+			return db.user.update({
+				where: {
+					id: id
+				},
+				data: {
+					role: role
+				}
+			})
 		})
 });

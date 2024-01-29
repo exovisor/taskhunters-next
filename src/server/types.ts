@@ -1,11 +1,11 @@
 import type { Role } from "@prisma/client"
 
-export interface User {
+export interface SessionUser {
 	id: string;
-	username: string;
-	display_name: string;
 	role: Role;
-	image: string;
+	display_name: string;
+	username?: string | null;
+	image?: string | null;
 	email?: string | null;
 	telegram_id?: string | null;
 

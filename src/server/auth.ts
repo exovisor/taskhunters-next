@@ -12,7 +12,7 @@ import { objectToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
 import { createUserOrUpdate } from "@/lib/prisma";
 import { env } from "@/env";
 import { db } from "@/server/db";
-import type {User} from "@/server/types";
+import type {SessionUser} from "@/server/types";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -22,12 +22,12 @@ import type {User} from "@/server/types";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: User & DefaultSession["user"];
+    user: SessionUser & DefaultSession["user"];
   }
 }
 declare module "next-auth/jwt" {
 	interface JWT extends DefaultJWT {
-		user: User | null;
+		user: SessionUser | null;
 	}
 }
 
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
 		async jwt({ token, user}) {
 			if (user) {
-				token.user = {...user} as User;
+				token.user = {...user} as SessionUser;
 			}
 			return token;
 		},
@@ -73,7 +73,7 @@ export const authOptions: NextAuthOptions = {
 						username: user.username,
 						display_name: [user.first_name, user.last_name ?? ""].filter(Boolean).join(" "),
 						image: user.photo_url,
-					} as User;
+					} as SessionUser;
 
 					try {
 						const dbUser = await createUserOrUpdate(user);

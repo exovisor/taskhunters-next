@@ -19,6 +19,7 @@ import {
 import type {User} from "@prisma/client";
 import {useToast} from "@/components/ui/use-toast";
 import {api} from "@/trpc/react";
+import Link from "next/link";
 
 type Props = {
 	user: User
@@ -59,7 +60,9 @@ export function TableActionsDropdown({ user, refetch }: Props) {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
-					<DropdownMenuItem><UserIcon className="mr-2 w-4 h-4"/><span>Открыть профиль</span></DropdownMenuItem>
+					<Link href={'/admin/users/' + user.id} passHref legacyBehavior>
+						<DropdownMenuItem><UserIcon className="mr-2 w-4 h-4"/><span>Открыть профиль</span></DropdownMenuItem>
+					</Link>
 					<DropdownMenuSeparator />
 					<a href={'https://t.me/' + user.username} target="_blank">
 						<DropdownMenuItem><MessageSquareShare className="mr-2 w-4 h-4"/><span>Открыть чат Telegram</span></DropdownMenuItem>

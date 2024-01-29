@@ -11,18 +11,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import type {User} from "@/server/types";
+import type {SessionUser} from "@/server/types";
 import {Button} from "@/components/ui/button";
 import {getRoleHomepath} from "@/lib/utils";
 
-export const ProfileDropdown = ({ user }: { user: User }) => {
+export const ProfileDropdown = ({ user }: { user: SessionUser }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant='outline'>
 					<span>{user.display_name}</span>
 					<Avatar className="ml-2 w-8 h-8">
-						<AvatarImage src={user.image} alt="Фото профиля" />
+						<AvatarImage src={user.image ?? undefined} alt="Фото профиля" />
 						<AvatarFallback>{user.display_name.split(" ").map(str => str.charAt(0)).join('')}</AvatarFallback>
 					</Avatar>
 				</Button>

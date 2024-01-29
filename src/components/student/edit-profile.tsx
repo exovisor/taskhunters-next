@@ -67,7 +67,7 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
 								<Input placeholder="Введите ваше ФИО" {...field} />
 							</FormControl>
 							<FormDescription>
-								Укажите фамилию имя и отчество.
+								Укажите фамилию, имя и отчество.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -99,7 +99,7 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
 								<Input placeholder="mail@example.org" {...field} />
 							</FormControl>
 							<FormDescription>
-								Укажите ваш адрес электронной почты.
+								Укажите адрес электронной почты.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
