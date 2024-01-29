@@ -73,7 +73,7 @@ model Practice {
 }
 
 // INFO TABLES
-model Institutes {
+model Institute {
 	id   Int    @id @default(autoincrement())
 	name String
 }
