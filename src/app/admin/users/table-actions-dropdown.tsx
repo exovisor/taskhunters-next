@@ -22,9 +22,10 @@ import {api} from "@/trpc/react";
 
 type Props = {
 	user: User
+	refetch: () => Promise<unknown>;
 }
 
-export function TableActionsDropdown({ user }: Props) {
+export function TableActionsDropdown({ user, refetch }: Props) {
 	const { toast } = useToast();
 	const utils = api.useUtils();
 	const { mutate: deleteFn } = api.user.deleteUser.useMutation({
@@ -41,8 +42,6 @@ export function TableActionsDropdown({ user }: Props) {
 			})
 		}
 	});
-
-	const {refetch} = api.user.getUsers.useQuery();
 
 	async function deleteUser() {
 		deleteFn({ id: user.id });

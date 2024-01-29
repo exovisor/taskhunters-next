@@ -7,8 +7,11 @@ import {TableActionsDropdown} from "./table-actions-dropdown";
 import {DataTableColumnHeader} from "@/components/table/column-header";
 import {format} from "date-fns";
 import {roles} from "@/lib/enums-data";
-
-export const columns: ColumnDef<User>[] = [
+export const getColumns: (
+	refetch: () => Promise<unknown>
+) => ColumnDef<User>[] = (
+	refetch
+) => ([
 	{
 		accessorKey: "id",
 		header: ({ column }) =>
@@ -18,17 +21,17 @@ export const columns: ColumnDef<User>[] = [
 		}
 	},
 	{
-		accessorKey: "telegram_id",
+		accessorKey: "username",
 		header: ({ column }) =>
-			(<DataTableColumnHeader column={column} title="Telegram Id" />),
+			(<DataTableColumnHeader column={column} title="Имя Telegram" />),
 		meta: {
 			filterType: 'value'
 		}
 	},
 	{
-		accessorKey: "username",
+		accessorKey: "display_name",
 		header: ({ column }) =>
-			(<DataTableColumnHeader column={column} title="Имя пользователя" />),
+			(<DataTableColumnHeader column={column} title="Отображаемое имя" />),
 		meta: {
 			filterType: 'value'
 		}
@@ -74,7 +77,7 @@ export const columns: ColumnDef<User>[] = [
 		id: "actions",
 		cell: ({ row }) => {
 			const user = row.original
-			return <TableActionsDropdown user={user} />
+			return <TableActionsDropdown user={user} refetch={refetch} />
 		},
 	},
-]
+])

@@ -2,7 +2,7 @@
 
 import {api} from "@/trpc/react";
 import {DataTable} from "@/components/table/data-table";
-import {columns} from "@/app/admin/users/columns";
+import {getColumns} from "@/app/admin/users/columns";
 import {useState} from "react";
 import type {queryOptionsSchema} from "@/server/schema/query";
 import type {z} from "zod";
@@ -14,6 +14,6 @@ export function UsersTable() {
 			pageSize: 10
 		}
 	})
-	const { data } = api.user.getUsers.useQuery(queryOptions);
-	return <DataTable columns={columns} setQueryOptions={setQueryOptions} payload={data} />
+	const { data, refetch } = api.user.getUsers.useQuery(queryOptions);
+	return <DataTable columns={getColumns(refetch)} setQueryOptions={setQueryOptions} payload={data} />
 }
