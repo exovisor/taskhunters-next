@@ -3,7 +3,7 @@
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {type getServerAuthSession} from "@/server/auth";
-import {ThemeToggle} from "@/components/theme-toggle";
+import {ThemeToggle} from "@/components/theme/theme-toggle";
 import {ProfileDropdown} from "@/components/shared/profile-dropdown";
 import {PropsWithChildren} from "react";
 

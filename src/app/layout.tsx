@@ -4,7 +4,7 @@ import { Open_Sans } from "next/font/google";
 
 import React from "react";
 import { TRPCReactProvider } from "@/trpc/react";
-import {ThemeProvider} from "@/components/theme-provider";
+import {ThemeProvider} from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/toaster"
 
 const openSans = Open_Sans({

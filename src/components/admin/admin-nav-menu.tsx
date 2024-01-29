@@ -48,7 +48,7 @@ export function AdminNavMenu() {
 					<NavigationMenuContent>
 						<ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
 							<li>
-								<Link href='/admin/institutes' passHref legacyBehavior>
+								<Link href='/admin/dictionaries/institutes' passHref legacyBehavior>
 									<NavigationMenuLink
 										className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
 										<div className="text-sm font-medium leading-none">Образовательные учреждения</div>
@@ -59,7 +59,7 @@ export function AdminNavMenu() {
 								</Link>
 							</li>
 							<li>
-								<Link href='/admin/specializations' passHref legacyBehavior>
+								<Link href='/admin/dictionaries/specializations' passHref legacyBehavior>
 									<NavigationMenuLink
 										className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
 										<div className="text-sm font-medium leading-none">Специализации</div>
@@ -70,7 +70,7 @@ export function AdminNavMenu() {
 								</Link>
 							</li>
 							<li>
-								<Link href='/admin/practice-types' passHref legacyBehavior>
+								<Link href='/admin/dictionaries/practice-types' passHref legacyBehavior>
 									<NavigationMenuLink
 										className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
 										<div className="text-sm font-medium leading-none">Типы практик</div>

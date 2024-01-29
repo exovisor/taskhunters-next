@@ -10,7 +10,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet"
-import {ThemeToggle} from "@/components/theme-toggle";
+import {ThemeToggle} from "@/components/theme/theme-toggle";
 import SignOut from "@/components/auth/sign-out";
 
 export default async function InternalPage() {

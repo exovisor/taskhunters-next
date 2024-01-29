@@ -3,6 +3,8 @@ import {createTRPCRouter, adminProcedure} from "@/server/api/trpc";
 import {userIdSchema, userRoleSchema} from "@/server/schema/user";
 import {buildQueryFromOptions, queryOptionsSchema} from "@/server/schema/query";
 import {TRPCError} from "@trpc/server";
+import {Prisma} from "@prisma/client";
+import UserWhereInput = Prisma.UserWhereInput;
 
 export const userRouter = createTRPCRouter({
 	getUsers: adminProcedure
@@ -12,10 +14,10 @@ export const userRouter = createTRPCRouter({
 			const [users, totalUsers] = await db.$transaction([
 				db.user.findMany({
 					...query,
-					where: where
+					where: where as UserWhereInput
 				}),
 				db.user.count({
-					where: where
+					where: where as UserWhereInput
 				})
 			]);
 			return {
