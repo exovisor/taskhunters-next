@@ -1,28 +1,38 @@
-# Create T3 App
+# Система учета студентов
+Данная система предназначена для ведения учета студентов во время практики. 
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Оригинальный проект можно найти по ссылке 
+[https://github.com/embersee/scholar](https://github.com/embersee/scholar).
 
-## What's next? How do I make an app with this?
+## Стек
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Приложение создано с помощью ```create t3-app``` и использует следующие технологии:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+* PostgreSQL + Prisma
+* Next.js (App router) + TRPC + NextAuth
+* Tailwind + Shadcn/ui
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+# Установка
+## Локальное тестирование
+Для запуска приложения в локальной среде потребуется PostgreSQL v16+ и Node.js v20+
 
-## Learn More
+После клонирования репозитория необходимо создать ```.env``` файл и указать строку подключения к базе данных, 
+а также данные Telegram бота. Пример окружения находится в ```.env.example```
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Telegram боту в качестве домена необходимо установить ```127.0.0.1```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Для запуска приложения:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
+# Установка зависимостей
+npm i
 
-## How do I deploy this?
+# Настройка базы данных
+npm run db:push
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+# Запуск по адресу 127.0.0.1:80
+npm run dev
+```
+
+**Важное примечание:** Виджет авторизации Telegram в локальной среде работает ТОЛЬКО по адресу 127.0.0.1:80.
+Это ограничение самого API Telegram.
