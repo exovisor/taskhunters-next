@@ -1,14 +1,14 @@
 'use client';
 
-import {DataTable} from '@/components/table/data-table';
-import {getDictionaryColumns} from '@/app/admin/dictionaries/_components/dictionary-columns';
 import type {Institute} from '@prisma/client';
-import {useState} from 'react';
 import type {z} from 'zod';
 import type {queryOptionsSchema} from '@/server/schema/query';
+import {useState} from 'react';
 import {api} from '@/trpc/react';
 import {toast} from '@/components/ui/use-toast';
-import {DictionaryUpdateFormDialog} from '@/app/admin/dictionaries/_components/dictionary-update-form-dialog';
+import {DataTable} from '@/components/table/data-table';
+import {DictionaryUpdateFormDialog} from '../_components/dictionary-update-form-dialog';
+import {getDictionaryColumns} from '../_components/dictionary-columns';
 
 export function InstitutesTable() {
   const [dialogOpen, setDialogOpen] = useState(false);
