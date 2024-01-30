@@ -1,14 +1,14 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const dictionaryIdSchema = z.object({
-	id: z.number()
+  id: z.number(),
 });
 
 export const dictionaryCreateSchema = z.object({
-	name: z.string()
+  name: z.string(),
 });
 
 export const dictionaryUpdateSchema = z.object({
-	id: z.number(),
-	name: z.string(),
+  id: z.number(),
+  name: z.string(),
 });

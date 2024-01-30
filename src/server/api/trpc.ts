@@ -7,12 +7,12 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
-import { ZodError } from "zod";
+import { initTRPC, TRPCError } from '@trpc/server';
+import superjson from 'superjson';
+import { ZodError } from 'zod';
 
-import { getServerAuthSession } from "@/server/auth";
-import { db } from "@/server/db";
+import { getServerAuthSession } from '@/server/auth';
+import { db } from '@/server/db';
 
 /**
  * 1. CONTEXT
@@ -90,7 +90,7 @@ export const publicProcedure = t.procedure;
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   return next({
     ctx: {
@@ -107,35 +107,35 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
  * It is based on protectedProcedure and also verifies user role if it's set in session.
  */
 export const studentProcedure = t.procedure.use(({ ctx, next }) => {
-	if (!ctx.session || !ctx.session.user) {
-		throw new TRPCError({ code: "UNAUTHORIZED" });
-	}
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
 
-	if (ctx.session.user && !["STUDENT", "ADMIN", "SUPERADMIN"].includes(ctx.session.user.role)) {
-		throw new TRPCError({ code: "FORBIDDEN" });
-	}
+  if (ctx.session.user && !['STUDENT', 'ADMIN', 'SUPERADMIN'].includes(ctx.session.user.role)) {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
 
-	return next({
-		ctx: {
-			// infers the `session` as non-nullable
-			session: { ...ctx.session, user: ctx.session.user },
-		},
-	});
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
 });
 
 export const adminProcedure = t.procedure.use(({ ctx, next }) => {
-	if (!ctx.session || !ctx.session.user) {
-		throw new TRPCError({ code: "UNAUTHORIZED" });
-	}
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
 
-	if (ctx.session.user && !["ADMIN", "SUPERADMIN"].includes(ctx.session.user.role)) {
-		throw new TRPCError({ code: "FORBIDDEN" });
-	}
+  if (ctx.session.user && !['ADMIN', 'SUPERADMIN'].includes(ctx.session.user.role)) {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
 
-	return next({
-		ctx: {
-			// infers the `session` as non-nullable
-			session: { ...ctx.session, user: ctx.session.user },
-		},
-	});
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
 });

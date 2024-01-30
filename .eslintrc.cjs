@@ -31,6 +31,19 @@ const config = {
         checksVoidReturn: { attributes: false },
       },
     ],
+
+		// Custom rules
+		"semi": ["error", "always"],
+		"@typescript-eslint/semi": ["error", "always"],
+
+		"quotes": ["error", "single"],
+		"@typescript-eslint/quotes": ["error", "single"],
+
+		"comma-dangle": ["error", "always-multiline"],
+		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+
+		"indent": ["error", 2],
+		"@typescript-eslint/indent": ["error", 2],
   },
 };
 
