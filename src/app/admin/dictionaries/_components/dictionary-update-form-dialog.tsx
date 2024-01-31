@@ -44,11 +44,16 @@ export function DictionaryUpdateFormDialog({
     reset(row);
   }, [row,reset]);
 
+  function handleSubmit(data: z.infer<typeof dictionaryUpdateSchema>) {
+    onSave(data);
+    onClose();
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSave)}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <DialogHeader>
               <DialogTitle>
 								Редактирование записи #{row.id}

@@ -78,7 +78,7 @@ model Institute {
 	name String
 }
 
-model Specialization {
+model Specialty {
 	id   Int    @id @default(autoincrement())
 	name String
 }

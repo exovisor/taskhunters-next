@@ -14,6 +14,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Input} from '@/components/ui/input';
 import {Plus} from 'lucide-react';
 import {dictionaryCreateSchema} from '@/server/schema/dictionary';
+import {useState} from 'react';
 
 type Props = {
   onSave: (props: z.infer<typeof dictionaryCreateSchema>) => void;
@@ -22,12 +23,19 @@ type Props = {
 export function DictionaryCreateFormDialog({
   onSave,
 }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
   const form = useForm<z.infer<typeof dictionaryCreateSchema>>({
     resolver: zodResolver(dictionaryCreateSchema),
   });
 
+  function handleSave(data: z.infer<typeof dictionaryCreateSchema>) {
+    onSave(data);
+    setIsOpen(false);
+    form.reset();
+  }
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary">
           <Plus className="mr-2 h-4 w-4" /> Добавить
@@ -35,7 +43,7 @@ export function DictionaryCreateFormDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSave)}>
+          <form onSubmit={form.handleSubmit(handleSave)}>
             <DialogHeader>
               <DialogTitle>
 								Создание новой записи
