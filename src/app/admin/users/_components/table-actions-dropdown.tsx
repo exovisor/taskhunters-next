@@ -65,24 +65,28 @@ export function TableActionsDropdown({ user, refetch }: Props) {
           <a href={'https://t.me/' + user.username} target="_blank">
             <DropdownMenuItem><MessageSquareShare className="mr-2 w-4 h-4"/><span>Открыть чат Telegram</span></DropdownMenuItem>
           </a>
-          <DropdownMenuSeparator />
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className="mr-2 w-4 h-4"/><span>Удалить</span></DropdownMenuItem>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
-                <AlertDialogDescription>
-									Данное действие не может быть отменено. Это навсегда удалит пользователя и связанные с ним действия.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Отмена</AlertDialogCancel>
-                <AlertDialogAction onClick={() => deleteUser()}>Подтвердить</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          { user.role !== 'SUPERADMIN' && (
+            <>
+              <DropdownMenuSeparator />
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className="mr-2 w-4 h-4"/><span>Удалить</span></DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Данное действие не может быть отменено. Это навсегда удалит пользователя и связанные с ним действия.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Отмена</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => deleteUser()}>Подтвердить</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

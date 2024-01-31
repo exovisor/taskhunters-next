@@ -44,6 +44,17 @@ export const userRouter = createTRPCRouter({
   deleteUser: adminProcedure
     .input(userIdSchema)
     .mutation(async ({ input: { id }}) => {
+      const user = await db.user.findFirst({
+        where: {
+          id: id,
+        },
+      });
+      if (user?.role === 'SUPERADMIN') {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Cannot delete user with ROOT privileges',
+        });
+      }
       return db.user.delete({
         where: {
           id: id,

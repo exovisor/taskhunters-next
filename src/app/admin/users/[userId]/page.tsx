@@ -29,17 +29,22 @@ export default async function UserProfilePage({ params }: { params: { userId: st
             <div className="space-y-1">
               <h2>Управление аккаунтом</h2>
             </div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <h3>Изменить роль</h3>
-                <ChangeRoleButton id={user.id} initRole={user.role} />
+            { user.role !== 'SUPERADMIN'
+              ?
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <h3>Изменить роль</h3>
+                  <ChangeRoleButton id={user.id} initRole={user.role} />
+                </div>
+                <Separator />
+                <div className="flex justify-between items-center">
+                  <h3>Удаление учетной записи</h3>
+                  <DeleteUserButton id={user.id} />
+                </div>
               </div>
-              <Separator />
-              <div className="flex justify-between items-center">
-                <h3>Удаление учетной записи</h3>
-                <DeleteUserButton id={user.id} />
-              </div>
-            </div>
+              :
+              <span>Нельзя изменить роль руководителя</span>
+            }
           </section>
         </>
         :
