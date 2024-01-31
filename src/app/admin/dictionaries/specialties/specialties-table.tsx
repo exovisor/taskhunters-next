@@ -70,7 +70,6 @@ export function SpecialtiesTable() {
   }
 
   function submitChanges(data: {id?: number | undefined; name: string}) {
-    console.log('submitChanges', data, dialogData);
     if (!data.id) return;
     updateFn({
       id: data.id,

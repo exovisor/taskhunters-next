@@ -1,7 +1,7 @@
 import {CreateSpecialtyButton} from './create-specialty-button';
 import {SpecialtiesTable} from './specialties-table';
 
-export default async function Institutes() {
+export default async function Specialities() {
 
   return (
     <div>

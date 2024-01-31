@@ -1,6 +1,6 @@
 'use client';
 
-import type {Institute} from '@prisma/client';
+import type {PracticeType} from '@prisma/client';
 import type {z} from 'zod';
 import type {queryOptionsSchema} from '@/server/schema/query';
 import {useState} from 'react';
@@ -10,7 +10,7 @@ import {DataTable} from '@/components/table/data-table';
 import {DictionaryUpdateFormDialog} from '../_components/dictionary-update-form-dialog';
 import {getDictionaryColumns} from '../_components/dictionary-columns';
 
-export function InstitutesTable() {
+export function PracticeTypesTable() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogData, setDialogData] = useState<{ id: number | undefined; name: string | undefined}>({
     id: undefined,
@@ -22,8 +22,8 @@ export function InstitutesTable() {
       pageSize: 10,
     },
   });
-  const { data, refetch } = api.dictionaries.getInstitutes.useQuery(queryOptions);
-  const {mutate: deleteFn} = api.dictionaries.deleteInstitute.useMutation({
+  const { data, refetch } = api.dictionaries.getPracticeTypes.useQuery(queryOptions);
+  const {mutate: deleteFn} = api.dictionaries.deletePracticeType.useMutation({
     onSuccess: async () => {
       toast({
         title: 'Запись удалена',
@@ -38,7 +38,7 @@ export function InstitutesTable() {
       });
     },
   });
-  const { mutate: updateFn } = api.dictionaries.updateInstitute.useMutation({
+  const { mutate: updateFn } = api.dictionaries.updatePracticeType.useMutation({
     onSuccess: async () => {
       toast({
         title: 'Запись обновлена',
@@ -77,7 +77,7 @@ export function InstitutesTable() {
     });
   }
 
-  const columns = getDictionaryColumns<Institute>(deleteFn, openDialog);
+  const columns = getDictionaryColumns<PracticeType>(deleteFn, openDialog);
   return (
     <>
       <DataTable columns={columns} payload={data} setQueryOptions={setQueryOptions} />
