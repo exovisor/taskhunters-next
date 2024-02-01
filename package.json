@@ -7,10 +7,10 @@
     "build": "next build",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "dev": "next dev --port 80",
+    "dev": "node server.js",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "node server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
