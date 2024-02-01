@@ -17,7 +17,7 @@ export default function StudentNav({session, children}: Props) {
   return (
     <nav className="nav flex w-full justify-between p-2 border border-input rounded-md">
       <div className="flex">
-        <Link href="/public" passHref legacyBehavior>
+        <Link href="/" passHref legacyBehavior>
           <Button variant="link" className="flex gap-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 text-primary dark:text-foreground" fill="currentColor"
 								 version="1.1" viewBox="0 0 70 40">
