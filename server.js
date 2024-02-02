@@ -1,15 +1,17 @@
 import next from 'next';
 import {parse} from 'url';
 import {createServer} from 'http';
+import {createCron} from './src/cron/cron.js';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
-const port = parseInt(process.env.PORT || '80', 10);
+const port = parseInt(process.env.PORT ?? '80', 10);
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
+  createCron();
   createServer(async (req, res) => {
     try {
       // Be sure to pass `true` as the second argument to `url.parse`.

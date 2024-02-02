@@ -39,6 +39,8 @@ model User {
 
 	created_at DateTime @default(now())
 	updated_at DateTime @updatedAt
+
+  files File[]
 }
 
 model StudentProfile {
@@ -52,39 +54,78 @@ model StudentProfile {
 
 enum PracticeStatus {
 	UNVERIFIED
-	REJECTED
-	APPROVED
+  VERIFIED
+  REJECTED
+  REPORT_ACCEPTED
+  REPORT_REJECTED
+  COMPLETED
 }
 
 model Practice {
-	id             Int            @id @default(autoincrement())
-	status         PracticeStatus @default(UNVERIFIED)
-	start_date     DateTime
-	end_date       DateTime
-	specialization String
-	institute      String
-	year           String
+  id Int @id @default(autoincrement())
+  type PracticeType @relation(fields: [typeId], references: [id])
+  typeId Int
+  status PracticeStatus @default(UNVERIFIED)
+  rejection_message String?
 
-	typeId Int
-	type   PracticeType @relation(fields: [typeId], references: [id])
+  institute Institute? @relation(fields: [instituteId], references: [id])
+  instituteId Int?
+  speciality Specialty? @relation(fields: [specialityId], references: [id])
+  specialityId Int?
+  year Int
 
-	student          StudentProfile @relation(fields: [studentProfileId], references: [id])
-	studentProfileId Int
+  start_date DateTime
+  end_date DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  student StudentProfile @relation(fields: [studentId], references: [id])
+  studentId Int
+
+  assignmentFile File? @relation(name: "AssignmentFile", fields: [assignmentFileId], references: [id])
+  assignmentFileId Int?
+
+  reportFile File? @relation(name: "ReportFile", fields: [reportFileId], references: [id])
+  reportFileId Int?
+}
+
+model File {
+  id Int @id @default(autoincrement())
+  name String
+  path String
+  size Int
+  type String
+
+  reason String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  uploadedBy User @relation(fields: [uploadedById], references: [id])
+  uploadedById String
+
+  assignments Practice[] @relation("AssignmentFile")
+  reports Practice[] @relation("ReportFile")
 }
 
 // INFO TABLES
 model Institute {
 	id   Int    @id @default(autoincrement())
 	name String
+
+  practices Practice[]
 }
 
 model Specialty {
 	id   Int    @id @default(autoincrement())
 	name String
+
+  practices Practice[]
 }
 
 model PracticeType {
 	id       Int        @id @default(autoincrement())
 	name     String
-	Practice Practice[]
+
+  practices Practice[]
 }
