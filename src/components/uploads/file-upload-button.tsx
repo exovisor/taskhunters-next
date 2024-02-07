@@ -1,15 +1,10 @@
-'use client';
-
 import React, {useState} from 'react';
 import {Input} from '@/components/ui/input';
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
-import {useForm} from 'react-hook-form';
 import {z} from 'zod';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Button} from '@/components/ui/button';
-import {Save} from 'lucide-react';
+import {FileCheck} from 'lucide-react';
 import {type File as FileInfo} from '@prisma/client';
 import {FileCard} from '@/components/uploads/file-card';
+import {useToast} from '@/components/ui/use-toast';
 
 export enum FileUploadState {
   New,
@@ -52,27 +47,18 @@ async function uploadFile(file: globalThis.File, reason: string) {
 export interface FileUploadButtonProps {
   initFile?: FileInfo;
   reason: string;
-  label?: string;
-  description?: string;
+  onUpload?: (file: FileInfo) => void;
 }
 
 export function FileUploadButton({
   reason,
   initFile,
-  label,
-  description,
+  onUpload,
 }: FileUploadButtonProps) {
   const [status, setStatus] = useState(initFile ? FileUploadState.Existing : FileUploadState.New);
-  const [file, setFile] = useState<FileInfo | undefined>(initFile);
+  const [file, setFile] = useState<FileInfo>(initFile);
 
-  const form = useForm<z.infer<typeof fileSchema>>({
-    resolver: zodResolver(fileSchema),
-    defaultValues: {
-      files: undefined,
-    },
-    mode: 'onChange',
-  });
-  const fileRef = form.register('files', { required: true });
+  const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof fileSchema>) {
     const [file] = values.files;
@@ -83,41 +69,47 @@ export function FileUploadButton({
 
     setFile(res);
     setStatus(FileUploadState.Existing);
+
+    if (onUpload) {
+      onUpload(res);
+    }
   }
 
   function onDelete() {
     setFile(undefined);
     setStatus(FileUploadState.New);
+
+    if (onUpload) {
+      onUpload(undefined);
+    }
   }
 
   return (
     <>
       {
         status === FileUploadState.New &&
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 space-x-2 flex"
-          >
-            <FormField
-              control={form.control}
-              name="files"
-              render={() => (
-                <FormItem>
-                  <FormLabel>{label ?? 'Выберите файл'}</FormLabel>
-                  <FormControl>
-                    <Input type='file' {...fileRef} />
-                  </FormControl>
-                  <FormDescription>
-                    { description ?? 'Поддерживаемые форматы: .jpg, .jpeg, .png, .pdf' }
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" size='icon' variant='outline'><Save className='w-4 h-4' /></Button>
-          </form>
-        </Form>
+          <Input type='file' onChange={(e) => {
+            const files = e.target.files;
+            if (!files) return;
+
+            const result = fileSchema.safeParse({ files });
+            if (!result.success) {
+              toast({
+                title: 'Ошибка',
+                description: result.error.errors.join('\n'),
+                variant: 'destructive',
+              });
+              return;
+            }
+
+            toast({
+              title: 'Успешно',
+              description: 'Файл сохранен',
+              action: <FileCheck className='h-8 w-8' />,
+            });
+
+            onSubmit(result.data);
+          }} />
       }
       {
         status === FileUploadState.Existing &&

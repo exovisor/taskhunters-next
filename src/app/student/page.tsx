@@ -1,13 +1,23 @@
 import {getServerAuthSession} from '@/server/auth';
-import {useStudentProfile} from '@/components/auth/useStudentProfile';
+import Link from 'next/link';
+import {Button} from '@/components/ui/button';
 
-export default async function Students() {
-  await useStudentProfile();
+export default async function StudentDashboard() {
   const session = await getServerAuthSession();
 
   return (
     <div>
-      <p>{JSON.stringify(session)}</p>
+      <div className="flex justify-between items-center py-10">
+        <div className="md:ml-6 lg:ml-10">
+          <h1>Добро пожаловать, {session!.user.display_name}!</h1>
+          <p className="text-sm text-muted-foreground">Здесь вы можете просмотреть список практик</p>
+        </div>
+        <Link href={'/student/new-practice'} legacyBehavior passHref>
+          <Button variant='secondary'>
+            Регистрация на практику
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

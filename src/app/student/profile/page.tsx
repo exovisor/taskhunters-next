@@ -12,11 +12,17 @@ export default async function StudentProfile() {
         <TabsTrigger value='studentFiles'>
 					Файлы
         </TabsTrigger>
+        <TabsTrigger value='settings'>
+          Настройки
+        </TabsTrigger>
       </TabsList>
       <TabsContent value='studentProfile'>
         <StudentProfileTab />
       </TabsContent>
       <TabsContent value='studentFiles'>
+        <NotImplementedAlert />
+      </TabsContent>
+      <TabsContent value='settings'>
         <NotImplementedAlert />
       </TabsContent>
     </Tabs>

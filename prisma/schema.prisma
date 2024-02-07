@@ -79,8 +79,8 @@ model Practice {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  student StudentProfile @relation(fields: [studentId], references: [id])
-  studentId Int
+  student StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId Int
 
   assignmentFile File? @relation(name: "AssignmentFile", fields: [assignmentFileId], references: [id])
   assignmentFileId Int?
