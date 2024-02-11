@@ -22,18 +22,18 @@ export function DictionaryDropdown({ deleteMutation, openDialog }: {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Открыть меню</span>
-          <MoreHorizontal className="h-4 w-4" />
+        <Button variant='ghost' className='h-8 w-8 p-0'>
+          <span className='sr-only'>Открыть меню</span>
+          <MoreHorizontal className='h-4 w-4' />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align='end'>
         <DropdownMenuItem onSelect={(e) => {
           e.preventDefault();openDialog();
-        }}><Pencil className="mr-2 w-4 h-4"/><span>Редактировать</span></DropdownMenuItem>
+        }}><Pencil className='mr-2 w-4 h-4'/><span>Редактировать</span></DropdownMenuItem>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className="mr-2 w-4 h-4"/><span>Удалить</span></DropdownMenuItem>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className='mr-2 w-4 h-4'/><span>Удалить</span></DropdownMenuItem>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

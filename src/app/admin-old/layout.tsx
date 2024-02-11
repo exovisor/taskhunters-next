@@ -8,11 +8,11 @@ export default async function StudentLayout({ children }: PropsWithChildren) {
   await useRoleAuth([ 'ADMIN', 'SUPERADMIN' ]);
   const session = await getServerAuthSession();
   return (
-    <div className="p-1 sm:p-2">
+    <div className='p-1 sm:p-2'>
       <Nav session={session}>
         <AdminNavMenu />
       </Nav>
-      <main className="page overflow-hidden">{children}</main>
+      <main className='page overflow-hidden'>{children}</main>
     </div>
   );
 }

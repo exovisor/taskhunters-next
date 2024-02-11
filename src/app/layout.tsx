@@ -24,25 +24,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" suppressHydrationWarning>
-      <body className={`${openSans.className} min-h-screen flex flex-col`}>
+    <html lang='ru' suppressHydrationWarning className='h-full'>
+      <body className={`${openSans.className} h-full`}>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
+          attribute='class'
+          defaultTheme='system'
           enableSystem
           disableTransitionOnChange
         >
-          <div className='flex-grow'>
-          	<TRPCReactProvider>{children}</TRPCReactProvider>
-            <Toaster />
-          </div>
-          <div className='w-full border-t border-accent text-accent-foreground/80 p-2 flex justify-between items-center'>
-            <span>&copy; 2024 СПБ ГУП "СПБ ИАЦ"</span>
-            <div className='flex space-x-2 text-sm'>
-              <a href='/privacy.pdf' target='_blank' className='hover:text-accent-foreground'>Политика конфиденциальности</a>
-              <a href='#' className='hover:text-accent-foreground'>Пользовательское соглашение</a>
-              <a href='#' className='hover:text-accent-foreground'>Поддержка</a>
-            </div>
+          <div className='min-h-full'>
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+            <Toaster/>
           </div>
         </ThemeProvider>
       </body>

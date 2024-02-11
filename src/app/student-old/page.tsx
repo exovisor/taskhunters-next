@@ -14,12 +14,12 @@ export default async function StudentDashboard() {
 
   return (
     <div>
-      <div className="flex justify-between items-center py-10">
-        <div className="md:ml-6 lg:ml-10">
+      <div className='flex justify-between items-center py-10'>
+        <div className='md:ml-6 lg:ml-10'>
           <h1>Добро пожаловать, {session!.user.display_name}!</h1>
-          <p className="text-sm text-muted-foreground">Здесь вы можете просмотреть список практик</p>
+          <p className='text-sm text-muted-foreground'>Здесь вы можете просмотреть список практик</p>
         </div>
-        <Link href={'/student-old/new-practice'} legacyBehavior passHref>
+        <Link href={'/student-old/new-practices'} legacyBehavior passHref>
           <Button variant='secondary'>
             Регистрация на практику
           </Button>

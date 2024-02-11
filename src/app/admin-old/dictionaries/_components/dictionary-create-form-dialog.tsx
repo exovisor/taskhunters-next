@@ -37,11 +37,11 @@ export function DictionaryCreateFormDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="secondary">
-          <Plus className="mr-2 h-4 w-4" /> Добавить
+        <Button variant='secondary'>
+          <Plus className='mr-2 h-4 w-4' /> Добавить
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSave)}>
             <DialogHeader>
@@ -52,15 +52,15 @@ export function DictionaryCreateFormDialog({
 								Заполните необходимые поля
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <div className='grid gap-4 py-4'>
               <FormField
                 control={form.control}
-                name="name"
+                name='name'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Значение</FormLabel>
                     <FormControl>
-                      <Input placeholder="Введите значение..." {...field} />
+                      <Input placeholder='Введите значение...' {...field} />
                     </FormControl>
                     <FormDescription>
 											Значение словаря
@@ -71,7 +71,7 @@ export function DictionaryCreateFormDialog({
               />
             </div>
             <DialogFooter>
-              <Button type="submit">Сохранить изменения</Button>
+              <Button type='submit'>Сохранить изменения</Button>
             </DialogFooter>
           </form>
         </Form>

@@ -9,15 +9,15 @@ export default async function UserProfilePage({ params }: { params: { userId: st
   const user = await api.user.getUserWithProfilesById.query({ id: params.userId });
 
   return (
-    <div className="py-4 mx-auto flex flex-col max-w-screen-lg space-y-4">
+    <div className='py-4 mx-auto flex flex-col max-w-screen-lg space-y-4'>
       { user ?
         <>
           <ProfileBadge user={user}/>
           {user.role === 'STUDENT' &&
-						<section className="p-4 border rounded-lg space-y-6">
-						  <div className="space-y-1">
+						<section className='p-4 border rounded-lg space-y-6'>
+						  <div className='space-y-1'>
 						    <h2>Профиль студента</h2>
-						    <p className="text-muted-foreground text-sm">Если студент заполнил профиль, то здесь будут отображены
+						    <p className='text-muted-foreground text-sm'>Если студент заполнил профиль, то здесь будут отображены
 									его данные.</p>
 						  </div>
 						  <EditProfile hasProfile={true}
@@ -25,19 +25,19 @@ export default async function UserProfilePage({ params }: { params: { userId: st
 						  />
 						</section>
           }
-          <section className="p-4 border border-destructive rounded-lg space-y-6">
-            <div className="space-y-1">
+          <section className='p-4 border border-destructive rounded-lg space-y-6'>
+            <div className='space-y-1'>
               <h2>Управление аккаунтом</h2>
             </div>
             { user.role !== 'SUPERADMIN'
               ?
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
+              <div className='space-y-2'>
+                <div className='flex justify-between items-center'>
                   <h3>Изменить роль</h3>
                   <ChangeRoleButton id={user.id} initRole={user.role} />
                 </div>
                 <Separator />
-                <div className="flex justify-between items-center">
+                <div className='flex justify-between items-center'>
                   <h3>Удаление учетной записи</h3>
                   <DeleteUserButton id={user.id} />
                 </div>

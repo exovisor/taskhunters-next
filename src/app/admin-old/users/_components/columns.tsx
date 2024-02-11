@@ -6,7 +6,7 @@ import { roleToString } from '@/lib/utils';
 import { TableActionsDropdown } from './table-actions-dropdown';
 import { DataTableColumnHeader } from '@/components/table/column-header';
 import { format } from 'date-fns';
-import { roles } from '@/lib/enums-data';
+import { roles } from '@/lib/roles';
 export const getColumns: (
   refetch: () => Promise<unknown>
 ) => ColumnDef<User>[] = (
@@ -15,7 +15,7 @@ export const getColumns: (
   {
     accessorKey: 'id',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Id" />),
+      (<DataTableColumnHeader column={column} title='Id' />),
     meta: {
       filterType: 'value',
     },
@@ -23,7 +23,7 @@ export const getColumns: (
   {
     accessorKey: 'username',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Имя Telegram" />),
+      (<DataTableColumnHeader column={column} title='Имя Telegram' />),
     meta: {
       filterType: 'value',
     },
@@ -31,7 +31,7 @@ export const getColumns: (
   {
     accessorKey: 'display_name',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Отображаемое имя" />),
+      (<DataTableColumnHeader column={column} title='Отображаемое имя' />),
     meta: {
       filterType: 'value',
     },
@@ -39,7 +39,7 @@ export const getColumns: (
   {
     accessorKey: 'email',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Электронная почта" />),
+      (<DataTableColumnHeader column={column} title='Электронная почта' />),
     meta: {
       filterType: 'value',
     },
@@ -47,7 +47,7 @@ export const getColumns: (
   {
     accessorKey: 'role',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Роль" />),
+      (<DataTableColumnHeader column={column} title='Роль' />),
     cell: ({ row }) =>
       (roleToString(row.getValue('role'))),
     meta: {
@@ -58,7 +58,7 @@ export const getColumns: (
   {
     accessorKey: 'created_at',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Дата создания" />),
+      (<DataTableColumnHeader column={column} title='Дата создания' />),
     cell: ({ row }) => format(new Date(row.getValue('created_at')), 'HH:mm dd.MM.yyyy'),
     meta: {
       filterType: 'date',
@@ -67,7 +67,7 @@ export const getColumns: (
   {
     accessorKey: 'updated_at',
     header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title="Дата обновления" />),
+      (<DataTableColumnHeader column={column} title='Дата обновления' />),
     cell: ({ row }) => format(new Date(row.getValue('updated_at')), 'HH:mm dd.MM.yyyy'),
     meta: {
       filterType: 'date',

@@ -9,7 +9,7 @@ const FillProfileAlert = dynamic(()=>import('./_components/fill-profile-alert'),
 export default async function StudentProfileLayout({ children }: PropsWithChildren) {
   const session = await getServerAuthSession();
   return (
-    <div className="py-4 mx-auto flex flex-col max-w-screen-lg">
+    <div className='py-4 mx-auto flex flex-col max-w-screen-lg'>
       <FillProfileAlert initState={session?.user && session.user.role === 'STUDENT' && !session.user.studentProfileId} />
       { session?.user && <ProfileBadge user={session.user} /> }
       {children}

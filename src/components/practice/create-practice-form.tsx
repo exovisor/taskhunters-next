@@ -29,9 +29,16 @@ import { Calendar } from '@/components/ui/calendar';
 import { addMonths, format } from 'date-fns';
 import { FileUploadButton } from '@/components/uploads/file-upload-button';
 
-export function CreatePracticeForm() {
+export type CreatePracticeFormProps = {
+  studentProfileId: number;
+};
+
+export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps) {
   const form = useForm<z.infer<typeof createPracticeSchema>>({
     resolver: zodResolver(createPracticeSchema),
+    defaultValues: {
+      studentProfileId: studentProfileId,
+    },
     reValidateMode: 'onChange',
   });
 
@@ -69,19 +76,19 @@ export function CreatePracticeForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
-          name="typeId"
+          name='typeId'
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className='flex flex-col'>
               <FormLabel>Тип практики</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      variant="outline"
-                      role="combobox"
+                      variant='outline'
+                      role='combobox'
                       className={cn(
                         'justify-between',
                         !field.value && 'text-muted-foreground'
@@ -92,13 +99,13 @@ export function CreatePracticeForm() {
                           (type) => type.id === field.value
                         )?.name
                         : 'Выберите тип'}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="p-0" align='start'>
+                <PopoverContent className='p-0' align='start'>
                   <Command>
-                    <CommandInput placeholder="Поиск по типам..." />
+                    <CommandInput placeholder='Поиск по типам...' />
                     <CommandEmpty>Тип не найден...</CommandEmpty>
                     <CommandGroup>
                       {practiceTypes.map((type) => (
@@ -133,16 +140,16 @@ export function CreatePracticeForm() {
         />
         <FormField
           control={form.control}
-          name="instituteId"
+          name='instituteId'
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className='flex flex-col'>
               <FormLabel>Учебное заведение</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      variant="outline"
-                      role="combobox"
+                      variant='outline'
+                      role='combobox'
                       className={cn(
                         'justify-between',
                         !field.value && 'text-muted-foreground'
@@ -153,13 +160,13 @@ export function CreatePracticeForm() {
                           (institute) => institute.id === field.value
                         )?.name
                         : 'Другое'}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="p-0" align='start'>
+                <PopoverContent className='p-0' align='start'>
                   <Command>
-                    <CommandInput placeholder="Поиск по институтам..." />
+                    <CommandInput placeholder='Поиск по институтам...' />
                     <CommandEmpty>Институт не найден...</CommandEmpty>
                     <CommandGroup>
                       {institutes.map((institute) => (
@@ -205,16 +212,16 @@ export function CreatePracticeForm() {
         />
         <FormField
           control={form.control}
-          name="specialityId"
+          name='specialityId'
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className='flex flex-col'>
               <FormLabel>Специализация</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      variant="outline"
-                      role="combobox"
+                      variant='outline'
+                      role='combobox'
                       className={cn(
                         'justify-between',
                         !field.value && 'text-muted-foreground'
@@ -225,13 +232,13 @@ export function CreatePracticeForm() {
                           (type) => type.id === field.value
                         )?.name
                         : 'Другое'}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="p-0" align='start'>
+                <PopoverContent className='p-0' align='start'>
                   <Command>
-                    <CommandInput placeholder="Поиск по типам..." />
+                    <CommandInput placeholder='Поиск по типам...' />
                     <CommandEmpty>Тип не найден...</CommandEmpty>
                     <CommandGroup>
                       {specialties.map((type) => (
@@ -277,12 +284,12 @@ export function CreatePracticeForm() {
         />
         <FormField
           control={form.control}
-          name="year"
+          name='year'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Курс</FormLabel>
               <Input
-                type="number"
+                type='number'
                 placeholder='Введите номер курса'
                 onChange={(e) => {
                   const value = e.target.value;
@@ -302,9 +309,9 @@ export function CreatePracticeForm() {
         />
         <FormField
           control={form.control}
-          name="start_date"
+          name='start_date'
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className='flex flex-col'>
               <FormLabel>Дата начала практики</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -321,13 +328,13 @@ export function CreatePracticeForm() {
                       ) : (
                         <span>Выберите дату</span>
                       )}
-                      <CalendarDays className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarDays className='ml-auto h-4 w-4 opacity-50' />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className='w-auto p-0' align='start'>
                   <Calendar
-                    mode="single"
+                    mode='single'
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
@@ -347,9 +354,9 @@ export function CreatePracticeForm() {
         />
         <FormField
           control={form.control}
-          name="end_date"
+          name='end_date'
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className='flex flex-col'>
               <FormLabel>Дата окончания практики</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -366,13 +373,13 @@ export function CreatePracticeForm() {
                       ) : (
                         <span>Выберите дату</span>
                       )}
-                      <CalendarDays className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarDays className='ml-auto h-4 w-4 opacity-50' />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className='w-auto p-0' align='start'>
                   <Calendar
-                    mode="single"
+                    mode='single'
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
@@ -392,7 +399,7 @@ export function CreatePracticeForm() {
         />
         <FormField
           control={form.control}
-          name="assignmentFileId"
+          name='assignmentFileId'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Направление на практику</FormLabel>
@@ -407,7 +414,7 @@ export function CreatePracticeForm() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Сохранить</Button>
+        <Button type='submit'>Зарегистрировать</Button>
       </form>
     </Form>
   );

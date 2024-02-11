@@ -12,7 +12,7 @@ export function getDictionaryColumns<T extends { id: number; name: string }>(
     {
       accessorKey: 'id',
       header: ({ column }) =>
-        (<DataTableColumnHeader column={column} title="Id" />),
+        (<DataTableColumnHeader column={column} title='Id' />),
       meta: {
         filterType: 'value',
       },
@@ -20,7 +20,7 @@ export function getDictionaryColumns<T extends { id: number; name: string }>(
     {
       accessorKey: 'name',
       header: ({ column }) =>
-        (<DataTableColumnHeader column={column} title="Значение" />),
+        (<DataTableColumnHeader column={column} title='Значение' />),
       meta: {
         filterType: 'value',
       },

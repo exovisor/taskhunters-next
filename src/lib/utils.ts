@@ -6,19 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getRoleHomepath(role: Role | undefined) {
-  switch (role) {
-    case 'SUPERADMIN':
-    case 'ADMIN':
-      return '/admin-old';
-    case 'STUDENT':
-      return '/student-old';
-    case 'SUPERVISOR':
-      return '/';
-    default:
-      return '/';
-  }
-}
 export function roleToString(role: Role | undefined) {
   switch (role) {
     case 'SUPERADMIN':

@@ -38,7 +38,7 @@ const config = {
     "@stylistic/brace-style": ["error", "1tbs"],
     "@stylistic/object-curly-spacing": ["error", "always"],
     "@stylistic/array-bracket-spacing": ["error", "always"],
-
+    "@stylistic/jsx-quotes": ["error", "prefer-single"],
   },
 };
 

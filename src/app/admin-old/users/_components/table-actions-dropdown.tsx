@@ -52,25 +52,25 @@ export function TableActionsDropdown({ user, refetch }: Props) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Открыть меню</span>
-            <MoreHorizontal className="h-4 w-4" />
+          <Button variant='ghost' className='h-8 w-8 p-0'>
+            <span className='sr-only'>Открыть меню</span>
+            <MoreHorizontal className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align='end'>
           <Link href={'/admin-old/users/' + user.id} passHref legacyBehavior>
-            <DropdownMenuItem><UserIcon className="mr-2 w-4 h-4"/><span>Открыть профиль</span></DropdownMenuItem>
+            <DropdownMenuItem><UserIcon className='mr-2 w-4 h-4'/><span>Открыть профиль</span></DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
-          <a href={'https://t.me/' + user.username} target="_blank">
-            <DropdownMenuItem><MessageSquareShare className="mr-2 w-4 h-4"/><span>Открыть чат Telegram</span></DropdownMenuItem>
+          <a href={'https://t.me/' + user.username} target='_blank'>
+            <DropdownMenuItem><MessageSquareShare className='mr-2 w-4 h-4'/><span>Открыть чат Telegram</span></DropdownMenuItem>
           </a>
           { user.role !== 'SUPERADMIN' && (
             <>
               <DropdownMenuSeparator />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className="mr-2 w-4 h-4"/><span>Удалить</span></DropdownMenuItem>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className='mr-2 w-4 h-4'/><span>Удалить</span></DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>

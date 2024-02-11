@@ -2,7 +2,7 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Role } from '@prisma/client';
-import { roles } from '@/lib/enums-data';
+import { roles } from '@/lib/roles';
 import { useState } from 'react';
 import { api } from '@/trpc/react';
 import { toast } from '@/components/ui/use-toast';
@@ -43,13 +43,13 @@ export function ChangeRoleButton({ id, initRole }: { id: string, initRole: Role 
   return (
     <>
       <Select value={role} onValueChange={changeRole}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Выберите роль" />
+        <SelectTrigger className='w-[180px]'>
+          <SelectValue placeholder='Выберите роль' />
         </SelectTrigger>
         <SelectContent>
           {
             roleItems.map((r) => (
-              <SelectItem key={r.value} value={r.value} className="">{r.label}</SelectItem>
+              <SelectItem key={r.value} value={r.value} className=''>{r.label}</SelectItem>
             ))
           }
         </SelectContent>

@@ -56,15 +56,15 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
         <FormField
           control={form.control}
-          name="fullname"
+          name='fullname'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Полное имя</FormLabel>
               <FormControl>
-                <Input placeholder="Введите ваше ФИО" {...field} />
+                <Input placeholder='Введите ваше ФИО' {...field} />
               </FormControl>
               <FormDescription>
 								Укажите фамилию, имя и отчество.
@@ -75,12 +75,12 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
         />
         <FormField
           control={form.control}
-          name="phone"
+          name='phone'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Номер телефона</FormLabel>
               <FormControl>
-                <Input placeholder="+7 000 000 00 00" {...field} />
+                <Input placeholder='+7 000 000 00 00' {...field} />
               </FormControl>
               <FormDescription>
 								Укажите мобильный номер.
@@ -91,12 +91,12 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
         />
         <FormField
           control={form.control}
-          name="email"
+          name='email'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Электронная почта</FormLabel>
               <FormControl>
-                <Input placeholder="mail@example.org" {...field} />
+                <Input placeholder='mail@example.org' {...field} />
               </FormControl>
               <FormDescription>
 								Укажите адрес электронной почты.

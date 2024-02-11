@@ -53,47 +53,47 @@ export function DataTableToolbar<TData>({
   }, [ table, valueFilterColumn, valueFilterText ]);
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className='flex items-center justify-between'>
+      <div className='flex flex-1 items-center space-x-2'>
         <Select onValueChange={(v) => {
           table.getColumn(valueFilterColumn)?.setFilterValue(undefined);
           setValueFilterColumn(v);
         }} value={valueFilterColumn}>
-          <SelectTrigger className="w-[120px] h-8 capitalize">
-            <SelectValue placeholder="Столбец"/>
+          <SelectTrigger className='w-[120px] h-8 capitalize'>
+            <SelectValue placeholder='Столбец'/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               {
                 valueColumns.map((col) => (
-                  <SelectItem key={col.id} value={col.id} className="capitalize">{col.id}</SelectItem>
+                  <SelectItem key={col.id} value={col.id} className='capitalize'>{col.id}</SelectItem>
                 ))
               }
             </SelectGroup>
           </SelectContent>
         </Select>
         <Input
-          placeholder="Поиск..."
+          placeholder='Поиск...'
           value={valueFilterText ?? ''}
           onChange={(e) => setValueFilterText(e.target.value)}
-          className="h-8 w-[150px]"
+          className='h-8 w-[150px]'
         />
         {enumColumns.map((col) => (
           <DataTableFacetedFilter
             key={col.id}
             column={col}
-            title="Роли"
+            title='Роли'
             options={col.columnDef.meta!.enumSource!}
           />
         ))}
         {(isFiltered || valueFilterColumn || valueFilterText) && (
           <Button
-            variant="ghost"
+            variant='ghost'
             onClick={() => reset()}
-            className="h-8 px-2 lg:px-3"
+            className='h-8 px-2 lg:px-3'
           >
 						Сбросить
-            <X className="ml-2 h-4 w-4" />
+            <X className='ml-2 h-4 w-4' />
           </Button>
         )}
       </div>

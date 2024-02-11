@@ -51,7 +51,7 @@ export function DictionaryUpdateFormDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
             <DialogHeader>
@@ -62,15 +62,15 @@ export function DictionaryUpdateFormDialog({
 								Внесите необходимые изменения
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <div className='grid gap-4 py-4'>
               <FormField
                 control={form.control}
-                name="name"
+                name='name'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Значение</FormLabel>
                     <FormControl>
-                      <Input placeholder="Введите значение..." {...field} />
+                      <Input placeholder='Введите значение...' {...field} />
                     </FormControl>
                     <FormDescription>
 											Значение словаря
@@ -81,7 +81,7 @@ export function DictionaryUpdateFormDialog({
               />
             </div>
             <DialogFooter>
-              <Button type="submit">Сохранить изменения</Button>
+              <Button type='submit'>Сохранить изменения</Button>
             </DialogFooter>
           </form>
         </Form>

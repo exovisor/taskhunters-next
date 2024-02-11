@@ -9,9 +9,9 @@ export default async function StudentProfileTab() {
   const hasProfile = !!session?.user.studentProfileId;
   const profile = hasProfile ? await api.student.getProfileByUserId.query({ id: session.user.studentProfileId! }) : {};
   return (
-    <section className="p-4 border rounded-lg">
+    <section>
       {!hasProfile &&
-				<p className="mb-4">
+				<p className='mb-4'>
 				  <b>Внимание!</b> При первом заполнении профиля вам необходимо будет перезайти в учетную запись.<br/>
 					После сохранения вы будете перенаправлены на страницу входа.
 				</p>

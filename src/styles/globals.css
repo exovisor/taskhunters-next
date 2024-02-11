@@ -90,3 +90,7 @@ h2 {
 p {
 	@apply text-base text-foreground;
 }
+
+.bg-gradient-corporate {
+  @apply from-[#A0BA57] to-[#3E91AB] dark:from-[#74863f] dark:to-[#2b6577]
+}

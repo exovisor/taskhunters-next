@@ -1,3 +1,5 @@
+'use client';
+
 import { type File as FileInfo } from '@prisma/client';
 import { Eye, FileBox, FileImage, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,7 +10,7 @@ import { FilePreview } from '@/components/uploads/file-preview';
 type FileCardProps = {
   file: FileInfo;
   editable?: boolean;
-  onDelete: () => void;
+  onDelete?: () => void;
 };
 
 export function FileCard({ file, editable, onDelete }: FileCardProps) {
@@ -17,7 +19,7 @@ export function FileCard({ file, editable, onDelete }: FileCardProps) {
       toast({
         title: 'Файл удален',
       });
-      onDelete();
+      onDelete && onDelete();
     },
     onError: (err) => {
       toast({
@@ -32,7 +34,7 @@ export function FileCard({ file, editable, onDelete }: FileCardProps) {
   }
 
   return (
-    <div className=" flex items-center space-x-4 rounded-md border p-4">
+    <div className=' flex items-center space-x-4 rounded-md border p-4'>
       {
         file.type === 'application/pdf' &&
         <FileBox />
@@ -45,11 +47,11 @@ export function FileCard({ file, editable, onDelete }: FileCardProps) {
         file.type === 'image/png' &&
         <FileImage />
       }
-      <div className="flex-1 space-y-1">
-        <p className="text-sm font-medium leading-none">
+      <div className='flex-1 space-y-1'>
+        <p className='text-sm font-medium leading-none'>
           {file.name}
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className='text-sm text-muted-foreground'>
           { (file.size / 1024 / 1024).toPrecision(2) } МБ
         </p>
       </div>

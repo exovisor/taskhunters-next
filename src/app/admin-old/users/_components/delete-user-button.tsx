@@ -44,7 +44,7 @@ export function DeleteUserButton({ id }: { id: string }) {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline">Удалить</Button>
+          <Button variant='outline'>Удалить</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
