@@ -1,9 +1,9 @@
-import {getServerAuthSession} from '@/server/auth';
+import { getServerAuthSession } from '@/server/auth';
 import Link from 'next/link';
-import {Button} from '@/components/ui/button';
-import {api} from '@/trpc/server';
-import {PracticeCard} from '@/components/practice/practice-card';
-import {type Practice} from '@prisma/client';
+import { Button } from '@/components/ui/button';
+import { api } from '@/trpc/server';
+import { PracticeCard } from '@/components/practice/practice-card';
+import { type Practice } from '@prisma/client';
 
 export default async function StudentDashboard() {
   const session = await getServerAuthSession();

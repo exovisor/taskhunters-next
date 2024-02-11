@@ -1,5 +1,5 @@
-import {CreatePracticeTypeButton} from './create-practice-type-button';
-import {PracticeTypesTable} from './practice-types-table';
+import { CreatePracticeTypeButton } from './create-practice-type-button';
+import { PracticeTypesTable } from './practice-types-table';
 
 export default async function PracticeTypes() {
 

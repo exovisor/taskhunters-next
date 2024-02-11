@@ -1,15 +1,15 @@
 'use client';
 
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {updateStudentProfileSchema} from '@/server/schema/user';
-import type {z} from 'zod';
-import {signOut} from 'next-auth/react';
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
-import {Button} from '@/components/ui/button';
-import {Input} from '@/components/ui/input';
-import {api} from '@/trpc/react';
-import {useToast} from '@/components/ui/use-toast';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updateStudentProfileSchema } from '@/server/schema/user';
+import type { z } from 'zod';
+import { signOut } from 'next-auth/react';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { api } from '@/trpc/react';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Props {
   initData: {
@@ -32,7 +32,7 @@ const EditProfile = ({ initData, hasProfile }: Props) => {
 
   const { toast } = useToast();
 
-  const {mutate: updateFn} = api.student.createOrUpdateStudentProfile.useMutation({
+  const { mutate: updateFn } = api.student.createOrUpdateStudentProfile.useMutation({
     onSuccess: () => {
       toast({
         title: 'Изменения сохранены',

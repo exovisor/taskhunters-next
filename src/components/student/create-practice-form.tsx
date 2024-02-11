@@ -1,12 +1,12 @@
 'use client';
 
-import {useForm} from 'react-hook-form';
-import {type z} from 'zod';
-import {createPracticeSchema} from '@/server/schema/practice';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {useToast} from '@/components/ui/use-toast';
-import {api} from '@/trpc/react';
-import {ru} from 'date-fns/locale';
+import { useForm } from 'react-hook-form';
+import { type z } from 'zod';
+import { createPracticeSchema } from '@/server/schema/practice';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/components/ui/use-toast';
+import { api } from '@/trpc/react';
+import { ru } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,15 +19,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
-import {cn} from '@/lib/utils';
-import {CalendarDays, Check, ChevronsUpDown} from 'lucide-react';
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem} from '@/components/ui/command';
-import {type Institute, type PracticeType, type Specialty, type File} from '@prisma/client';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { CalendarDays, Check, ChevronsUpDown } from 'lucide-react';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
+import { type Institute, type PracticeType, type Specialty, type File } from '@prisma/client';
 import * as React from 'react';
-import {Calendar} from '@/components/ui/calendar';
-import {addMonths, format} from 'date-fns';
-import {FileUploadButton} from '@/components/uploads/file-upload-button';
+import { Calendar } from '@/components/ui/calendar';
+import { addMonths, format } from 'date-fns';
+import { FileUploadButton } from '@/components/uploads/file-upload-button';
 
 export function CreatePracticeForm() {
   const form = useForm<z.infer<typeof createPracticeSchema>>({
@@ -44,7 +44,7 @@ export function CreatePracticeForm() {
   const { data: specialityData } = api.dictionaries.getSpecialties.useQuery({});
   const specialties = (specialityData?.rows ?? []) as Specialty[];
 
-  const {mutate: createPractice} = api.practice.createPractice.useMutation({
+  const { mutate: createPractice } = api.practice.createPractice.useMutation({
     onSuccess: () => {
       toast({
         title: 'Практика создана',

@@ -1,4 +1,4 @@
-import {BadgeCheck, GraduationCap, ShieldAlert, ShieldCheck} from 'lucide-react';
+import { BadgeCheck, GraduationCap, ShieldAlert, ShieldCheck } from 'lucide-react';
 
 export const roles = [
   {

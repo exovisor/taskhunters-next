@@ -1,17 +1,17 @@
 'use client';
 
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
-import type {Role} from '@prisma/client';
-import {roles} from '@/lib/enums-data';
-import {useState} from 'react';
-import {api} from '@/trpc/react';
-import {toast} from '@/components/ui/use-toast';
-import {useRouter} from 'next/navigation';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { Role } from '@prisma/client';
+import { roles } from '@/lib/enums-data';
+import { useState } from 'react';
+import { api } from '@/trpc/react';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 export function ChangeRoleButton({ id, initRole }: { id: string, initRole: Role }) {
   const router = useRouter();
   const roleItems = roles.filter((r) => r.value !== 'SUPERADMIN');
-  const [role, setRole] = useState<Role>(initRole);
+  const [ role, setRole ] = useState<Role>(initRole);
   const { mutate } = api.user.changeUserRole.useMutation({
     onSuccess: () => {
       toast({

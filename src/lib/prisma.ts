@@ -9,12 +9,12 @@ export async function createUserOrUpdate(user: TelegramUserData) {
     create: {
       telegram_id: user.id.toString(),
       username: user.username,
-      display_name: [user.first_name, user.last_name ?? ''].filter(Boolean).join(' '),
+      display_name: [ user.first_name, user.last_name ?? '' ].filter(Boolean).join(' '),
       image: user.photo_url,
     },
     update: {
       username: user.username,
-      display_name: [user.first_name, user.last_name ?? ''].filter(Boolean).join(' '),
+      display_name: [ user.first_name, user.last_name ?? '' ].filter(Boolean).join(' '),
       image: user.photo_url,
     },
   });

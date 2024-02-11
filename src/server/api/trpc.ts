@@ -111,7 +111,7 @@ export const studentProcedure = t.procedure.use(({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  if (ctx.session.user && !['STUDENT', 'ADMIN', 'SUPERADMIN'].includes(ctx.session.user.role)) {
+  if (ctx.session.user && ![ 'STUDENT', 'ADMIN', 'SUPERADMIN' ].includes(ctx.session.user.role)) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
 
@@ -128,7 +128,7 @@ export const adminProcedure = t.procedure.use(({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  if (ctx.session.user && !['ADMIN', 'SUPERADMIN'].includes(ctx.session.user.role)) {
+  if (ctx.session.user && ![ 'ADMIN', 'SUPERADMIN' ].includes(ctx.session.user.role)) {
     throw new TRPCError({ code: 'FORBIDDEN' });
   }
 

@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {Input} from '@/components/ui/input';
-import {z} from 'zod';
-import {FileCheck} from 'lucide-react';
-import {type File as FileInfo} from '@prisma/client';
-import {FileCard} from '@/components/uploads/file-card';
-import {useToast} from '@/components/ui/use-toast';
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { z } from 'zod';
+import { FileCheck } from 'lucide-react';
+import { type File as FileInfo } from '@prisma/client';
+import { FileCard } from '@/components/uploads/file-card';
+import { useToast } from '@/components/ui/use-toast';
 
 export enum FileUploadState {
   New,
@@ -12,7 +12,7 @@ export enum FileUploadState {
 }
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5; // 5 MB
-const SUPPORTED_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'application/pdf'];
+const SUPPORTED_FILE_TYPES = [ 'image/jpg', 'image/jpeg', 'image/png', 'application/pdf' ];
 
 const fileSchema = z.object({
   files: z
@@ -55,13 +55,13 @@ export function FileUploadButton({
   initFile,
   onUpload,
 }: FileUploadButtonProps) {
-  const [status, setStatus] = useState(initFile ? FileUploadState.Existing : FileUploadState.New);
-  const [file, setFile] = useState<FileInfo>(initFile);
+  const [ status, setStatus ] = useState(initFile ? FileUploadState.Existing : FileUploadState.New);
+  const [ file, setFile ] = useState<FileInfo>(initFile);
 
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof fileSchema>) {
-    const [file] = values.files;
+    const [ file ] = values.files;
     if (!file) return;
 
     const res = await uploadFile(file, reason);

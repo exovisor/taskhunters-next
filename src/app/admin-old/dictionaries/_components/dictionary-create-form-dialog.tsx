@@ -6,15 +6,15 @@ import {
   DialogHeader,
   DialogTitle, DialogTrigger,
 } from '@/components/ui/dialog';
-import {Button} from '@/components/ui/button';
-import {type z} from 'zod';
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
-import {Input} from '@/components/ui/input';
-import {Plus} from 'lucide-react';
-import {dictionaryCreateSchema} from '@/server/schema/dictionary';
-import {useState} from 'react';
+import { Button } from '@/components/ui/button';
+import { type z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Plus } from 'lucide-react';
+import { dictionaryCreateSchema } from '@/server/schema/dictionary';
+import { useState } from 'react';
 
 type Props = {
   onSave: (props: z.infer<typeof dictionaryCreateSchema>) => void;
@@ -23,7 +23,7 @@ type Props = {
 export function DictionaryCreateFormDialog({
   onSave,
 }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [ isOpen, setIsOpen ] = useState(false);
   const form = useForm<z.infer<typeof dictionaryCreateSchema>>({
     resolver: zodResolver(dictionaryCreateSchema),
   });

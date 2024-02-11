@@ -1,11 +1,11 @@
 'use client';
 
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
-import type {Role} from '@prisma/client';
-import type {SessionUser} from '@/server/types';
-import {roles} from '@/lib/enums-data';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import type { Role } from '@prisma/client';
+import type { SessionUser } from '@/server/types';
+import { roles } from '@/lib/enums-data';
 
-export function ProfileBadge({user}: {user: SessionUser}) {
+export function ProfileBadge({ user }: { user: SessionUser }) {
   return (
     <section className="p-4 border rounded-lg flex flex-col md:flex-row gap-4">
       <Avatar className="w-28 h-28 text-4xl font-semibold">

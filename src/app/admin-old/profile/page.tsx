@@ -1,5 +1,5 @@
-import {getServerAuthSession} from '@/server/auth';
-import {ProfileBadge} from '@/components/shared/profile-badge';
+import { getServerAuthSession } from '@/server/auth';
+import { ProfileBadge } from '@/components/shared/profile-badge';
 
 export default async function AdminProfile() {
   const session = await getServerAuthSession();

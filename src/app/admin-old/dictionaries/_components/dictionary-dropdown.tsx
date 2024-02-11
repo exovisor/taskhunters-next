@@ -4,8 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {Button} from '@/components/ui/button';
-import {MoreHorizontal, Trash2, Pencil} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { MoreHorizontal, Trash2, Pencil } from 'lucide-react';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -28,7 +28,9 @@ export function DictionaryDropdown({ deleteMutation, openDialog }: {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onSelect={(e) => {e.preventDefault();openDialog();}}><Pencil className="mr-2 w-4 h-4"/><span>Редактировать</span></DropdownMenuItem>
+        <DropdownMenuItem onSelect={(e) => {
+          e.preventDefault();openDialog();
+        }}><Pencil className="mr-2 w-4 h-4"/><span>Редактировать</span></DropdownMenuItem>
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className="mr-2 w-4 h-4"/><span>Удалить</span></DropdownMenuItem>

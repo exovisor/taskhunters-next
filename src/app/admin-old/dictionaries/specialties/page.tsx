@@ -1,5 +1,5 @@
-import {CreateSpecialtyButton} from './create-specialty-button';
-import {SpecialtiesTable} from './specialties-table';
+import { CreateSpecialtyButton } from './create-specialty-button';
+import { SpecialtiesTable } from './specialties-table';
 
 export default async function Specialities() {
 

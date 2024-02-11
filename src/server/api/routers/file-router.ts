@@ -1,10 +1,10 @@
-import {createTRPCRouter, protectedProcedure} from '@/server/api/trpc';
-import {dictionaryIdSchema} from '@/server/schema/dictionary';
-import {db} from '@/server/db';
-import {userIdSchema} from '@/server/schema/user';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { dictionaryIdSchema } from '@/server/schema/dictionary';
+import { db } from '@/server/db';
+import { userIdSchema } from '@/server/schema/user';
 import path from 'path';
 import fs from 'fs';
-import {TRPCError} from '@trpc/server';
+import { TRPCError } from '@trpc/server';
 
 export const fileRouter = createTRPCRouter({
   // TODO: refactor
@@ -28,7 +28,7 @@ export const fileRouter = createTRPCRouter({
           message: 'File not found',
         });
       }
-      if (!['SUPERADMIN', 'ADMIN'].includes(ctx.session.user.role) && file.uploadedById !== ctx.session.user.id) {
+      if (![ 'SUPERADMIN', 'ADMIN' ].includes(ctx.session.user.role) && file.uploadedById !== ctx.session.user.id) {
         throw new TRPCError({
           code: 'FORBIDDEN',
           message: 'You are not allowed to download this file',
@@ -46,7 +46,7 @@ export const fileRouter = createTRPCRouter({
           message: 'You must be logged in to upload files',
         });
       }
-      if (!['SUPERADMIN', 'ADMIN'].includes(ctx.session.user.role) && id !== ctx.session.user.id) {
+      if (![ 'SUPERADMIN', 'ADMIN' ].includes(ctx.session.user.role) && id !== ctx.session.user.id) {
         throw new TRPCError({
           code: 'FORBIDDEN',
           message: 'You are not allowed to download this file',
@@ -81,7 +81,7 @@ export const fileRouter = createTRPCRouter({
         });
       }
 
-      if (!['SUPERADMIN', 'ADMIN'].includes(ctx.session.user.role) && fileInfo.uploadedById !== ctx.session.user.id) {
+      if (![ 'SUPERADMIN', 'ADMIN' ].includes(ctx.session.user.role) && fileInfo.uploadedById !== ctx.session.user.id) {
         throw new TRPCError({
           code: 'FORBIDDEN',
           message: 'You are not allowed to download this file',

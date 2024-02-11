@@ -6,10 +6,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {type File} from '@prisma/client';
-import {Eye} from 'lucide-react';
+import { type File } from '@prisma/client';
+import { Eye } from 'lucide-react';
 
-export function FilePreview({file}: {file: File}) {
+export function FilePreview({ file }: { file: File }) {
   return (
     <Dialog>
       <DialogTrigger asChild>

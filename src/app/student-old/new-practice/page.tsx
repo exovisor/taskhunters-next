@@ -1,4 +1,4 @@
-import {CreatePracticeForm} from '@/components/student/create-practice-form';
+import { CreatePracticeForm } from '@/components/student/create-practice-form';
 
 export default function NewPractice() {
   return (

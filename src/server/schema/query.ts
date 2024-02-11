@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 export const paginationOptionsSchema = z.object({
   pageIndex: z.number().optional(),
@@ -10,7 +10,7 @@ export const sortingOptionsSchema = z.object({
   desc: z.boolean().optional(),
 });
 
-export const filterTypes = ['value', 'date', 'enum'] as const;
+export const filterTypes = [ 'value', 'date', 'enum' ] as const;
 export const filterOptionsSchema = z.object({
   id: z.string().optional(),
   value: z.string().array().optional(),
@@ -44,7 +44,7 @@ export function buildQueryFromOptions({
   };
 }
 
-function buildWhereQueryItem({type, id, value}: z.infer<typeof filterOptionsSchema>) {
+function buildWhereQueryItem({ type, id, value }: z.infer<typeof filterOptionsSchema>) {
   const where: Record<string, unknown> = {};
   if (id && type === 'value' && value && value.length > 0) {
     where[id] = {

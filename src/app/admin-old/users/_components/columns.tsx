@@ -2,11 +2,11 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import type { User } from '@prisma/client';
-import {roleToString} from '@/lib/utils';
-import {TableActionsDropdown} from './table-actions-dropdown';
-import {DataTableColumnHeader} from '@/components/table/column-header';
-import {format} from 'date-fns';
-import {roles} from '@/lib/enums-data';
+import { roleToString } from '@/lib/utils';
+import { TableActionsDropdown } from './table-actions-dropdown';
+import { DataTableColumnHeader } from '@/components/table/column-header';
+import { format } from 'date-fns';
+import { roles } from '@/lib/enums-data';
 export const getColumns: (
   refetch: () => Promise<unknown>
 ) => ColumnDef<User>[] = (

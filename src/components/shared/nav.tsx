@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import {Button} from '@/components/ui/button';
-import {type getServerAuthSession} from '@/server/auth';
-import {ThemeToggle} from '@/components/theme/theme-toggle';
-import {ProfileDropdown} from '@/components/shared/profile-dropdown';
-import {type PropsWithChildren} from 'react';
+import { Button } from '@/components/ui/button';
+import { type getServerAuthSession } from '@/server/auth';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
+import { ProfileDropdown } from '@/components/shared/profile-dropdown';
+import { type PropsWithChildren } from 'react';
 
 type Session = ReturnType<typeof getServerAuthSession> extends Promise<infer U> ? U : never;
 type Props = PropsWithChildren<{
@@ -13,7 +13,7 @@ type Props = PropsWithChildren<{
 }>;
 
 // TODO: Add mobile dropdown
-export default function StudentNav({session, children}: Props) {
+export default function StudentNav({ session, children }: Props) {
   return (
     <nav className="nav flex w-full justify-between p-2 border border-input rounded-md">
       <div className="flex">

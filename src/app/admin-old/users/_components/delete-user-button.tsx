@@ -11,10 +11,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import {Button} from '@/components/ui/button';
-import {api} from '@/trpc/react';
-import {toast} from '@/components/ui/use-toast';
-import {useRouter} from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { api } from '@/trpc/react';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 export function DeleteUserButton({ id }: { id: string }) {
   const router = useRouter();

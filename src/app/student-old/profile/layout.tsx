@@ -1,10 +1,10 @@
-import {getServerAuthSession} from '@/server/auth';
-import type {PropsWithChildren} from 'react';
+import { getServerAuthSession } from '@/server/auth';
+import type { PropsWithChildren } from 'react';
 import dynamic from 'next/dynamic';
-import {ProfileBadge} from '@/components/shared/profile-badge';
+import { ProfileBadge } from '@/components/shared/profile-badge';
 
 // Workaround for rehydration
-const FillProfileAlert = dynamic(()=>import('./_components/fill-profile-alert'), {ssr: false});
+const FillProfileAlert = dynamic(()=>import('./_components/fill-profile-alert'), { ssr: false });
 
 export default async function StudentProfileLayout({ children }: PropsWithChildren) {
   const session = await getServerAuthSession();

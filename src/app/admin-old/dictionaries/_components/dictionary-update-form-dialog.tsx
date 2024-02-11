@@ -6,14 +6,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {Button} from '@/components/ui/button';
-import {type z} from 'zod';
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
-import {Input} from '@/components/ui/input';
-import {useEffect} from 'react';
-import {dictionaryUpdateSchema} from '@/server/schema/dictionary';
+import { Button } from '@/components/ui/button';
+import { type z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useEffect } from 'react';
+import { dictionaryUpdateSchema } from '@/server/schema/dictionary';
 
 type Row = {
   id: number | undefined;
@@ -38,11 +38,11 @@ export function DictionaryUpdateFormDialog({
     resolver: zodResolver(dictionaryUpdateSchema),
     defaultValues: row,
   });
-  const {reset} = form;
+  const { reset } = form;
 
   useEffect(() => {
     reset(row);
-  }, [row,reset]);
+  }, [ row,reset ]);
 
   function handleSubmit(data: z.infer<typeof dictionaryUpdateSchema>) {
     onSave(data);

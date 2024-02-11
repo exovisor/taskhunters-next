@@ -1,7 +1,7 @@
 'use server';
 
-import {getServerAuthSession} from '@/server/auth';
-import {redirect} from 'next/navigation';
+import { getServerAuthSession } from '@/server/auth';
+import { redirect } from 'next/navigation';
 
 export async function useStudentProfile() {
   const session = await getServerAuthSession();

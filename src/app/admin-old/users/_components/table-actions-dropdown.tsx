@@ -5,8 +5,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {Button} from '@/components/ui/button';
-import {MessageSquareShare, MoreHorizontal, Trash2, User as UserIcon} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { MessageSquareShare, MoreHorizontal, Trash2, User as UserIcon } from 'lucide-react';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -14,9 +14,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import type {User} from '@prisma/client';
-import {useToast} from '@/components/ui/use-toast';
-import {api} from '@/trpc/react';
+import type { User } from '@prisma/client';
+import { useToast } from '@/components/ui/use-toast';
+import { api } from '@/trpc/react';
 import Link from 'next/link';
 
 type Props = {

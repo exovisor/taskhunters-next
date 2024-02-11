@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
-import type {SessionUser} from '@/server/types';
-import {Button} from '@/components/ui/button';
-import {getRoleHomepath} from '@/lib/utils';
+import type { SessionUser } from '@/server/types';
+import { Button } from '@/components/ui/button';
+import { getRoleHomepath } from '@/lib/utils';
 
 export const ProfileDropdown = ({ user }: { user: SessionUser }) => {
   return (

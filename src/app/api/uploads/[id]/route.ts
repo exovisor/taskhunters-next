@@ -1,10 +1,10 @@
-import {type NextRequest, NextResponse} from 'next/server';
-import {getServerAuthSession} from '@/server/auth';
-import {db} from '@/server/db';
+import { type NextRequest, NextResponse } from 'next/server';
+import { getServerAuthSession } from '@/server/auth';
+import { db } from '@/server/db';
 import * as path from 'path';
 import * as fs from 'fs';
-import {stat} from 'fs/promises';
-import {type ReadableOptions} from 'stream';
+import { stat } from 'fs/promises';
+import { type ReadableOptions } from 'stream';
 
 function streamFile(path: string, options?: ReadableOptions): ReadableStream<Uint8Array> {
   const downloadStream = fs.createReadStream(path, options);
@@ -21,10 +21,10 @@ function streamFile(path: string, options?: ReadableOptions): ReadableStream<Uin
   });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string }}): Promise<NextResponse> {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse> {
   const session = await getServerAuthSession();
   if (!session || !session.user) {
-    return NextResponse.json({error: 'You must be logged in to upload files'}, { status: 401});
+    return NextResponse.json({ error: 'You must be logged in to upload files' }, { status: 401 });
   }
 
   const id = Number(params.id);
@@ -36,11 +36,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   });
 
   if (!fileInfo) {
-    return NextResponse.json({error: 'File not found'}, { status: 404});
+    return NextResponse.json({ error: 'File not found' }, { status: 404 });
   }
 
-  if (!['SUPERADMIN', 'ADMIN'].includes(session.user.role) && fileInfo.uploadedById !== session.user.id) {
-    return NextResponse.json({error: 'You are not allowed to download this file'}, { status: 403});
+  if (![ 'SUPERADMIN', 'ADMIN' ].includes(session.user.role) && fileInfo.uploadedById !== session.user.id) {
+    return NextResponse.json({ error: 'You are not allowed to download this file' }, { status: 403 });
   }
 
   const uploadPath = path.join(process.cwd(), 'uploads', session.user.id);
@@ -57,6 +57,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     });
   } catch (e: any) {
     console.error('Error while reading file', e);
-    return NextResponse.json({error: 'Error while reading file'}, { status: 500});
+    return NextResponse.json({ error: 'Error while reading file' }, { status: 500 });
   }
 }

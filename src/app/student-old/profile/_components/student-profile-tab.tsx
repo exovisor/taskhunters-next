@@ -1,7 +1,7 @@
 'use server';
 
-import {api} from '@/trpc/server';
-import {getServerAuthSession} from '@/server/auth';
+import { api } from '@/trpc/server';
+import { getServerAuthSession } from '@/server/auth';
 import { EditProfile } from '@/components/student/edit-profile';
 
 export default async function StudentProfileTab() {
@@ -16,7 +16,7 @@ export default async function StudentProfileTab() {
 					После сохранения вы будете перенаправлены на страницу входа.
 				</p>
       }
-      <EditProfile hasProfile={hasProfile} initData={{userId: session!.user.id, email: session!.user.email ?? undefined, ...profile}} />
+      <EditProfile hasProfile={hasProfile} initData={{ userId: session!.user.id, email: session!.user.email ?? undefined, ...profile }} />
     </section>
   );
 }

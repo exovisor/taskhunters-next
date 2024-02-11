@@ -1,7 +1,7 @@
-import {createTRPCRouter, studentProcedure} from '@/server/api/trpc';
-import {createPracticeSchema, studentPracticesQuerySchema} from '@/server/schema/practice';
-import {db} from '@/server/db';
-import {buildQueryFromOptions} from '@/server/schema/query';
+import { createTRPCRouter, studentProcedure } from '@/server/api/trpc';
+import { createPracticeSchema, studentPracticesQuerySchema } from '@/server/schema/practice';
+import { db } from '@/server/db';
+import { buildQueryFromOptions } from '@/server/schema/query';
 import { type Prisma } from '@prisma/client';
 
 export const practiceRouter = createTRPCRouter({
@@ -9,7 +9,7 @@ export const practiceRouter = createTRPCRouter({
     .input(studentPracticesQuerySchema)
     .query(async ({ input }) => {
       const { where, ...query } = buildQueryFromOptions(input);
-      const [practices, count] = await db.$transaction([
+      const [ practices, count ] = await db.$transaction([
         db.practice.findMany({
           where: {
             ...where as Prisma.PracticeWhereInput,

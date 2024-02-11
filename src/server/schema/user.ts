@@ -1,5 +1,5 @@
-import {z} from 'zod';
-import {Role} from '@prisma/client';
+import { z } from 'zod';
+import { Role } from '@prisma/client';
 
 // Student profile
 export const studentProfileIdSchema = z.object({

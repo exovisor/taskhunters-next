@@ -1,9 +1,9 @@
-import {type File as FileInfo} from '@prisma/client';
-import {Eye, FileBox, FileImage, Trash2} from 'lucide-react';
-import {Button} from '@/components/ui/button';
-import {api} from '@/trpc/react';
-import {toast} from '@/components/ui/use-toast';
-import {FilePreview} from '@/components/uploads/file-preview';
+import { type File as FileInfo } from '@prisma/client';
+import { Eye, FileBox, FileImage, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { api } from '@/trpc/react';
+import { toast } from '@/components/ui/use-toast';
+import { FilePreview } from '@/components/uploads/file-preview';
 
 type FileCardProps = {
   file: FileInfo;
@@ -11,8 +11,8 @@ type FileCardProps = {
   onDelete: () => void;
 };
 
-export function FileCard({file, editable, onDelete}: FileCardProps) {
-  const {mutate: deleteFile} = api.file.deleteFileById.useMutation({
+export function FileCard({ file, editable, onDelete }: FileCardProps) {
+  const { mutate: deleteFile } = api.file.deleteFileById.useMutation({
     onSuccess: () => {
       toast({
         title: 'Файл удален',
@@ -28,7 +28,7 @@ export function FileCard({file, editable, onDelete}: FileCardProps) {
   });
 
   function handleDelete() {
-    deleteFile({id: file.id});
+    deleteFile({ id: file.id });
   }
 
   return (

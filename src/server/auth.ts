@@ -4,7 +4,7 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from 'next-auth';
-import type {DefaultJWT} from 'next-auth/jwt';
+import type { DefaultJWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { objectToAuthDataMap, AuthDataValidator } from '@telegram-auth/server';
@@ -12,7 +12,7 @@ import { objectToAuthDataMap, AuthDataValidator } from '@telegram-auth/server';
 import { createUserOrUpdate } from '@/lib/prisma';
 import { env } from '@/env';
 import { db } from '@/server/db';
-import type {SessionUser} from '@/server/types';
+import type { SessionUser } from '@/server/types';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -38,9 +38,9 @@ declare module 'next-auth/jwt' {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    async jwt({ token, user}) {
+    async jwt({ token, user }) {
       if (user) {
-        token.user = {...user} as SessionUser;
+        token.user = { ...user } as SessionUser;
       }
       return token;
     },
@@ -71,7 +71,7 @@ export const authOptions: NextAuthOptions = {
           let returned = {
             telegram_id: user.id.toString(),
             username: user.username,
-            display_name: [user.first_name, user.last_name ?? ''].filter(Boolean).join(' '),
+            display_name: [ user.first_name, user.last_name ?? '' ].filter(Boolean).join(' '),
             image: user.photo_url,
           } as SessionUser;
 

@@ -1,29 +1,29 @@
 'use client';
 
-import type {PracticeType} from '@prisma/client';
-import type {z} from 'zod';
-import type {queryOptionsSchema} from '@/server/schema/query';
-import {useState} from 'react';
-import {api} from '@/trpc/react';
-import {toast} from '@/components/ui/use-toast';
-import {DataTable} from '@/components/table/data-table';
-import {DictionaryUpdateFormDialog} from '../_components/dictionary-update-form-dialog';
-import {getDictionaryColumns} from '../_components/dictionary-columns';
+import type { PracticeType } from '@prisma/client';
+import type { z } from 'zod';
+import type { queryOptionsSchema } from '@/server/schema/query';
+import { useState } from 'react';
+import { api } from '@/trpc/react';
+import { toast } from '@/components/ui/use-toast';
+import { DataTable } from '@/components/table/data-table';
+import { DictionaryUpdateFormDialog } from '../_components/dictionary-update-form-dialog';
+import { getDictionaryColumns } from '../_components/dictionary-columns';
 
 export function PracticeTypesTable() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogData, setDialogData] = useState<{ id: number | undefined; name: string | undefined}>({
+  const [ dialogOpen, setDialogOpen ] = useState(false);
+  const [ dialogData, setDialogData ] = useState<{ id: number | undefined; name: string | undefined }>({
     id: undefined,
     name: undefined,
   });
-  const [queryOptions, setQueryOptions] = useState<z.infer<typeof queryOptionsSchema>>({
+  const [ queryOptions, setQueryOptions ] = useState<z.infer<typeof queryOptionsSchema>>({
     paginationOptions: {
       pageIndex: 0,
       pageSize: 10,
     },
   });
   const { data, refetch } = api.dictionaries.getPracticeTypes.useQuery(queryOptions);
-  const {mutate: deleteFn} = api.dictionaries.deletePracticeType.useMutation({
+  const { mutate: deleteFn } = api.dictionaries.deletePracticeType.useMutation({
     onSuccess: async () => {
       toast({
         title: 'Запись удалена',
@@ -69,7 +69,7 @@ export function PracticeTypesTable() {
     setDialogOpen(false);
   }
 
-  function submitChanges(data: {id?: number | undefined; name: string}) {
+  function submitChanges(data: { id?: number | undefined; name: string }) {
     if (!data.id) return;
     updateFn({
       id: data.id,

@@ -1,17 +1,17 @@
 import { db } from '@/server/db';
-import {createTRPCRouter, adminProcedure} from '@/server/api/trpc';
-import {userIdSchema, userRoleSchema} from '@/server/schema/user';
-import {buildQueryFromOptions, queryOptionsSchema} from '@/server/schema/query';
-import {TRPCError} from '@trpc/server';
-import {Prisma} from '@prisma/client';
+import { createTRPCRouter, adminProcedure } from '@/server/api/trpc';
+import { userIdSchema, userRoleSchema } from '@/server/schema/user';
+import { buildQueryFromOptions, queryOptionsSchema } from '@/server/schema/query';
+import { TRPCError } from '@trpc/server';
+import { Prisma } from '@prisma/client';
 import UserWhereInput = Prisma.UserWhereInput;
 
 export const userRouter = createTRPCRouter({
   getUsers: adminProcedure
     .input(queryOptionsSchema)
-    .query(async ({ input: options}) => {
+    .query(async ({ input: options }) => {
       const { where, ...query } = buildQueryFromOptions(options);
-      const [users, totalUsers] = await db.$transaction([
+      const [ users, totalUsers ] = await db.$transaction([
         db.user.findMany({
           ...query,
           where: where as UserWhereInput,
@@ -30,7 +30,7 @@ export const userRouter = createTRPCRouter({
 
   getUserWithProfilesById: adminProcedure
     .input(userIdSchema)
-    .query(async ({ input: { id }}) => {
+    .query(async ({ input: { id } }) => {
       return db.user.findFirst({
         where: {
           id: id,
@@ -43,7 +43,7 @@ export const userRouter = createTRPCRouter({
 
   deleteUser: adminProcedure
     .input(userIdSchema)
-    .mutation(async ({ input: { id }}) => {
+    .mutation(async ({ input: { id } }) => {
       const user = await db.user.findFirst({
         where: {
           id: id,
@@ -64,7 +64,7 @@ export const userRouter = createTRPCRouter({
 
   changeUserRole: adminProcedure
     .input(userRoleSchema)
-    .mutation(async ({ input: { id, role }}) => {
+    .mutation(async ({ input: { id, role } }) => {
       if (role === 'SUPERADMIN') {
         throw new TRPCError({
           code: 'FORBIDDEN',

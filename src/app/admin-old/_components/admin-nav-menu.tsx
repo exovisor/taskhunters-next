@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import Link from 'next/link';
 import React from 'react';
-import {cn} from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 export function AdminNavMenu() {
   return (

@@ -1,7 +1,7 @@
-import {Showcase} from '@/components/internal/showcase';
-import {Button} from '@/components/ui/button';
-import {Loader2} from 'lucide-react';
-import {Input} from '@/components/ui/input';
+import { Showcase } from '@/components/internal/showcase';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import {
   Sheet,
   SheetContent,
@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import {ThemeToggle} from '@/components/theme/theme-toggle';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 import SignOut from '@/components/auth/sign-out';
 
 export default async function InternalPage() {

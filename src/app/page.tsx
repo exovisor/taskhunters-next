@@ -2,11 +2,11 @@ import { unstable_noStore as noStore } from 'next/cache';
 import Link from 'next/link';
 
 import { getServerAuthSession } from '@/server/auth';
-import {env} from '@/env';
+import { env } from '@/env';
 
 import SignIn from '@/components/auth/sign-in';
-import {Button} from '@/components/ui/button';
-import {useNoAuth} from '@/components/auth/useNoAuth';
+import { Button } from '@/components/ui/button';
+import { useNoAuth } from '@/components/auth/useNoAuth';
 
 export default async function Home() {
   noStore();

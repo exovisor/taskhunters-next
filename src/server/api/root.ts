@@ -2,9 +2,9 @@ import { createTRPCRouter } from '@/server/api/trpc';
 
 import { studentRouter } from '@/server/api/routers/student-router';
 import { userRouter } from '@/server/api/routers/user-router';
-import {dictionaryRouter} from '@/server/api/routers/dictionary-router';
-import {fileRouter} from '@/server/api/routers/file-router';
-import {practiceRouter} from '@/server/api/routers/practice-router';
+import { dictionaryRouter } from '@/server/api/routers/dictionary-router';
+import { fileRouter } from '@/server/api/routers/file-router';
+import { practiceRouter } from '@/server/api/routers/practice-router';
 
 /**
  * This is the primary router for your server.

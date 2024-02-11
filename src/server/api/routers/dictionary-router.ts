@@ -1,20 +1,20 @@
-import {adminProcedure, createTRPCRouter, protectedProcedure} from '@/server/api/trpc';
+import { adminProcedure, createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import {
   dictionaryCreateSchema,
   dictionaryIdSchema,
   dictionaryUpdateSchema,
 } from '@/server/schema/dictionary';
-import {db} from '@/server/db';
-import {buildQueryFromOptions, queryOptionsSchema} from '@/server/schema/query';
-import type {Prisma} from '@prisma/client';
+import { db } from '@/server/db';
+import { buildQueryFromOptions, queryOptionsSchema } from '@/server/schema/query';
+import type { Prisma } from '@prisma/client';
 
 export const dictionaryRouter = createTRPCRouter({
   // Institute CRUD
   getInstitutes: protectedProcedure
     .input(queryOptionsSchema)
-    .query(async ({ input: options}) => {
-      const {where, ...query} = buildQueryFromOptions(options);
-      const [institutes, totalInstitutes] = await db.$transaction([
+    .query(async ({ input: options }) => {
+      const { where, ...query } = buildQueryFromOptions(options);
+      const [ institutes, totalInstitutes ] = await db.$transaction([
         db.institute.findMany({
           ...query,
           where: where as Prisma.InstituteWhereInput,
@@ -32,7 +32,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   createInstitute: adminProcedure
     .input(dictionaryCreateSchema)
-    .mutation(async ({ input: { name }}) => {
+    .mutation(async ({ input: { name } }) => {
       return db.institute.create({
         data: {
           name: name,
@@ -41,7 +41,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   updateInstitute: adminProcedure
     .input(dictionaryUpdateSchema)
-    .mutation(async ({ input: { id, name }}) => {
+    .mutation(async ({ input: { id, name } }) => {
       return db.institute.update({
         where: {
           id: id,
@@ -53,7 +53,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   deleteInstitute: adminProcedure
     .input(dictionaryIdSchema)
-    .mutation(async ({ input: { id }}) => {
+    .mutation(async ({ input: { id } }) => {
       return db.institute.delete({
         where: {
           id: id,
@@ -64,9 +64,9 @@ export const dictionaryRouter = createTRPCRouter({
   // Specialty CRUD
   getSpecialties: protectedProcedure
     .input(queryOptionsSchema)
-    .query(async ({ input: options}) => {
-      const {where, ...query} = buildQueryFromOptions(options);
-      const [specialties, totalSpecialties] = await db.$transaction([
+    .query(async ({ input: options }) => {
+      const { where, ...query } = buildQueryFromOptions(options);
+      const [ specialties, totalSpecialties ] = await db.$transaction([
         db.specialty.findMany({
           ...query,
           where: where as Prisma.SpecialtyWhereInput,
@@ -84,7 +84,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   createSpecialty: adminProcedure
     .input(dictionaryCreateSchema)
-    .mutation(async ({ input: { name }}) => {
+    .mutation(async ({ input: { name } }) => {
       return db.specialty.create({
         data: {
           name: name,
@@ -93,7 +93,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   updateSpecialty: adminProcedure
     .input(dictionaryUpdateSchema)
-    .mutation(async ({ input: { id, name }}) => {
+    .mutation(async ({ input: { id, name } }) => {
       return db.specialty.update({
         where: {
           id: id,
@@ -105,7 +105,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   deleteSpecialty: adminProcedure
     .input(dictionaryIdSchema)
-    .mutation(async ({ input: { id }}) => {
+    .mutation(async ({ input: { id } }) => {
       return db.specialty.delete({
         where: {
           id: id,
@@ -116,9 +116,9 @@ export const dictionaryRouter = createTRPCRouter({
   // PracticeType CRUD
   getPracticeTypes: protectedProcedure
     .input(queryOptionsSchema)
-    .query(async ({ input: options}) => {
-      const {where, ...query} = buildQueryFromOptions(options);
-      const [practiceTypes, totalPracticeTypes] = await db.$transaction([
+    .query(async ({ input: options }) => {
+      const { where, ...query } = buildQueryFromOptions(options);
+      const [ practiceTypes, totalPracticeTypes ] = await db.$transaction([
         db.practiceType.findMany({
           ...query,
           where: where as Prisma.PracticeTypeWhereInput,
@@ -136,7 +136,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   createPracticeType: adminProcedure
     .input(dictionaryCreateSchema)
-    .mutation(async ({ input: { name }}) => {
+    .mutation(async ({ input: { name } }) => {
       return db.practiceType.create({
         data: {
           name: name,
@@ -145,7 +145,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   updatePracticeType: adminProcedure
     .input(dictionaryUpdateSchema)
-    .mutation(async ({ input: { id, name }}) => {
+    .mutation(async ({ input: { id, name } }) => {
       return db.practiceType.update({
         where: {
           id: id,
@@ -157,7 +157,7 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   deletePracticeType: adminProcedure
     .input(dictionaryIdSchema)
-    .mutation(async ({ input: { id }}) => {
+    .mutation(async ({ input: { id } }) => {
       return db.practiceType.delete({
         where: {
           id: id,

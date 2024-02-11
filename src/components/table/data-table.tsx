@@ -16,12 +16,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {DataTablePagination} from '@/components/table/pagination';
-import {useEffect, useMemo, useState} from 'react';
-import type {z} from 'zod';
-import type {filterTypes, queryOptionsSchema} from '@/server/schema/query';
-import {DataTableToolbar} from '@/components/table/toolbar';
-import type {RowData} from '@tanstack/table-core';
+import { DataTablePagination } from '@/components/table/pagination';
+import { useEffect, useMemo, useState } from 'react';
+import type { z } from 'zod';
+import type { filterTypes, queryOptionsSchema } from '@/server/schema/query';
+import { DataTableToolbar } from '@/components/table/toolbar';
+import type { RowData } from '@tanstack/table-core';
 import * as React from 'react';
 
 declare module '@tanstack/react-table' {
@@ -51,7 +51,7 @@ export function DataTable<TValue, TData>({
  	payload,
  	setQueryOptions,
 }: DataTableProps<TValue, TData>) {
-  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+  const [ { pageIndex, pageSize }, setPagination ] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
@@ -60,18 +60,18 @@ export function DataTable<TValue, TData>({
       pageIndex,
       pageSize,
     }),
-    [pageIndex, pageSize]
+    [ pageIndex, pageSize ]
   );
 
   const defaultSort = {
     id: 'id',
     desc: true,
   };
-  const [sortingState, setSorting] = useState<SortingState>([defaultSort]);
-  const sorting = useMemo(() => (sortingState), [sortingState]);
+  const [ sortingState, setSorting ] = useState<SortingState>([ defaultSort ]);
+  const sorting = useMemo(() => (sortingState), [ sortingState ]);
 
-  const [filtersState, setFitlersState] = useState<ColumnFiltersState>([]);
-  const columnFilters = useMemo(() => filtersState, [filtersState]);
+  const [ filtersState, setFitlersState ] = useState<ColumnFiltersState>([]);
+  const columnFilters = useMemo(() => filtersState, [ filtersState ]);
 
   const table = useReactTable({
     data: payload?.rows ?? [],
@@ -102,7 +102,7 @@ export function DataTable<TValue, TData>({
         type: table.getColumn(cf.id ?? '')?.columnDef?.meta?.filterType,
       })) : undefined,
     });
-  }, [table, setQueryOptions, pagination, sorting, columnFilters]);
+  }, [ table, setQueryOptions, pagination, sorting, columnFilters ]);
 
   return (
     <div className="space-y-4">

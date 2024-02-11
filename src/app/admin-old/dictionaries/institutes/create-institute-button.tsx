@@ -1,11 +1,11 @@
 'use client';
 
-import {DictionaryCreateFormDialog} from '@/app/admin-old/dictionaries/_components/dictionary-create-form-dialog';
-import {toast} from '@/components/ui/use-toast';
-import {api} from '@/trpc/react';
+import { DictionaryCreateFormDialog } from '@/app/admin-old/dictionaries/_components/dictionary-create-form-dialog';
+import { toast } from '@/components/ui/use-toast';
+import { api } from '@/trpc/react';
 
 export function CreateInstituteButton() {
-  const {mutate: createFn} = api.dictionaries.createInstitute.useMutation({
+  const { mutate: createFn } = api.dictionaries.createInstitute.useMutation({
     onSuccess: async () => {
       toast({
         title: 'Запись создана',

@@ -1,6 +1,6 @@
 'use client';
 
-import {X} from 'lucide-react';
+import { X } from 'lucide-react';
 import type { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -37,8 +37,8 @@ export function DataTableToolbar<TData>({
   const valueColumns = allColumns.filter((col) =>
     col.columnDef.meta?.filterType === 'value');
 
-  const [valueFilterColumn, setValueFilterColumn] = useState<string>('');
-  const [valueFilterText, setValueFilterText] = useState<string>('');
+  const [ valueFilterColumn, setValueFilterColumn ] = useState<string>('');
+  const [ valueFilterText, setValueFilterText ] = useState<string>('');
 
   function reset() {
     setValueFilterColumn(() => '');
@@ -48,9 +48,9 @@ export function DataTableToolbar<TData>({
 
   useEffect(() => {
     if (valueFilterColumn && valueFilterText && valueFilterText.length > 2) {
-      table.getColumn(valueFilterColumn)?.setFilterValue([valueFilterText]);
+      table.getColumn(valueFilterColumn)?.setFilterValue([ valueFilterText ]);
     }
-  }, [table, valueFilterColumn, valueFilterText]);
+  }, [ table, valueFilterColumn, valueFilterText ]);
 
   return (
     <div className="flex items-center justify-between">

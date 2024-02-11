@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {NotImplementedAlert} from '@/components/internal/not-implemented-alert';
+import { NotImplementedAlert } from '@/components/internal/not-implemented-alert';
 import StudentProfileTab from '@/app/student-old/profile/_components/student-profile-tab';
 
 export default async function StudentProfile() {

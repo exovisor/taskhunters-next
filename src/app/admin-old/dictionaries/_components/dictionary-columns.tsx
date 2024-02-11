@@ -1,11 +1,11 @@
 'use client';
 
 import type { ColumnDef } from '@tanstack/react-table';
-import {DataTableColumnHeader} from '@/components/table/column-header';
-import {DictionaryDropdown} from '@/app/admin-old/dictionaries/_components/dictionary-dropdown';
+import { DataTableColumnHeader } from '@/components/table/column-header';
+import { DictionaryDropdown } from '@/app/admin-old/dictionaries/_components/dictionary-dropdown';
 
-export function getDictionaryColumns<T extends {id: number; name: string}>(
-  deleteMutation: ({id}: { id: number }) => void,
+export function getDictionaryColumns<T extends { id: number; name: string }>(
+  deleteMutation: ({ id }: { id: number }) => void,
   openDialog: (id: number, value: string) => void
 ): ColumnDef<T>[] {
   return [
@@ -29,7 +29,7 @@ export function getDictionaryColumns<T extends {id: number; name: string}>(
       id: 'actions',
       cell: ({ row }) => {
         const data = row.original;
-        return <DictionaryDropdown deleteMutation={() => deleteMutation({id: data.id})} openDialog={() => openDialog(data.id, data.name)} />;
+        return <DictionaryDropdown deleteMutation={() => deleteMutation({ id: data.id })} openDialog={() => openDialog(data.id, data.name)} />;
       },
     },
   ];

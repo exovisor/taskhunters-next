@@ -1,10 +1,10 @@
-import {type Practice} from '@prisma/client';
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
-import {format} from 'date-fns';
-import {ru} from 'date-fns/locale';
-import {Badge} from '@/components/ui/badge';
-import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/components/ui/collapsible';
-import {ChevronsUpDown} from 'lucide-react';
+import { type Practice } from '@prisma/client';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ChevronsUpDown } from 'lucide-react';
 
 export function PracticeCard({ practice }: { practice: Practice }) {
   return (
@@ -14,7 +14,7 @@ export function PracticeCard({ practice }: { practice: Practice }) {
           {practice.type.name} практика
           <Badge variant='outline' className='ml-2'>{practice.status}</Badge>
         </CardTitle>
-        <CardDescription>{format(practice.start_date, 'PPP', {locale: ru})} &mdash; {format(practice.end_date, 'PPP', {locale: ru})}</CardDescription>
+        <CardDescription>{format(practice.start_date, 'PPP', { locale: ru })} &mdash; {format(practice.end_date, 'PPP', { locale: ru })}</CardDescription>
       </CardHeader>
       <CardContent>
         <Collapsible>

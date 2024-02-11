@@ -1,11 +1,11 @@
-import {ProfileBadge} from '@/components/shared/profile-badge';
-import {EditProfile} from '@/components/student/edit-profile';
-import {api} from '@/trpc/server';
-import {Separator} from '@/components/ui/separator';
-import {ChangeRoleButton} from '@/app/admin-old/users/_components/change-role-button';
-import {DeleteUserButton} from '@/app/admin-old/users/_components/delete-user-button';
+import { ProfileBadge } from '@/components/shared/profile-badge';
+import { EditProfile } from '@/components/student/edit-profile';
+import { api } from '@/trpc/server';
+import { Separator } from '@/components/ui/separator';
+import { ChangeRoleButton } from '@/app/admin-old/users/_components/change-role-button';
+import { DeleteUserButton } from '@/app/admin-old/users/_components/delete-user-button';
 
-export default async function UserProfilePage({ params }: { params: { userId: string }}) {
+export default async function UserProfilePage({ params }: { params: { userId: string } }) {
   const user = await api.user.getUserWithProfilesById.query({ id: params.userId });
 
   return (
@@ -21,7 +21,7 @@ export default async function UserProfilePage({ params }: { params: { userId: st
 									его данные.</p>
 						  </div>
 						  <EditProfile hasProfile={true}
-						    initData={{userId: user.id, email: user.email ?? undefined, ...user.studentProfile}}
+						    initData={{ userId: user.id, email: user.email ?? undefined, ...user.studentProfile }}
 						  />
 						</section>
           }
