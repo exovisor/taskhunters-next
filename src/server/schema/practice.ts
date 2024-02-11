@@ -1,4 +1,9 @@
 import { z } from 'zod';
+import {queryOptionsSchema} from '@/server/schema/query';
+
+export const studentPracticesQuerySchema = queryOptionsSchema.extend({
+  studentProfileId: z.number(),
+});
 
 export const createPracticeSchema = z.object({
   studentProfileId: z.number(),

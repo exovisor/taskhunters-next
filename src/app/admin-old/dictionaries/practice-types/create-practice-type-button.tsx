@@ -1,6 +1,6 @@
 'use client';
 
-import {DictionaryCreateFormDialog} from '@/app/admin/dictionaries/_components/dictionary-create-form-dialog';
+import {DictionaryCreateFormDialog} from '@/app/admin-old/dictionaries/_components/dictionary-create-form-dialog';
 import {toast} from '@/components/ui/use-toast';
 import {api} from '@/trpc/react';
 

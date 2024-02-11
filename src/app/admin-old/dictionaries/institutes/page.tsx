@@ -1,5 +1,5 @@
-import {InstitutesTable} from '@/app/admin/dictionaries/institutes/institutes-table';
-import {CreateInstituteButton} from '@/app/admin/dictionaries/institutes/create-institute-button';
+import {InstitutesTable} from '@/app/admin-old/dictionaries/institutes/institutes-table';
+import {CreateInstituteButton} from '@/app/admin-old/dictionaries/institutes/create-institute-button';
 
 export default async function Institutes() {
 

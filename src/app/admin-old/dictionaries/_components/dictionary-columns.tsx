@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import {DataTableColumnHeader} from '@/components/table/column-header';
-import {DictionaryDropdown} from '@/app/admin/dictionaries/_components/dictionary-dropdown';
+import {DictionaryDropdown} from '@/app/admin-old/dictionaries/_components/dictionary-dropdown';
 
 export function getDictionaryColumns<T extends {id: number; name: string}>(
   deleteMutation: ({id}: { id: number }) => void,

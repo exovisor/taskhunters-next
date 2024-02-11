@@ -2,8 +2,8 @@ import {ProfileBadge} from '@/components/shared/profile-badge';
 import {EditProfile} from '@/components/student/edit-profile';
 import {api} from '@/trpc/server';
 import {Separator} from '@/components/ui/separator';
-import {ChangeRoleButton} from '@/app/admin/users/_components/change-role-button';
-import {DeleteUserButton} from '@/app/admin/users/_components/delete-user-button';
+import {ChangeRoleButton} from '@/app/admin-old/users/_components/change-role-button';
+import {DeleteUserButton} from '@/app/admin-old/users/_components/delete-user-button';
 
 export default async function UserProfilePage({ params }: { params: { userId: string }}) {
   const user = await api.user.getUserWithProfilesById.query({ id: params.userId });

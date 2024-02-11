@@ -44,6 +44,12 @@ const config = {
 
 		"indent": ["error", 2],
 		"@typescript-eslint/indent": ["error", 2],
+
+    "object-curly-spacing": ["error", "always"],
+    "@typescript-eslint/object-curly-spacing": ["error", "always"],
+
+    "array-bracket-spacing": ["error", "always"],
+    "@typescript-eslint/array-bracket-spacing": ["error", "always"],
   },
 };
 

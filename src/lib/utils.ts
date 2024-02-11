@@ -10,9 +10,9 @@ export function getRoleHomepath(role: Role | undefined) {
   switch (role) {
     case 'SUPERADMIN':
     case 'ADMIN':
-      return '/admin';
+      return '/admin-old';
     case 'STUDENT':
-      return '/student';
+      return '/student-old';
     case 'SUPERVISOR':
       return '/';
     default:

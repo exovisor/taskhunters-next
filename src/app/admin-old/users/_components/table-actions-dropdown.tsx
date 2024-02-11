@@ -58,7 +58,7 @@ export function TableActionsDropdown({ user, refetch }: Props) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <Link href={'/admin/users/' + user.id} passHref legacyBehavior>
+          <Link href={'/admin-old/users/' + user.id} passHref legacyBehavior>
             <DropdownMenuItem><UserIcon className="mr-2 w-4 h-4"/><span>Открыть профиль</span></DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />

@@ -2,7 +2,7 @@ import type {PropsWithChildren} from 'react';
 import Nav from '@/components/shared/nav';
 import {useRoleAuth} from '@/components/auth/useRoleAuth';
 import {getServerAuthSession} from '@/server/auth';
-import {AdminNavMenu} from '@/app/admin/_components/admin-nav-menu';
+import {AdminNavMenu} from '@/app/admin-old/_components/admin-nav-menu';
 
 export default async function StudentLayout({children}: PropsWithChildren) {
   await useRoleAuth(['ADMIN', 'SUPERADMIN']);
