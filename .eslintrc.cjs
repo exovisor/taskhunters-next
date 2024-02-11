@@ -4,7 +4,7 @@ const config = {
   parserOptions: {
     project: true,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "@stylistic"],
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
@@ -32,24 +32,13 @@ const config = {
       },
     ],
 
-		// Custom rules
-		"semi": ["error", "always"],
-		"@typescript-eslint/semi": ["error", "always"],
+    "@stylistic/semi": "error",
+    "@stylistic/quotes": ["error", "single"],
+    "@stylistic/indent": ["error", 2],
+    "@stylistic/brace-style": ["error", "1tbs"],
+    "@stylistic/object-curly-spacing": ["error", "always"],
+    "@stylistic/array-bracket-spacing": ["error", "always"],
 
-		"quotes": ["error", "single"],
-		"@typescript-eslint/quotes": ["error", "single"],
-
-		"comma-dangle": ["error", "always-multiline"],
-		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
-
-		"indent": ["error", 2],
-		"@typescript-eslint/indent": ["error", 2],
-
-    "object-curly-spacing": ["error", "always"],
-    "@typescript-eslint/object-curly-spacing": ["error", "always"],
-
-    "array-bracket-spacing": ["error", "always"],
-    "@typescript-eslint/array-bracket-spacing": ["error", "always"],
   },
 };
 
