@@ -5,20 +5,14 @@ import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
 import * as React from 'react';
-import { type ControllerRenderProps, type FieldValues, type UseFormReturn } from 'react-hook-form';
+import type { ControllerRenderProps, FieldValues, Path } from 'react-hook-form';
 import { api } from '@/trpc/react';
 
-type WithSpecialityFieldValues<TFieldValues extends FieldValues> = {
-  specialityId?: number | undefined;
-} & TFieldValues;
-
-export type SpecialitySelectProps<TFieldValues extends FieldValues> = {
-  form: UseFormReturn<WithSpecialityFieldValues<TFieldValues>>;
-  // @ts-expect-error TODO: Find workaround
-  field: ControllerRenderProps<WithSpecialityFieldValues<TFieldValues>, 'specialityId'>;
+export type SpecialitySelectProps<TFieldValues extends FieldValues, TName extends Path<TFieldValues>> = {
+  field: ControllerRenderProps<TFieldValues, TName>;
 };
 
-export function SpecialitySelect<TFieldValues extends FieldValues>({ field, form }: SpecialitySelectProps<TFieldValues>) {
+export function SpecialitySelect<TFieldValues extends FieldValues, TName extends Path<TFieldValues>>({ field }: SpecialitySelectProps<TFieldValues, TName>) {
   const { data: specialityData } = api.dictionaries.getSpecialties.useQuery({});
   const specialties = (specialityData?.rows ?? []);
 
@@ -53,8 +47,7 @@ export function SpecialitySelect<TFieldValues extends FieldValues>({ field, form
                 value={type.id.toString()}
                 key={type.id}
                 onSelect={() => {
-                  // @ts-expect-error TODO: #17
-                  form.setValue('specialityId', type.id);
+                  field.onChange(type.id);
                 }}
               >
                 <Check
@@ -69,8 +62,7 @@ export function SpecialitySelect<TFieldValues extends FieldValues>({ field, form
               </CommandItem>
             ))}
             <CommandItem value={''} onSelect={() => {
-              // @ts-expect-error TODO: #17
-              form.setValue('specialityId', undefined);
+              field.onChange(undefined);
             }}>
               <Check
                 className={cn(

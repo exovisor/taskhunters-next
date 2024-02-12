@@ -80,7 +80,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Тип практики</FormLabel>
-              <PracticeTypeSelect form={form} field={field} />
+              <PracticeTypeSelect field={field} />
               <FormDescription>
                 Выберите тип практики
               </FormDescription>
@@ -94,7 +94,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Учебное заведение</FormLabel>
-              <InstituteSelect form={form} field={field} />
+              <InstituteSelect field={field} />
               <FormDescription>
                 Укажите институт, в котором вы учитесь
               </FormDescription>
@@ -108,7 +108,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Специализация</FormLabel>
-              <SpecialitySelect form={form} field={field} />
+              <SpecialitySelect field={field} />
               <FormDescription>
                 Выберите тип практики
               </FormDescription>

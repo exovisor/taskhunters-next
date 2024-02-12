@@ -5,20 +5,14 @@ import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
 import * as React from 'react';
-import { type ControllerRenderProps, type FieldValues, type UseFormReturn } from 'react-hook-form';
+import type { ControllerRenderProps, FieldValues, Path } from 'react-hook-form';
 import { api } from '@/trpc/react';
 
-type WithTypeFieldValues<TFieldValues extends FieldValues> = {
-  typeId: number;
-} & TFieldValues;
-
-export type PracticeTypeSelectProps<TFieldValues extends FieldValues> = {
-  form: UseFormReturn<WithTypeFieldValues<TFieldValues>>;
-  // @ts-expect-error TODO: Find workaround
-  field: ControllerRenderProps<WithTypeFieldValues<TFieldValues>, 'typeId'>;
+export type PracticeTypeSelectProps<TFieldValues extends FieldValues, TName extends Path<TFieldValues>> = {
+  field: ControllerRenderProps<TFieldValues, TName>;
 };
 
-export function PracticeTypeSelect<TFieldValues extends FieldValues>({ field, form }: PracticeTypeSelectProps<TFieldValues>) {
+export function PracticeTypeSelect<TFieldValues extends FieldValues, TName extends Path<TFieldValues>>({ field }: PracticeTypeSelectProps<TFieldValues, TName>) {
   const { data: practiceTypeData } = api.dictionaries.getPracticeTypes.useQuery({});
   const practiceTypes = (practiceTypeData?.rows ?? []);
 
@@ -53,8 +47,7 @@ export function PracticeTypeSelect<TFieldValues extends FieldValues>({ field, fo
                 value={type.id.toString()}
                 key={type.id}
                 onSelect={() => {
-                  // @ts-expect-error TODO: Check #17
-                  form.setValue('typeId', type.id);
+                  field.onChange(type.id);
                 }}
               >
                 <Check

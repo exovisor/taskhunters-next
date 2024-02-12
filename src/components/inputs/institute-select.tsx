@@ -5,20 +5,14 @@ import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
 import * as React from 'react';
-import { type ControllerRenderProps, type FieldValues, type UseFormReturn } from 'react-hook-form';
+import type { ControllerRenderProps, FieldValues, Path } from 'react-hook-form';
 import { api } from '@/trpc/react';
 
-type WithInstituteFieldValues<TFieldValues extends FieldValues> = {
-  instituteId?: number | undefined;
-} & TFieldValues;
-
-export type InstituteSelectProps<TFieldValues extends FieldValues> = {
-  form: UseFormReturn<WithInstituteFieldValues<TFieldValues>>;
-  // @ts-expect-error TODO: Find workaround
-  field: ControllerRenderProps<WithInstituteFieldValues<TFieldValues>, 'instituteId'>;
+export type InstituteSelectProps<TFieldValues extends FieldValues, TName extends Path<TFieldValues>> = {
+  field: ControllerRenderProps<TFieldValues, TName>;
 };
 
-export function InstituteSelect<TFieldValues extends FieldValues>({ field, form }: InstituteSelectProps<TFieldValues>) {
+export function InstituteSelect<TFieldValues extends FieldValues, TName extends Path<TFieldValues>>({ field }: InstituteSelectProps<TFieldValues, TName>) {
   const { data: instituteData } = api.dictionaries.getInstitutes.useQuery({});
   const institutes = (instituteData?.rows ?? []);
 
@@ -53,8 +47,7 @@ export function InstituteSelect<TFieldValues extends FieldValues>({ field, form 
                 value={institute.id.toString()}
                 key={institute.id}
                 onSelect={() => {
-                  // @ts-expect-error TODO: Check #17
-                  form.setValue('instituteId', institute.id);
+                  field.onChange(institute.id);
                 }}
               >
                 <Check
@@ -69,8 +62,7 @@ export function InstituteSelect<TFieldValues extends FieldValues>({ field, form 
               </CommandItem>
             ))}
             <CommandItem value={''} onSelect={() => {
-              // @ts-expect-error TODO: Check #17
-              form.setValue('instituteId', undefined);
+              field.onChange(undefined);
             }}>
               <Check
                 className={cn(
