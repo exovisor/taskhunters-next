@@ -44,11 +44,16 @@ export default async function DashboardLayout({ children }: PropsWithChildren) {
                   <Logo className='h-full w-auto text-primary' />
                 </Button>
               </SheetTrigger>
-              <SheetContent side='left'>
+              <SheetContent side='left' className='h-full flex flex-col'>
                 <SheetHeader>
                   <img src='/logo-wide.png' alt='Логотип ИАЦ' />
                 </SheetHeader>
-                {Navigation && <Navigation />}
+                <div className='flex-grow'>
+                  {Navigation && <Navigation />}
+                </div>
+                <div className='px-3'>
+                  <ThemeToggle />
+                </div>
               </SheetContent>
             </Sheet>
             <div className='flex flex-1 justify-between px-4 sm:px-6 lg:px-8'>
