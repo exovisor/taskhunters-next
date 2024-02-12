@@ -28,12 +28,14 @@ import * as React from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { addMonths, format } from 'date-fns';
 import { FileUploadButton } from '@/components/uploads/file-upload-button';
+import { useRouter } from 'next/navigation';
 
 export type CreatePracticeFormProps = {
   studentProfileId: number;
+  redirectUrl?: string;
 };
 
-export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps) {
+export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePracticeFormProps) {
   const form = useForm<z.infer<typeof createPracticeSchema>>({
     resolver: zodResolver(createPracticeSchema),
     defaultValues: {
@@ -43,6 +45,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
   });
 
   const { toast } = useToast();
+  const router = useRouter();
 
   const { data: instituteData } = api.dictionaries.getInstitutes.useQuery({});
   const institutes = (instituteData?.rows ?? []);
@@ -52,10 +55,13 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
   const specialties = (specialityData?.rows ?? []);
 
   const { mutate: createPractice } = api.practice.createPractice.useMutation({
-    onSuccess: () => {
+    onSuccess: async ({ id }) => {
       toast({
         title: 'Практика создана',
       });
+      if (redirectUrl) {
+        router.push(redirectUrl + '/' + id);
+      }
     },
     onError: (err) => {
       toast({

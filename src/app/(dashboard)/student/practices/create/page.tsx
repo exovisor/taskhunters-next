@@ -14,7 +14,7 @@ export default async function StudentCreatePractice() {
     <>
       <PageHeading title={'Создать практику'} />
       <div className='p-4'>
-        <CreatePracticeForm studentProfileId={session!.user.studentProfileId!} />
+        <CreatePracticeForm studentProfileId={session!.user.studentProfileId!} redirectUrl='/student/practices' />
       </div>
     </>
   );
