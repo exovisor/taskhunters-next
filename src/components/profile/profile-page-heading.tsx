@@ -18,7 +18,7 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
             <Avatar className='h-24 w-24 text-4xl font-semibold ring-4 ring-background'>
               <AvatarImage src={profile.image ?? undefined} />
               <AvatarFallback>
-                {profile.display_name
+                {profile.displayName
                   .split(' ')
                   .map((str) => str.charAt(0))
                   .join('')}
@@ -29,9 +29,9 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
             <div className='mt-6 flex min-w-0 flex-1 gap-4 sm:hidden md:block'>
               <div className='flex items-baseline gap-2'>
                 <h1 className='truncate text-2xl font-bold'>
-                  {profile.display_name}
+                  {profile.displayName}
                 </h1>
-                {profile.telegram_id &&
+                {profile.telegramId &&
                 profile.username &&
                 profile.username !== '[hidden]' ? (
                     <a
@@ -42,7 +42,7 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
                     @{profile.username}
                     </a>
                   ) : (
-                    <span>Id: {profile.telegram_id ?? '[hidden]'}</span>
+                    <span>Id: {profile.telegramId ?? '[hidden]'}</span>
                   )}
               </div>
               {role && (
@@ -58,7 +58,7 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
         </div>
         <div className='mt-6 hidden min-w-0 flex-1 sm:block md:hidden'>
           <h1 className='truncate text-2xl font-bold'>
-            {profile.display_name}
+            {profile.displayName}
           </h1>
         </div>
       </div>

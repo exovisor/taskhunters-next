@@ -26,10 +26,10 @@ export const ProfileDropdownInline = ({ user, className }: ProfileDropdownProps)
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className={className}>
-          <span>{user.display_name}</span>
+          <span>{user.displayName}</span>
           <Avatar className='ml-2 w-8 h-8'>
             <AvatarImage src={user.image ?? undefined} alt='Фото профиля' />
-            <AvatarFallback className='bg-accent text-accent-foreground'>{user.display_name.split(' ').map(str => str.charAt(0)).join('')}</AvatarFallback>
+            <AvatarFallback className='bg-accent text-accent-foreground'>{user.displayName.split(' ').map(str => str.charAt(0)).join('')}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

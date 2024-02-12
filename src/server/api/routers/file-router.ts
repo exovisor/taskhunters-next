@@ -7,7 +7,6 @@ import fs from 'fs';
 import { TRPCError } from '@trpc/server';
 
 export const fileRouter = createTRPCRouter({
-  // TODO: refactor
   getFileInfoById: protectedProcedure
     .input(dictionaryIdSchema)
     .query(async ({ input: { id }, ctx }) => {
@@ -99,7 +98,7 @@ export const fileRouter = createTRPCRouter({
           },
         });
         return true;
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: 'Error while deleting file',

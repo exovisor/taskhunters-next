@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
 import { api } from '@/trpc/server';
 import { PageHeading } from '@/components/page-headings/default-page-heading';
-import { type Practice } from '@prisma/client';
+import { type Prisma } from '@prisma/client';
 import { getStatusByValue } from '@/lib/status';
 import { FileCard } from '@/components/uploads/file-card';
 import { Button } from '@/components/ui/button';
@@ -18,11 +18,21 @@ export type PracticeViewPageProps = {
   }
 };
 
+type PracticePayload = Prisma.PracticeGetPayload<{
+  include: {
+    type: true,
+    institute: true,
+    speciality: true,
+    assignmentFile: true,
+    reportFile: true,
+  }
+}>;
+
 export default async function PracticeViewPage({ params }: PracticeViewPageProps) {
-  const practice: Practice = await api.practice.getPracticeById.query({ id: Number(params.id) });
+  const practice: PracticePayload = await api.practice.getPracticeById.query({ id: Number(params.id) });
   return (
     <>
-      <PageHeading title={`${practice.type.name} практика #${practice.id}`}>
+      <PageHeading title={`${practice.type.value} практика #${practice.id}`}>
         {
           practice.status !== 'COMPLETED' &&
           <Button variant='outline'>
@@ -47,11 +57,11 @@ export default async function PracticeViewPage({ params }: PracticeViewPageProps
                 {getStatusByValue(practice.status)?.label}
               </dd>
             </div>
-            {practice.rejection_message && (
+            {practice.rejectionMessage && (
               <div className='py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5'>
                 <dt className='text-sm font-medium text-muted-foreground'>Причина отказа</dt>
                 <dd className='mt-1 text-sm sm:col-span-2 sm:mt-0'>
-                  {practice.rejection_message}
+                  {practice.rejectionMessage}
                 </dd>
               </div>
             )}
@@ -65,9 +75,9 @@ export default async function PracticeViewPage({ params }: PracticeViewPageProps
               <dt className='text-sm font-medium text-muted-foreground'>Файлы</dt>
               <dd className='mt-1 text-sm sm:col-span-2 sm:mt-0 flex flex-col gap-2'>
                 <span>Направление</span>
-                { practice.assignmentFileId && <FileCard file={practice.assignmentFile} editable={false} /> }
+                { practice.assignmentFile && <FileCard file={practice.assignmentFile} editable={false} /> }
                 <span className='mt-2'>Отчет</span>
-                { practice.reportFileId && <FileCard file={practice.reportFile} editable={false} /> }
+                { practice.reportFile && <FileCard file={practice.reportFile} editable={false} /> }
               </dd>
             </div>
           </dl>

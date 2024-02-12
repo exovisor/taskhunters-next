@@ -18,8 +18,8 @@ const fileSchema = z.object({
   files: z
     .custom<FileList>()
     .refine((files) => files?.length === 1, 'Файл не выбран')
-    .refine((files) => files[0]?.size! <= MAX_FILE_SIZE, `Файл не должен превышать ${MAX_FILE_SIZE / 1024 / 1024} MB`)
-    .refine((files) => SUPPORTED_FILE_TYPES.includes(files[0]?.type!), 'Файл должен быть одного из следующих типов: .jpg, .jpeg, .png, .pdf'),
+    .refine((files) => files[0] && files[0].size <= MAX_FILE_SIZE, `Файл не должен превышать ${MAX_FILE_SIZE / 1024 / 1024} MB`)
+    .refine((files) => files[0] && SUPPORTED_FILE_TYPES.includes(files[0].type), 'Файл должен быть одного из следующих типов: .jpg, .jpeg, .png, .pdf'),
 });
 
 async function uploadFile(file: globalThis.File, reason: string) {
@@ -47,7 +47,7 @@ async function uploadFile(file: globalThis.File, reason: string) {
 export interface FileUploadButtonProps {
   initFile?: FileInfo;
   reason: string;
-  onUpload?: (file: FileInfo) => void;
+  onUpload?: (file: FileInfo | undefined) => void;
 }
 
 export function FileUploadButton({
@@ -56,7 +56,7 @@ export function FileUploadButton({
   onUpload,
 }: FileUploadButtonProps) {
   const [ status, setStatus ] = useState(initFile ? FileUploadState.Existing : FileUploadState.New);
-  const [ file, setFile ] = useState<FileInfo>(initFile);
+  const [ file, setFile ] = useState<FileInfo | undefined>(initFile);
 
   const { toast } = useToast();
 
@@ -88,7 +88,7 @@ export function FileUploadButton({
     <>
       {
         status === FileUploadState.New &&
-          <Input type='file' onChange={(e) => {
+          <Input type='file' onChange={async (e) => {
             const files = e.target.files;
             if (!files) return;
 
@@ -108,11 +108,11 @@ export function FileUploadButton({
               action: <FileCheck className='h-8 w-8' />,
             });
 
-            onSubmit(result.data);
+            await onSubmit(result.data);
           }} />
       }
       {
-        status === FileUploadState.Existing &&
+        file && status === FileUploadState.Existing &&
           <FileCard file={file} onDelete={onDelete} editable />
       }
     </>

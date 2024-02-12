@@ -13,8 +13,8 @@ export const createPracticeSchema = z.object({
   specialityId: z.number().optional(),
   year: z.number().min(1).max(10),
 
-  start_date: z.date(),
-  end_date: z.date(),
+  startDate: z.date(),
+  endDate: z.date(),
 
   assignmentFileId: z.number(),
 });

@@ -30,7 +30,7 @@ export function createCron() {
               },
             },
             {
-              created_at: {
+              createdAt: {
                 lte: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day
               },
             },
@@ -46,7 +46,7 @@ export function createCron() {
         });
         if (!res?.uploadedById || !res.path) return;
         fs.unlink(`uploads/${res.uploadedById}/${res.path}`, (err) => {
-          if (err) console.error(`> Error deleting file ${res.id}: ${err}`);
+          if (err) console.error(`> Error deleting file ${res.id}: ${err.message}`);
         });
         console.info(`> File ${res.id}:${res.path} deleted`);
       }));

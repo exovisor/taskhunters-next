@@ -9,7 +9,7 @@ export default function SignIn(props: Props) {
   return (
     <LoginButton
       botUsername={props.botUsername}
-      onAuthCallback={(data) => signIn('telegram-login', { callback: '/' }, data as any)}
+      onAuthCallback={(data) => signIn('telegram-login', { callback: '/' }, data as unknown as Record<string, string>)}
     />
   );
 }

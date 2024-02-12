@@ -29,10 +29,10 @@ export function ProfileDropdown({ user, className }: ProfileDropdownProps) {
         <Button variant='ghost' className={cn('justify-start h-auto', className)}>
           <Avatar className='mr-2 w-10 h-10 border dark:shadow-none'>
             <AvatarImage src={user.image ?? undefined} alt='Фото профиля' />
-            <AvatarFallback className='bg-background text-foreground'>{user.display_name.split(' ').map(str => str.charAt(0)).join('')}</AvatarFallback>
+            <AvatarFallback className='bg-background text-foreground'>{user.displayName.split(' ').map(str => str.charAt(0)).join('')}</AvatarFallback>
           </Avatar>
           <div className='flex flex-col gap-1 items-start'>
-            <span className='text-sm font-medium text-foreground'>{user.display_name}</span>
+            <span className='text-sm font-medium text-foreground'>{user.displayName}</span>
             <span className='text-xs font-medium text-muted-foreground'>
               {role?.icon && <role.icon className='inline-block w-4 h-4 mr-1' />}
               {role?.label}

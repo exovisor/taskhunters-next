@@ -23,7 +23,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 import { CalendarDays, Check, ChevronsUpDown } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
-import { type Institute, type PracticeType, type Specialty, type File } from '@prisma/client';
+import { type File } from '@prisma/client';
 import * as React from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { addMonths, format } from 'date-fns';
@@ -45,11 +45,11 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
   const { toast } = useToast();
 
   const { data: instituteData } = api.dictionaries.getInstitutes.useQuery({});
-  const institutes = (instituteData?.rows ?? []) as Institute[];
+  const institutes = (instituteData?.rows ?? []);
   const { data: practiceTypeData } = api.dictionaries.getPracticeTypes.useQuery({});
-  const practiceTypes = (practiceTypeData?.rows ?? []) as PracticeType[];
+  const practiceTypes = (practiceTypeData?.rows ?? []);
   const { data: specialityData } = api.dictionaries.getSpecialties.useQuery({});
-  const specialties = (specialityData?.rows ?? []) as Specialty[];
+  const specialties = (specialityData?.rows ?? []);
 
   const { mutate: createPractice } = api.practice.createPractice.useMutation({
     onSuccess: () => {
@@ -66,7 +66,8 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
     },
   });
 
-  function handleFileUpload(file: File) {
+  function handleFileUpload(file: File | undefined) {
+    if (!file) return;
     form.setValue('assignmentFileId', file.id);
   }
 
@@ -97,7 +98,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                       {field.value
                         ? practiceTypes.find(
                           (type) => type.id === field.value
-                        )?.name
+                        )?.value
                         : 'Выберите тип'}
                       <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
@@ -110,7 +111,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                     <CommandGroup>
                       {practiceTypes.map((type) => (
                         <CommandItem
-                          value={type.id}
+                          value={type.id.toString()}
                           key={type.id}
                           onSelect={() => {
                             form.setValue('typeId', type.id);
@@ -124,7 +125,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                                 : 'opacity-0'
                             )}
                           />
-                          {type.name}
+                          {type.value}
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -158,7 +159,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                       {field.value
                         ? institutes.find(
                           (institute) => institute.id === field.value
-                        )?.name
+                        )?.value
                         : 'Другое'}
                       <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
@@ -171,7 +172,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                     <CommandGroup>
                       {institutes.map((institute) => (
                         <CommandItem
-                          value={institute.id}
+                          value={institute.id.toString()}
                           key={institute.id}
                           onSelect={() => {
                             form.setValue('instituteId', institute.id);
@@ -185,7 +186,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                                 : 'opacity-0'
                             )}
                           />
-                          {institute.name}
+                          {institute.value}
                         </CommandItem>
                       ))}
                       <CommandItem value={''} onSelect={() => {
@@ -230,7 +231,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                       {field.value
                         ? specialties.find(
                           (type) => type.id === field.value
-                        )?.name
+                        )?.value
                         : 'Другое'}
                       <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
@@ -243,7 +244,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                     <CommandGroup>
                       {specialties.map((type) => (
                         <CommandItem
-                          value={type.id}
+                          value={type.id.toString()}
                           key={type.id}
                           onSelect={() => {
                             form.setValue('specialityId', type.id);
@@ -257,7 +258,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                                 : 'opacity-0'
                             )}
                           />
-                          {type.name}
+                          {type.value}
                         </CommandItem>
                       ))}
                       <CommandItem value={''} onSelect={() => {
@@ -309,7 +310,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
         />
         <FormField
           control={form.control}
-          name='start_date'
+          name='startDate'
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Дата начала практики</FormLabel>
@@ -338,7 +339,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
-                      date > addMonths(new Date(), 6) || date < addMonths(new Date(), -6) || date > form.getValues('end_date')
+                      date > addMonths(new Date(), 6) || date < addMonths(new Date(), -6) || date > form.getValues('endDate')
                     }
                     initialFocus
                     locale={ru}
@@ -354,7 +355,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
         />
         <FormField
           control={form.control}
-          name='end_date'
+          name='endDate'
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Дата окончания практики</FormLabel>
@@ -383,7 +384,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
-                      date > addMonths(new Date(), 6) || date < form.getValues('start_date')
+                      date > addMonths(new Date(), 6) || date < form.getValues('startDate')
                     }
                     initialFocus
                     locale={ru}
@@ -400,7 +401,7 @@ export function CreatePracticeForm({ studentProfileId }: CreatePracticeFormProps
         <FormField
           control={form.control}
           name='assignmentFileId'
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Направление на практику</FormLabel>
               <FileUploadButton

@@ -3,11 +3,11 @@ import type { Role } from '@prisma/client';
 export interface SessionUser {
   id: string;
   role: Role;
-  display_name: string;
+  displayName: string;
   username?: string | null;
   image?: string | null;
   email?: string | null;
-  telegram_id?: string | null;
+  telegramId?: string | null;
 
   studentProfileId?: number | null;
 }

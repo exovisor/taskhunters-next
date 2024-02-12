@@ -5,10 +5,10 @@ export const dictionaryIdSchema = z.object({
 });
 
 export const dictionaryCreateSchema = z.object({
-  name: z.string(),
+  value: z.string(),
 });
 
 export const dictionaryUpdateSchema = z.object({
   id: z.number(),
-  name: z.string(),
+  value: z.string(),
 });

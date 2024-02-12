@@ -1,5 +1,6 @@
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
+import path from 'path';
 
 export const env = createEnv({
   /**
@@ -27,6 +28,7 @@ export const env = createEnv({
     ),
     TELEGRAM_BOT_TOKEN: z.string(),
     TELEGRAM_BOT_NAME: z.string(),
+    FILE_UPLOAD_PATH: z.string().default(path.join(process.cwd(), 'uploads')),
   },
 
   /**
@@ -49,6 +51,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_BOT_NAME: process.env.TELEGRAM_BOT_NAME,
+    FILE_UPLOAD_PATH: process.env.FILE_UPLOAD_PATH,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

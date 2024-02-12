@@ -32,22 +32,22 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   createInstitute: adminProcedure
     .input(dictionaryCreateSchema)
-    .mutation(async ({ input: { name } }) => {
+    .mutation(async ({ input: { value } }) => {
       return db.institute.create({
         data: {
-          name: name,
+          value: value,
         },
       });
     }),
   updateInstitute: adminProcedure
     .input(dictionaryUpdateSchema)
-    .mutation(async ({ input: { id, name } }) => {
+    .mutation(async ({ input: { id, value } }) => {
       return db.institute.update({
         where: {
           id: id,
         },
         data: {
-          name: name,
+          value: value,
         },
       });
     }),
@@ -84,22 +84,22 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   createSpecialty: adminProcedure
     .input(dictionaryCreateSchema)
-    .mutation(async ({ input: { name } }) => {
+    .mutation(async ({ input: { value } }) => {
       return db.specialty.create({
         data: {
-          name: name,
+          value: value,
         },
       });
     }),
   updateSpecialty: adminProcedure
     .input(dictionaryUpdateSchema)
-    .mutation(async ({ input: { id, name } }) => {
+    .mutation(async ({ input: { id, value } }) => {
       return db.specialty.update({
         where: {
           id: id,
         },
         data: {
-          name: name,
+          value: value,
         },
       });
     }),
@@ -136,22 +136,22 @@ export const dictionaryRouter = createTRPCRouter({
     }),
   createPracticeType: adminProcedure
     .input(dictionaryCreateSchema)
-    .mutation(async ({ input: { name } }) => {
+    .mutation(async ({ input: { value } }) => {
       return db.practiceType.create({
         data: {
-          name: name,
+          value: value,
         },
       });
     }),
   updatePracticeType: adminProcedure
     .input(dictionaryUpdateSchema)
-    .mutation(async ({ input: { id, name } }) => {
+    .mutation(async ({ input: { id, value } }) => {
       return db.practiceType.update({
         where: {
           id: id,
         },
         data: {
-          name: name,
+          value: value,
         },
       });
     }),

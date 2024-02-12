@@ -5,8 +5,9 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { getServerAuthSession } from '@/server/auth';
 import { format } from 'date-fns';
 import { db } from '@/server/db';
+import { env } from '@/env';
 
-export async function POST(req: NextRequest, res: NextResponse): Promise<NextResponse> {
+export async function POST(req: NextRequest, _res: NextResponse): Promise<NextResponse> {
   const session = await getServerAuthSession();
   if (!session || !session.user) {
     return NextResponse.json({ error: 'You must be logged in to upload files' }, { status: 401 });
@@ -21,13 +22,12 @@ export async function POST(req: NextRequest, res: NextResponse): Promise<NextRes
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const relativePath = path.join(process.cwd(), 'uploads');
-  const uploadPath = path.join(relativePath, session.user.id);
+  const uploadPath = path.join(env.FILE_UPLOAD_PATH, session.user.id);
 
   try {
     await stat(uploadPath);
-  } catch (e: any) {
-    if (e.code === 'ENOENT') {
+  } catch (e: unknown) {
+    if (typeof e === 'object' && e !== null && 'code' in e && e.code === 'ENOENT') {
       await mkdir(uploadPath, { recursive: true });
     } else {
       console.error('Error while creating directory', e);
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest, res: NextResponse): Promise<NextRes
     await writeFile(filePath, buffer);
 
     return NextResponse.json(fileInfo);
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('Error while writing file', e);
     return NextResponse.json({ error: 'Error while writing file' }, { status: 500 });
   }

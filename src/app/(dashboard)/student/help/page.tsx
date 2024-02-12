@@ -1,7 +1,6 @@
 import { type Metadata } from 'next';
 import { PageHeading } from '@/components/page-headings/default-page-heading';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { NotImplementedAlert } from '@/components/placeholders/not-implemented-alert';
 import { Alert } from '@/components/ui/alert';
 
 export const metadata: Metadata = {
@@ -24,7 +23,7 @@ export default function StudentHelp() {
             <AccordionTrigger>Как мне зарегистрироваться на практику?</AccordionTrigger>
             <AccordionContent>
               Для регистрации на практику вам необходимо заполнить свой профиль на данном портале,
-              а также подать заявку на практику в разделе "Практики".
+              а также подать заявку на практику в разделе &quot;Практики&quot;.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value='assignment'>

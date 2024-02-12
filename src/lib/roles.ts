@@ -1,6 +1,16 @@
 import { BadgeCheck, GraduationCap, ShieldAlert, ShieldCheck } from 'lucide-react';
+import { type Role } from '@prisma/client';
 
-export const roles = [
+type IconReturnType = typeof BadgeCheck;
+
+export type RoleDictionary = {
+  value: Role;
+  label: string;
+  icon: IconReturnType;
+  homepath: string;
+}[];
+
+export const roles: RoleDictionary = [
   {
     value: 'SUPERADMIN',
     label: 'Руководитель',
@@ -14,7 +24,7 @@ export const roles = [
     homepath: '/admin',
   },
   {
-    value: 'SUPERVISOR',
+    value: 'MENTOR',
     label: 'Куратор',
     icon: BadgeCheck,
     homepath: '/mentor',

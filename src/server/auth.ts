@@ -69,9 +69,9 @@ export const authOptions: NextAuthOptions = {
 
         if (user.id && user.first_name) {
           let returned = {
-            telegram_id: user.id.toString(),
+            telegramId: user.id.toString(),
             username: user.username,
-            display_name: [ user.first_name, user.last_name ?? '' ].filter(Boolean).join(' '),
+            displayName: [ user.first_name, user.last_name ?? '' ].filter(Boolean).join(' '),
             image: user.photo_url,
           } as SessionUser;
 

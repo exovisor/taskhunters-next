@@ -1,5 +1,3 @@
-import { ChevronLeft, ChevronRight, Home } from 'lucide-react';
-import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import { Breadcrumbs } from '@/components/breadcrumbs/breadcrumbs';
 import { getServerAuthSession } from '@/server/auth';

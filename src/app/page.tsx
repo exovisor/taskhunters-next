@@ -52,7 +52,7 @@ export default async function AuthPage() {
                 </div>
               ))}
             </nav>
-            <p className='mt-6 text-center text-base text-primary-foreground'>&copy; 2024 СПБ ГУП "СПБ ИАЦ"</p>
+            <p className='mt-6 text-center text-base text-primary-foreground'>&copy; 2024 СПБ ГУП &quot;СПБ ИАЦ&quot;</p>
           </div>
         </footer>
       </div>

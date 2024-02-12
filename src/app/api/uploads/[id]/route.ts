@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { stat } from 'fs/promises';
 import { type ReadableOptions } from 'stream';
+import { env } from '@/env';
 
 function streamFile(path: string, options?: ReadableOptions): ReadableStream<Uint8Array> {
   const downloadStream = fs.createReadStream(path, options);
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: 'You are not allowed to download this file' }, { status: 403 });
   }
 
-  const uploadPath = path.join(process.cwd(), 'uploads', session.user.id);
+  const uploadPath = path.join(env.FILE_UPLOAD_PATH, session.user.id);
 
   try {
     const fullPath = path.join(uploadPath, fileInfo.path);
@@ -55,7 +56,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         'Content-Length': stats.size.toString(),
       }),
     });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('Error while reading file', e);
     return NextResponse.json({ error: 'Error while reading file' }, { status: 500 });
   }

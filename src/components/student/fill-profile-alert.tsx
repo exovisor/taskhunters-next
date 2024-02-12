@@ -8,9 +8,9 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-export default function FillProfileAlert({ initState }: { initState: boolean | undefined }) {
+export default function FillProfileAlert({ defaultOpen }: { defaultOpen: boolean | undefined }) {
   return (
-    <AlertDialog defaultOpen={initState}>
+    <AlertDialog defaultOpen={defaultOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Необходимо заполнить профиль</AlertDialogTitle>

@@ -103,7 +103,7 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
 /**
  * Role based procedures
  *
- * If you want a quary or mutation to ONLY be accessible to loggen in users WITH specific ROLE, use one of these.
+ * If you want a query or mutation to ONLY be accessible to logged-in users WITH specific ROLE, use one of these.
  * It is based on protectedProcedure and also verifies user role if it's set in session.
  */
 export const studentProcedure = t.procedure.use(({ ctx, next }) => {

@@ -6,6 +6,6 @@ import { Button } from '@/components/ui/button';
 export default function SignOut() {
 
   return (
-    <Button variant='outline' onClick={() => signOut({ callbackUrl: '/' })}>Sign out</Button>
+    <Button variant='outline' onClick={() => signOut({ callbackUrl: '/' })}>Выйти </Button>
   );
 }
