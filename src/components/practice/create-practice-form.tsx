@@ -6,12 +6,10 @@ import { createPracticeSchema } from '@/server/schema/practice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/components/ui/use-toast';
 import { api } from '@/trpc/react';
-import { ru } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
 import {
   Form,
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
@@ -19,16 +17,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { CalendarDays, Check, ChevronsUpDown } from 'lucide-react';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
 import { type File } from '@prisma/client';
 import * as React from 'react';
-import { Calendar } from '@/components/ui/calendar';
-import { addMonths, format } from 'date-fns';
+import { addMonths } from 'date-fns';
 import { FileUploadButton } from '@/components/uploads/file-upload-button';
 import { useRouter } from 'next/navigation';
+import { PracticeTypeSelect } from '@/components/inputs/practice-type-select';
+import { InstituteSelect } from '@/components/inputs/institute-select';
+import { SpecialitySelect } from '@/components/inputs/speciality-select';
+import { CalendarInput } from '@/components/inputs/calendar-input';
 
 export type CreatePracticeFormProps = {
   studentProfileId: number;
@@ -46,13 +43,6 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
 
   const { toast } = useToast();
   const router = useRouter();
-
-  const { data: instituteData } = api.dictionaries.getInstitutes.useQuery({});
-  const institutes = (instituteData?.rows ?? []);
-  const { data: practiceTypeData } = api.dictionaries.getPracticeTypes.useQuery({});
-  const practiceTypes = (practiceTypeData?.rows ?? []);
-  const { data: specialityData } = api.dictionaries.getSpecialties.useQuery({});
-  const specialties = (specialityData?.rows ?? []);
 
   const { mutate: createPractice } = api.practice.createPractice.useMutation({
     onSuccess: async ({ id }) => {
@@ -90,54 +80,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Тип практики</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant='outline'
-                      role='combobox'
-                      className={cn(
-                        'justify-between',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value
-                        ? practiceTypes.find(
-                          (type) => type.id === field.value
-                        )?.value
-                        : 'Выберите тип'}
-                      <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className='p-0' align='start'>
-                  <Command>
-                    <CommandInput placeholder='Поиск по типам...' />
-                    <CommandEmpty>Тип не найден...</CommandEmpty>
-                    <CommandGroup>
-                      {practiceTypes.map((type) => (
-                        <CommandItem
-                          value={type.id.toString()}
-                          key={type.id}
-                          onSelect={() => {
-                            form.setValue('typeId', type.id);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              type.id === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                          {type.value}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <PracticeTypeSelect form={form} field={field} />
               <FormDescription>
                 Выберите тип практики
               </FormDescription>
@@ -151,65 +94,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Учебное заведение</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant='outline'
-                      role='combobox'
-                      className={cn(
-                        'justify-between',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value
-                        ? institutes.find(
-                          (institute) => institute.id === field.value
-                        )?.value
-                        : 'Другое'}
-                      <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className='p-0' align='start'>
-                  <Command>
-                    <CommandInput placeholder='Поиск по институтам...' />
-                    <CommandEmpty>Институт не найден...</CommandEmpty>
-                    <CommandGroup>
-                      {institutes.map((institute) => (
-                        <CommandItem
-                          value={institute.id.toString()}
-                          key={institute.id}
-                          onSelect={() => {
-                            form.setValue('instituteId', institute.id);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              institute.id === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                          {institute.value}
-                        </CommandItem>
-                      ))}
-                      <CommandItem value={''} onSelect={() => {
-                        form.setValue('instituteId', undefined);
-                      }}>
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            field.value === undefined ? 'opacity-100' : 'opacity-0'
-                          )}
-                        />
-                        Другое
-                      </CommandItem>
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <InstituteSelect form={form} field={field} />
               <FormDescription>
                 Укажите институт, в котором вы учитесь
               </FormDescription>
@@ -223,65 +108,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Специализация</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant='outline'
-                      role='combobox'
-                      className={cn(
-                        'justify-between',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value
-                        ? specialties.find(
-                          (type) => type.id === field.value
-                        )?.value
-                        : 'Другое'}
-                      <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className='p-0' align='start'>
-                  <Command>
-                    <CommandInput placeholder='Поиск по типам...' />
-                    <CommandEmpty>Тип не найден...</CommandEmpty>
-                    <CommandGroup>
-                      {specialties.map((type) => (
-                        <CommandItem
-                          value={type.id.toString()}
-                          key={type.id}
-                          onSelect={() => {
-                            form.setValue('specialityId', type.id);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              type.id === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                          {type.value}
-                        </CommandItem>
-                      ))}
-                      <CommandItem value={''} onSelect={() => {
-                        form.setValue('specialityId', undefined);
-                      }}>
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            field.value === undefined ? 'opacity-100' : 'opacity-0'
-                          )}
-                        />
-                        Другое
-                      </CommandItem>
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <SpecialitySelect form={form} field={field} />
               <FormDescription>
                 Выберите тип практики
               </FormDescription>
@@ -320,38 +147,11 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Дата начала практики</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP', { locale: ru })
-                      ) : (
-                        <span>Выберите дату</span>
-                      )}
-                      <CalendarDays className='ml-auto h-4 w-4 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className='w-auto p-0' align='start'>
-                  <Calendar
-                    mode='single'
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > addMonths(new Date(), 6) || date < addMonths(new Date(), -6) || date > form.getValues('endDate')
-                    }
-                    initialFocus
-                    locale={ru}
-                  />
-                </PopoverContent>
-              </Popover>
+              <CalendarInput
+                field={field}
+                disabled={(date) =>
+                  date > addMonths(new Date(), 6) || date < addMonths(new Date(), -6) || date > form.getValues('endDate')}
+              />
               <FormDescription>
                 Укажите дату начала практики
               </FormDescription>
@@ -365,38 +165,11 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
           render={({ field }) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Дата окончания практики</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP', { locale: ru })
-                      ) : (
-                        <span>Выберите дату</span>
-                      )}
-                      <CalendarDays className='ml-auto h-4 w-4 opacity-50' />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className='w-auto p-0' align='start'>
-                  <Calendar
-                    mode='single'
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > addMonths(new Date(), 6) || date < form.getValues('startDate')
-                    }
-                    initialFocus
-                    locale={ru}
-                  />
-                </PopoverContent>
-              </Popover>
+              <CalendarInput
+                field={field}
+                disabled={(date) =>
+                  date > addMonths(new Date(), 6) || date < form.getValues('startDate')}
+              />
               <FormDescription>
                 Укажите дату окончания практики
               </FormDescription>
