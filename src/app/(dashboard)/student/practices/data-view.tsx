@@ -106,7 +106,7 @@ export default function StudentPracticeList({ studentProfileId }: StudentPractic
       </ul>
       {data && data.meta.totalCount > 0 &&
         <div className='flex items-center justify-end px-2 pb-4 mt-4'>
-          <div className='flex items-center space-x-6 lg:space-x-8'>
+          <div className='flex items-center space-x-6 lg:space-x-8 flex-wrap justify-center gap-y-4'>
             <div className='flex items-center space-x-2'>
               <p className='text-sm font-medium'>Строк на странице</p>
               <Select

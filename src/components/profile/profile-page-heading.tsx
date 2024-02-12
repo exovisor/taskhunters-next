@@ -12,7 +12,7 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
       <div>
         <div className='h-16 w-full bg-accent lg:h-24' />
       </div>
-      <div className='mx-auto max-w-5xl px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-5xl px-4'>
         <div className='-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5'>
           <div className='flex'>
             <Avatar className='h-24 w-24 text-4xl font-semibold ring-4 ring-background'>
