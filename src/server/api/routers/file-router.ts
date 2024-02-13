@@ -5,6 +5,28 @@ import { userIdSchema } from '@/server/schema/user';
 import path from 'path';
 import fs from 'fs';
 import { TRPCError } from '@trpc/server';
+import { env } from '@/env';
+import { type File } from '@prisma/client';
+
+export async function deleteFile(fileInfo: File) {
+  const uploadPath = path.join(env.FILE_UPLOAD_PATH, fileInfo.uploadedById);
+
+  try {
+    const fullPath = path.join(uploadPath, fileInfo.path);
+    await fs.promises.unlink(fullPath);
+    await db.file.delete({
+      where: {
+        id: fileInfo.id,
+      },
+    });
+    return true;
+  } catch (e: unknown) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'Error while deleting file',
+    });
+  }
+}
 
 export const fileRouter = createTRPCRouter({
   getFileInfoById: protectedProcedure
@@ -87,22 +109,6 @@ export const fileRouter = createTRPCRouter({
         });
       }
 
-      const uploadPath = path.join(process.cwd(), 'uploads', ctx.session.user.id);
-
-      try {
-        const fullPath = path.join(uploadPath, fileInfo.path);
-        await fs.promises.unlink(fullPath);
-        await db.file.delete({
-          where: {
-            id: id,
-          },
-        });
-        return true;
-      } catch (e: unknown) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Error while deleting file',
-        });
-      }
+      await deleteFile(fileInfo);
     }),
 });

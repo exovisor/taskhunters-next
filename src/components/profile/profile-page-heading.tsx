@@ -10,7 +10,7 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
   return (
     <div>
       <div>
-        <div className='h-16 w-full bg-accent lg:h-24' />
+        <div className='h-16 w-full bg-muted/40 lg:h-24' />
       </div>
       <div className='max-w-5xl px-4'>
         <div className='-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5'>
