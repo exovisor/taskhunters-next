@@ -7,11 +7,25 @@ import { getServerAuthSession } from '@/server/auth';
 import { ThemeToggleInline } from '@/components/theme/theme-toggle-inline';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 import Logo from '@/assets/logo-site.svg';
+import type { Role } from '@prisma/client';
 import { StudentNavigation } from '@/components/student/student-navigation';
+import { AdminNavigation } from '@/components/admin/admin-navigation';
+
+function getNavigationByRole(role: Role | undefined) {
+  switch (role) {
+    case 'ADMIN':
+    case 'SUPERADMIN':
+      return AdminNavigation;
+    case 'STUDENT':
+      return StudentNavigation;
+    default:
+      return null;
+  }
+}
 
 export default async function DashboardLayout({ children }: PropsWithChildren) {
   const session = await getServerAuthSession();
-  const Navigation = session?.user?.role === 'STUDENT' ? StudentNavigation : null;
+  const Navigation = getNavigationByRole(session?.user?.role);
   return (
     <>
       <div className='min-h-full'>

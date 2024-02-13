@@ -1,20 +1,20 @@
 'use client';
 
-import type { Specialty } from '@prisma/client';
+import type { PracticeType } from '@prisma/client';
 import type { z } from 'zod';
 import type { queryOptionsSchema } from '@/server/schema/query';
 import { useState } from 'react';
 import { api } from '@/trpc/react';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { DataTable } from '@/components/table/data-table';
-import { DictionaryUpdateFormDialog } from '../_components/dictionary-update-form-dialog';
-import { getDictionaryColumns } from '../_components/dictionary-columns';
+import { DictionaryUpdateFormDialog } from '@/components/dictionaries/dictionary-update-form-dialog';
+import { getDictionaryColumns } from '@/components/dictionaries/dictionary-columns';
 
-export function SpecialtiesTable() {
+export function PracticeTypeDataView() {
   const [ dialogOpen, setDialogOpen ] = useState(false);
-  const [ dialogData, setDialogData ] = useState<{ id: number | undefined; name: string | undefined }>({
+  const [ dialogData, setDialogData ] = useState<{ id: number | undefined; value: string | undefined }>({
     id: undefined,
-    name: undefined,
+    value: undefined,
   });
   const [ queryOptions, setQueryOptions ] = useState<z.infer<typeof queryOptionsSchema>>({
     paginationOptions: {
@@ -22,8 +22,9 @@ export function SpecialtiesTable() {
       pageSize: 10,
     },
   });
-  const { data, refetch } = api.dictionaries.getSpecialties.useQuery(queryOptions);
-  const { mutate: deleteFn } = api.dictionaries.deleteSpecialty.useMutation({
+  const { toast } = useToast();
+  const { data, refetch } = api.dictionaries.getPracticeTypes.useQuery(queryOptions);
+  const { mutate: deleteFn } = api.dictionaries.deletePracticeType.useMutation({
     onSuccess: async () => {
       toast({
         title: 'Запись удалена',
@@ -38,7 +39,7 @@ export function SpecialtiesTable() {
       });
     },
   });
-  const { mutate: updateFn } = api.dictionaries.updateSpecialty.useMutation({
+  const { mutate: updateFn } = api.dictionaries.updatePracticeType.useMutation({
     onSuccess: async () => {
       toast({
         title: 'Запись обновлена',
@@ -54,9 +55,9 @@ export function SpecialtiesTable() {
     },
   });
 
-  function openDialog(id: number, name: string) {
+  function openDialog(id: number, value: string) {
     setDialogData({
-      id, name,
+      id, value,
     });
     setDialogOpen(true);
   }
@@ -64,20 +65,20 @@ export function SpecialtiesTable() {
   function closeDialog() {
     setDialogData({
       id: undefined,
-      name: undefined,
+      value: undefined,
     });
     setDialogOpen(false);
   }
 
-  function submitChanges(data: { id?: number | undefined; name: string }) {
+  function submitChanges(data: { id?: number | undefined; value: string }) {
     if (!data.id) return;
     updateFn({
       id: data.id,
-      name: data.name,
+      value: data.value,
     });
   }
 
-  const columns = getDictionaryColumns<Specialty>(deleteFn, openDialog);
+  const columns = getDictionaryColumns<PracticeType>(deleteFn, openDialog);
   return (
     <>
       <DataTable columns={columns} payload={data} setQueryOptions={setQueryOptions} />

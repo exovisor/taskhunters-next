@@ -1,7 +1,7 @@
 import {
   ArrowDownWideNarrow,
   ArrowUpNarrowWide,
-  GripVertical,
+  ChevronsUpDown,
   EyeOff,
 } from 'lucide-react';
 import type { Column } from '@tanstack/react-table';
@@ -47,7 +47,7 @@ export function DataTableColumnHeader<TData, TValue>({
             ) : column.getIsSorted() === 'asc' ? (
               <ArrowUpNarrowWide className='ml-2 h-4 w-4' />
             ) : (
-              <GripVertical className='ml-2 h-4 w-4' />
+              <ChevronsUpDown className='ml-2 h-4 w-4' />
             )}
           </Button>
         </DropdownMenuTrigger>

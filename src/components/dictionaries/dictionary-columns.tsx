@@ -2,9 +2,9 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/table/column-header';
-import { DictionaryDropdown } from '@/app/admin-old/dictionaries/_components/dictionary-dropdown';
+import { DictionaryDropdown } from '@/components/dictionaries/dictionary-dropdown';
 
-export function getDictionaryColumns<T extends { id: number; name: string }>(
+export function getDictionaryColumns<T extends { id: number; value: string }>(
   deleteMutation: ({ id }: { id: number }) => void,
   openDialog: (id: number, value: string) => void
 ): ColumnDef<T>[] {
@@ -18,7 +18,7 @@ export function getDictionaryColumns<T extends { id: number; name: string }>(
       },
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'value',
       header: ({ column }) =>
         (<DataTableColumnHeader column={column} title='Значение' />),
       meta: {
@@ -29,7 +29,7 @@ export function getDictionaryColumns<T extends { id: number; name: string }>(
       id: 'actions',
       cell: ({ row }) => {
         const data = row.original;
-        return <DictionaryDropdown deleteMutation={() => deleteMutation({ id: data.id })} openDialog={() => openDialog(data.id, data.name)} />;
+        return <DictionaryDropdown deleteMutation={() => deleteMutation({ id: data.id })} openDialog={() => openDialog(data.id, data.value)} />;
       },
     },
   ];

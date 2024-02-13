@@ -47,7 +47,7 @@ export function DataTableToolbar<TData>({
   }
 
   useEffect(() => {
-    if (valueFilterColumn && valueFilterText && valueFilterText.length > 2) {
+    if (valueFilterColumn && valueFilterText && valueFilterText.length >= 1) {
       table.getColumn(valueFilterColumn)?.setFilterValue([ valueFilterText ]);
     }
   }, [ table, valueFilterColumn, valueFilterText ]);

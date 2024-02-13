@@ -5,16 +5,16 @@ import type { z } from 'zod';
 import type { queryOptionsSchema } from '@/server/schema/query';
 import { useState } from 'react';
 import { api } from '@/trpc/react';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { DataTable } from '@/components/table/data-table';
-import { DictionaryUpdateFormDialog } from '../_components/dictionary-update-form-dialog';
-import { getDictionaryColumns } from '../_components/dictionary-columns';
+import { DictionaryUpdateFormDialog } from '@/components/dictionaries/dictionary-update-form-dialog';
+import { getDictionaryColumns } from '@/components/dictionaries/dictionary-columns';
 
-export function InstitutesTable() {
+export function InstituteDataView() {
   const [ dialogOpen, setDialogOpen ] = useState(false);
-  const [ dialogData, setDialogData ] = useState<{ id: number | undefined; name: string | undefined }>({
+  const [ dialogData, setDialogData ] = useState<{ id: number | undefined; value: string | undefined }>({
     id: undefined,
-    name: undefined,
+    value: undefined,
   });
   const [ queryOptions, setQueryOptions ] = useState<z.infer<typeof queryOptionsSchema>>({
     paginationOptions: {
@@ -22,6 +22,7 @@ export function InstitutesTable() {
       pageSize: 10,
     },
   });
+  const { toast } = useToast();
   const { data, refetch } = api.dictionaries.getInstitutes.useQuery(queryOptions);
   const { mutate: deleteFn } = api.dictionaries.deleteInstitute.useMutation({
     onSuccess: async () => {
@@ -54,9 +55,9 @@ export function InstitutesTable() {
     },
   });
 
-  function openDialog(id: number, name: string) {
+  function openDialog(id: number, value: string) {
     setDialogData({
-      id, name,
+      id, value,
     });
     setDialogOpen(true);
   }
@@ -64,16 +65,16 @@ export function InstitutesTable() {
   function closeDialog() {
     setDialogData({
       id: undefined,
-      name: undefined,
+      value: undefined,
     });
     setDialogOpen(false);
   }
 
-  function submitChanges(data: { id?: number | undefined; name: string }) {
+  function submitChanges(data: { id?: number | undefined; value: string }) {
     if (!data.id) return;
     updateFn({
       id: data.id,
-      name: data.name,
+      value: data.value,
     });
   }
 

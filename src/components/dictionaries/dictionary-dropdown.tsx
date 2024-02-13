@@ -44,7 +44,7 @@ export function DictionaryDropdown({ deleteMutation, openDialog }: {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Отмена</AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteMutation()}>Подтвердить</AlertDialogAction>
+              <AlertDialogAction variant='destructive' onClick={() => deleteMutation()}>Удалить</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

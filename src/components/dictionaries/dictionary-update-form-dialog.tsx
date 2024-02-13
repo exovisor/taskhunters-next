@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle, DialogTrigger,
+  DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { type z } from 'zod';
@@ -12,50 +12,60 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Plus } from 'lucide-react';
-import { dictionaryCreateSchema } from '@/server/schema/dictionary';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { dictionaryUpdateSchema } from '@/server/schema/dictionary';
 
-type Props = {
-  onSave: (props: z.infer<typeof dictionaryCreateSchema>) => void;
+type Row = {
+  id: number | undefined;
+  value: string | undefined;
 };
 
-export function DictionaryCreateFormDialog({
-  onSave,
-}: Props) {
-  const [ isOpen, setIsOpen ] = useState(false);
-  const form = useForm<z.infer<typeof dictionaryCreateSchema>>({
-    resolver: zodResolver(dictionaryCreateSchema),
-  });
+type Props = {
+  isOpen: boolean;
+  row: Row;
+  onSave: (props: z.infer<typeof dictionaryUpdateSchema>) => void;
+  onClose: () => void;
+};
 
-  function handleSave(data: z.infer<typeof dictionaryCreateSchema>) {
+export function DictionaryUpdateFormDialog({
+  isOpen,
+  row,
+  onSave,
+  onClose,
+}: Props) {
+
+  const form = useForm<z.infer<typeof dictionaryUpdateSchema>>({
+    resolver: zodResolver(dictionaryUpdateSchema),
+    defaultValues: row,
+  });
+  const { reset } = form;
+
+  useEffect(() => {
+    reset(row);
+  }, [ row,reset ]);
+
+  function handleSubmit(data: z.infer<typeof dictionaryUpdateSchema>) {
     onSave(data);
-    setIsOpen(false);
-    form.reset();
+    onClose();
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant='secondary'>
-          <Plus className='mr-2 h-4 w-4' /> Добавить
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <DialogHeader>
               <DialogTitle>
-								Создание новой записи
+								Редактирование записи #{row.id}
               </DialogTitle>
               <DialogDescription>
-								Заполните необходимые поля
+								Внесите необходимые изменения
               </DialogDescription>
             </DialogHeader>
             <div className='grid gap-4 py-4'>
               <FormField
                 control={form.control}
-                name='name'
+                name='value'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Значение</FormLabel>
