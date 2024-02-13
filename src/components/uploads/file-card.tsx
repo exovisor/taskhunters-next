@@ -6,14 +6,17 @@ import { Button } from '@/components/ui/button';
 import { api } from '@/trpc/react';
 import { toast } from '@/components/ui/use-toast';
 import { FilePreview } from '@/components/uploads/file-preview';
+import { useRef } from 'react';
 
 type FileCardProps = {
   file: FileInfo;
   editable?: boolean;
+  deletable?: boolean;
   onDelete?: () => void;
 };
 
-export function FileCard({ file, editable, onDelete }: FileCardProps) {
+export function FileCard({ file, editable, onDelete, deletable }: FileCardProps) {
+  const ref = useRef<HTMLAnchorElement>(null);
   const { mutate: deleteFile } = api.file.deleteFileById.useMutation({
     onSuccess: () => {
       toast({
@@ -30,6 +33,10 @@ export function FileCard({ file, editable, onDelete }: FileCardProps) {
   });
 
   function handleDelete() {
+    if (!deletable) {
+      onDelete && onDelete();
+      return;
+    }
     deleteFile({ id: file.id });
   }
 
@@ -61,12 +68,18 @@ export function FileCard({ file, editable, onDelete }: FileCardProps) {
         }
         {
           file.type === 'application/pdf' &&
-          <a href={`/api/uploads/${file.id}`} target='_blank' rel='noopener noreferrer'>
-            <Button variant='outline' size='icon'><Eye className='w-4 h-4' /></Button>
+          <a href={`/api/uploads/${file.id}`} target='_blank' rel='noopener noreferrer' ref={ref}>
+            <Button variant='outline' size='icon' onClick={(e) => {
+              e.preventDefault();
+              ref.current?.click();
+            }}><Eye className='w-4 h-4' /></Button>
           </a>
         }
         { editable &&
-          <Button variant='outline' size='icon' onClick={handleDelete}><Trash2 className='w-4 h-4' /></Button>
+          <Button variant='outline' size='icon' onClick={(e) => {
+            e.preventDefault();
+            handleDelete();
+          }}><Trash2 className='w-4 h-4' /></Button>
         }
       </div>
     </div>

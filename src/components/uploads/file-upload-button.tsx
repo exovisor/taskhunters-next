@@ -48,12 +48,14 @@ export interface FileUploadButtonProps {
   initFile?: FileInfo;
   reason: string;
   onUpload?: (file: FileInfo | undefined) => void;
+  deleteOnChange?: boolean;
 }
 
 export function FileUploadButton({
   reason,
   initFile,
   onUpload,
+  deleteOnChange,
 }: FileUploadButtonProps) {
   const [ status, setStatus ] = useState(initFile ? FileUploadState.Existing : FileUploadState.New);
   const [ file, setFile ] = useState<FileInfo | undefined>(initFile);
@@ -113,7 +115,7 @@ export function FileUploadButton({
       }
       {
         file && status === FileUploadState.Existing &&
-          <FileCard file={file} onDelete={onDelete} editable />
+          <FileCard file={file} onDelete={onDelete} editable deletable={deleteOnChange} />
       }
     </>
   );

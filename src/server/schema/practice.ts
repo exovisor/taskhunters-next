@@ -18,3 +18,27 @@ export const createPracticeSchema = z.object({
 
   assignmentFileId: z.number(),
 });
+
+export const updatePracticeSchema = createPracticeSchema
+  .extend({
+    id: z.number(),
+  });
+
+export const practicePayloadSchema = createPracticeSchema
+  .omit({
+    instituteId: true,
+    specialityId: true,
+    assignmentFileId: true,
+  })
+  .extend({
+    id: z.number(),
+
+    instituteId: z.number().nullable(),
+    specialityId: z.number().nullable(),
+    assignmentFileId: z.number().nullable(),
+  });
+
+export const attachReportSchema = z.object({
+  practiceId: z.number(),
+  reportFileId: z.number(),
+});

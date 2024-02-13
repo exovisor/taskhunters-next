@@ -4,7 +4,9 @@ export const navigation: Record<string, string> = {
 
   'tasks': 'Задания',
 
-  'help': 'Помощь'
+  'help': 'Помощь',
+
+  'edit': 'Редактировать',
 };
 
 export function getNavigationItem(key: string): string | undefined {

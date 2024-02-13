@@ -1,6 +1,6 @@
 import { PageHeading } from '@/components/page-headings/default-page-heading';
 import { type Metadata } from 'next';
-import { CreatePracticeForm } from '@/components/practice/create-practice-form';
+import { EditPracticeForm } from '@/components/practice/edit-practice-form';
 import { getServerAuthSession } from '@/server/auth';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default async function StudentCreatePractice() {
     <>
       <PageHeading title={'Создать практику'} />
       <div className='p-4'>
-        <CreatePracticeForm studentProfileId={session!.user.studentProfileId!} redirectUrl='/student/practices' />
+        <EditPracticeForm studentProfileId={session!.user.studentProfileId!} redirectUrl='/student/practices' />
       </div>
     </>
   );

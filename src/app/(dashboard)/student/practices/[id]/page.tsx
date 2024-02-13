@@ -11,6 +11,8 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import React from 'react';
 import { DeletePracticeButton } from '@/components/practice/delete-practice-button';
+import Link from 'next/link';
+import { AttachReportButton } from '@/components/practice/attach-report-button';
 
 export const metadata: Metadata = {
   title: 'Информация о практике',
@@ -51,11 +53,13 @@ export default async function PracticeViewPage({ params }: PracticeViewPageProps
   return (
     <>
       <PageHeading title={`${practice.type.value} практика #${practice.id}`}>
-        {practice.status !== 'COMPLETED' && (
-          <Button variant='outline'>
-            <Pencil className='mr-2 h-4 w-4' />
-            Редактировать
-          </Button>
+        {[ 'UNVERIFIED', 'REJECTED' ].includes(practice.status) && (
+          <Link href={`/student/practices/${practice.id}/edit`} passHref legacyBehavior>
+            <Button variant='outline'>
+              <Pencil className='mr-2 h-4 w-4' />
+              Редактировать
+            </Button>
+          </Link>
         )}
         {practice.status === 'UNVERIFIED' && (
           <DeletePracticeButton practiceId={practice.id} redirectUrl={'/student/practices'} />
@@ -75,7 +79,7 @@ export default async function PracticeViewPage({ params }: PracticeViewPageProps
                 </span>
               </dd>
             </div>
-            {practice.rejectionMessage && (
+            {practice.rejectionMessage && [ 'REJECTED','REPORT_REJECTED' ].includes(practice.status) && (
               <div className='py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5'>
                 <dt className='text-sm font-medium text-muted-foreground'>
                   Причина отказа
@@ -140,6 +144,9 @@ export default async function PracticeViewPage({ params }: PracticeViewPageProps
                 <span className='mt-2 text-muted-foreground'>Отчет</span>
                 {practice.reportFile && (
                   <FileCard file={practice.reportFile} editable={false} />
+                )}
+                {[ 'VERIFIED', 'REPORT_PENDING', 'REPORT_REJECTED' ].includes(practice.status) && (
+                  <AttachReportButton practice={practice} existingReport={practice.reportFile} />
                 )}
               </dd>
             </div>

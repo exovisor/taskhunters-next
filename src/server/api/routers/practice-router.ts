@@ -1,5 +1,10 @@
 import { createTRPCRouter, studentProcedure } from '@/server/api/trpc';
-import { createPracticeSchema, studentPracticesQuerySchema } from '@/server/schema/practice';
+import {
+  attachReportSchema,
+  createPracticeSchema,
+  studentPracticesQuerySchema,
+  updatePracticeSchema
+} from '@/server/schema/practice';
 import { db } from '@/server/db';
 import { buildQueryFromOptions } from '@/server/schema/query';
 import { type Prisma } from '@prisma/client';
@@ -131,6 +136,98 @@ export const practiceRouter = createTRPCRouter({
       return db.practice.delete({
         where: {
           id: input.id,
+        },
+      });
+    }),
+
+  updateUnverifiedPractice: studentProcedure
+    .input(updatePracticeSchema)
+    .mutation(async ({ input, ctx }) => {
+      const practice = await db.practice.findFirst({
+        where: {
+          id: input.id,
+        },
+        include: {
+          assignmentFile: true,
+        },
+      });
+      if (!practice) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Practice not found',
+        });
+      }
+      // Only admin can update practices with status other than UNVERIFIED
+      if (ctx.session.user.role === 'STUDENT' && ![ 'UNVERIFIED', 'REJECTED' ].includes(practice.status)) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You are not allowed to update this practice',
+        });
+      }
+      // Only admin can update practices of other students
+      if (ctx.session.user.role === 'STUDENT' && practice.studentProfileId !== ctx.session.user.studentProfileId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You are not allowed to update this practice',
+        });
+      }
+      // Delete old files if new files are uploaded
+      if (input.assignmentFileId !== practice.assignmentFileId && practice.assignmentFile) {
+        await deleteFile(practice.assignmentFile);
+      }
+      return db.practice.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+          status: 'UNVERIFIED',
+        },
+      });
+    }),
+
+  attachReportFile: studentProcedure
+    .input(attachReportSchema)
+    .mutation(async ({ input, ctx }) => {
+      const practice = await db.practice.findFirst({
+        where: {
+          id: input.practiceId,
+        },
+        include: {
+          reportFile: true,
+        },
+      });
+      if (!practice) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Practice not found',
+        });
+      }
+      // Only admin can attach files to practices with status other than UNVERIFIED
+      if (ctx.session.user.role === 'STUDENT' && ![ 'VERIFIED', 'REPORT_PENDING', 'REPORT_REJECTED' ].includes(practice.status)) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You are not allowed to attach files to this practice',
+        });
+      }
+      // Only admin can attach files to practices of other students
+      if (ctx.session.user.role === 'STUDENT' && practice.studentProfileId !== ctx.session.user.studentProfileId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You are not allowed to attach files to this practice',
+        });
+      }
+      // Delete old file if new file is uploaded
+      if (practice.reportFile) {
+        await deleteFile(practice.reportFile);
+      }
+      return db.practice.update({
+        where: {
+          id: input.practiceId,
+        },
+        data: {
+          status: 'REPORT_PENDING',
+          reportFileId: input.reportFileId,
         },
       });
     }),

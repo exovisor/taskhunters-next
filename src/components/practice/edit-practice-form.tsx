@@ -2,7 +2,10 @@
 
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
-import { createPracticeSchema } from '@/server/schema/practice';
+import {
+  createPracticeSchema,
+  type practicePayloadSchema,
+} from '@/server/schema/practice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/components/ui/use-toast';
 import { api } from '@/trpc/react';
@@ -27,16 +30,25 @@ import { InstituteSelect } from '@/components/inputs/institute-select';
 import { SpecialitySelect } from '@/components/inputs/speciality-select';
 import { CalendarInput } from '@/components/inputs/calendar-input';
 
-export type CreatePracticeFormProps = {
+export type EditPracticeFormProps = {
   studentProfileId: number;
   redirectUrl?: string;
+  existingPractice?: z.infer<typeof practicePayloadSchema> & {
+    assignmentFile: File | null;
+  };
 };
 
-export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePracticeFormProps) {
+export function EditPracticeForm({ studentProfileId, redirectUrl, existingPractice }: EditPracticeFormProps) {
+  const { id, ...initialData } = existingPractice ?? { id: null };
   const form = useForm<z.infer<typeof createPracticeSchema>>({
     resolver: zodResolver(createPracticeSchema),
     defaultValues: {
+      ...initialData,
       studentProfileId: studentProfileId,
+      instituteId: existingPractice?.instituteId ?? undefined,
+      specialityId: existingPractice?.specialityId ?? undefined,
+
+      assignmentFileId: existingPractice?.assignmentFileId ?? undefined,
     },
     reValidateMode: 'onChange',
   });
@@ -61,6 +73,23 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
       });
     },
   });
+  const { mutate: updatePractice } = api.practice.updateUnverifiedPractice.useMutation({
+    onSuccess: async ({ id }) => {
+      toast({
+        title: 'Изменения сохранены',
+      });
+      if (redirectUrl) {
+        router.push(redirectUrl + '/' + id);
+      }
+    },
+    onError: (err) => {
+      toast({
+        variant: 'destructive',
+        title: 'Что-то пошло не так',
+        description: JSON.stringify(err),
+      });
+    },
+  });
 
   function handleFileUpload(file: File | undefined) {
     if (!file) return;
@@ -68,7 +97,14 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
   }
 
   async function onSubmit(values: z.infer<typeof createPracticeSchema>) {
-    createPractice(values);
+    if (id) {
+      updatePractice({
+        id,
+        ...values,
+      });
+    } else {
+      createPractice(values);
+    }
   }
 
   return (
@@ -125,6 +161,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
               <Input
                 type='number'
                 placeholder='Введите номер курса'
+                value={field.value ?? ''}
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value === '') {
@@ -184,8 +221,10 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
             <FormItem>
               <FormLabel>Направление на практику</FormLabel>
               <FileUploadButton
+                initFile={existingPractice?.assignmentFile ?? undefined}
                 reason='practice-assignment'
                 onUpload={handleFileUpload}
+                deleteOnChange={!existingPractice?.assignmentFile}
               />
               <FormDescription>
                 Поддерживаются файлы форматов: .pdf, .jpg, .png
@@ -194,7 +233,7 @@ export function CreatePracticeForm({ studentProfileId, redirectUrl }: CreatePrac
             </FormItem>
           )}
         />
-        <Button type='submit'>Зарегистрировать</Button>
+        <Button type='submit'>Сохранить</Button>
       </form>
     </Form>
   );

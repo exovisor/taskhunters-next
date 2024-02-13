@@ -21,6 +21,14 @@ export const status = [
     label: 'Отчет отклонен'
   },
   {
+    value: 'REPORT_APPROVED',
+    label: 'Отчет принят'
+  },
+  {
+    value: 'DOCUMENTS_SIGNED',
+    label: 'Документы подписаны'
+  },
+  {
     value: 'COMPLETED',
     label: 'Завершено'
   }
