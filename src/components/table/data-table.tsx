@@ -70,7 +70,7 @@ export function DataTable<TValue, TData>({
   const [ sortingState, setSorting ] = useState<SortingState>([ defaultSort ]);
   const sorting = useMemo(() => (sortingState), [ sortingState ]);
 
-  const [ filtersState, setFitlersState ] = useState<ColumnFiltersState>([]);
+  const [ filtersState, setFiltersState ] = useState<ColumnFiltersState>([]);
   const columnFilters = useMemo(() => filtersState, [ filtersState ]);
 
   const table = useReactTable({
@@ -84,7 +84,7 @@ export function DataTable<TValue, TData>({
     },
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setFitlersState,
+    onColumnFiltersChange: setFiltersState,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,
@@ -106,6 +106,7 @@ export function DataTable<TValue, TData>({
 
   return (
     <div className='space-y-4'>
+      {JSON.stringify(columnFilters)}
       <DataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table>

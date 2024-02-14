@@ -16,20 +16,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import React from 'react';
+import { getColumnLabelByName } from '@/lib/columns';
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>
-  title: string
+  column: Column<TData, TValue>;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
-  title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>;
+    return <div className={cn(className)}>{getColumnLabelByName(column.id) ?? column.id}</div>;
   }
 
   return (
@@ -41,7 +40,7 @@ export function DataTableColumnHeader<TData, TValue>({
             size='sm'
             className='-ml-3 h-8 data-[state=open]:bg-accent'
           >
-            <span>{title}</span>
+            <span className='capitalize'>{getColumnLabelByName(column.id) ?? column.id}</span>
             {column.getIsSorted() === 'desc' ? (
               <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
             ) : column.getIsSorted() === 'asc' ? (

@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useEffect, useState } from 'react';
+import { getColumnLabelByName } from '@/lib/columns';
+import { DataTableDateFilter } from '@/components/table/date-filter';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -35,7 +37,8 @@ export function DataTableToolbar<TData>({
     col.columnDef.meta?.filterType === 'date'
   ));
   const valueColumns = allColumns.filter((col) =>
-    col.columnDef.meta?.filterType === 'value');
+    col.columnDef.meta?.filterType === 'value' || col.columnDef.meta?.filterType === 'number'
+  );
 
   const [ valueFilterColumn, setValueFilterColumn ] = useState<string>('');
   const [ valueFilterText, setValueFilterText ] = useState<string>('');
@@ -66,7 +69,7 @@ export function DataTableToolbar<TData>({
             <SelectGroup>
               {
                 valueColumns.map((col) => (
-                  <SelectItem key={col.id} value={col.id} className='capitalize'>{col.id}</SelectItem>
+                  <SelectItem key={col.id} value={col.id} className='capitalize'>{getColumnLabelByName(col.id) ?? col.id}</SelectItem>
                 ))
               }
             </SelectGroup>
@@ -84,6 +87,13 @@ export function DataTableToolbar<TData>({
             column={col}
             title='Роли'
             options={col.columnDef.meta!.enumSource!}
+          />
+        ))}
+        {dateColumns.map((col) => (
+          <DataTableDateFilter
+            key={col.id}
+            column={col}
+            title={getColumnLabelByName(col.id) ?? col.id}
           />
         ))}
         {(isFiltered || valueFilterColumn || valueFilterText) && (

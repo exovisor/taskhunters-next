@@ -10,10 +10,10 @@ export const sortingOptionsSchema = z.object({
   desc: z.boolean().optional(),
 });
 
-export const filterTypes = [ 'value', 'date', 'enum' ] as const;
+export const filterTypes = [ 'value', 'date', 'enum', 'number' ] as const;
 export const filterOptionsSchema = z.object({
   id: z.string().optional(),
-  value: z.string().array().optional(),
+  value: z.string().optional().array().optional(),
   type: z.enum(filterTypes).optional(),
 });
 
@@ -51,9 +51,20 @@ function buildWhereQueryItem({ type, id, value }: z.infer<typeof filterOptionsSc
       contains: value[0],
     };
   }
+  if (id && type === 'number' && value && value.length > 0) {
+    where[id] = {
+      equals: value[0] ? parseInt(value[0]) : undefined,
+    };
+  }
   if (id && type === 'enum' && value && value.length > 0) {
     where[id] = {
       in: value,
+    };
+  }
+  if (id && type === 'date' && value && value.length > 0 && value[0]) {
+    where[id] = {
+      gte: new Date(value[0]),
+      lte: value[1] ? new Date(value[1]) : undefined,
     };
   }
   return where;
