@@ -1,6 +1,6 @@
 'use client';
 
-import { X } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import type { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -8,17 +8,17 @@ import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './column-toggle';
 
 import { DataTableFacetedFilter } from './faceted-filter';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getColumnLabelByName } from '@/lib/columns';
 import { DataTableDateFilter } from '@/components/table/date-filter';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -28,78 +28,79 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
-
-  const allColumns = table.getAllColumns();
-  const enumColumns = allColumns.filter((col) => (
-    col.columnDef.meta?.filterType === 'enum' && col.columnDef.meta.enumSource
-  ));
-  const dateColumns = allColumns.filter((col) => (
-    col.columnDef.meta?.filterType === 'date'
-  ));
-  const valueColumns = allColumns.filter((col) =>
-    col.columnDef.meta?.filterType === 'value' || col.columnDef.meta?.filterType === 'number'
-  );
-
-  const [ valueFilterColumn, setValueFilterColumn ] = useState<string>('');
-  const [ valueFilterText, setValueFilterText ] = useState<string>('');
-
-  function reset() {
-    setValueFilterColumn(() => '');
-    setValueFilterText(() => '');
-    table.resetColumnFilters();
-  }
-
-  useEffect(() => {
-    if (valueFilterColumn && valueFilterText && valueFilterText.length >= 1) {
-      table.getColumn(valueFilterColumn)?.setFilterValue([ valueFilterText ]);
-    }
-  }, [ table, valueFilterColumn, valueFilterText ]);
+  const columns = table.getAllColumns();
+  const [ activeFilters, setActiveFilters ] = useState<string[]>([]);
 
   return (
-    <div className='flex items-center justify-between'>
-      <div className='flex flex-1 items-center space-x-2'>
-        <Select onValueChange={(v) => {
-          table.getColumn(valueFilterColumn)?.setFilterValue(undefined);
-          setValueFilterColumn(v);
-        }} value={valueFilterColumn}>
-          <SelectTrigger className='w-[120px] h-8 capitalize'>
-            <SelectValue placeholder='Столбец'/>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {
-                valueColumns.map((col) => (
-                  <SelectItem key={col.id} value={col.id} className='capitalize'>{getColumnLabelByName(col.id) ?? col.id}</SelectItem>
-                ))
+    <div className='flex items-center justify-between flex-col lg:flex-row gap-2'>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant='outline'
+            size='sm'
+            className='h-8 flex'
+          >
+            <Filter className='mr-2 h-4 w-4' />
+            Фильтры
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end' className='w-[160px]'>
+          <DropdownMenuLabel>Показать фильтры</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {columns
+            .filter((column) => column.columnDef?.meta?.filterType)
+            .map((column) => {
+              return (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  checked={activeFilters.includes(column.id)}
+                  onCheckedChange={(value) => setActiveFilters((prev) => value ? [ ...prev, column.id ] : prev.filter((id) => id !== column.id))}
+                >
+                  {getColumnLabelByName(column.id) ?? column.id}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <div className='flex flex-wrap flex-1 items-center gap-2'>
+        {activeFilters.map((id) => {
+          const column = columns.find((col) => col.id === id);
+          if (!column?.columnDef.meta?.filterType) return null;
+          if (column.columnDef.meta.filterType === 'enum') {
+            return (
+              <DataTableFacetedFilter
+                key={column.id}
+                column={column}
+                title={getColumnLabelByName(column.id) ?? column.id}
+                options={column.columnDef.meta.enumSource!}
+              />
+            );
+          }
+          if (column.columnDef.meta.filterType === 'date') {
+            return (
+              <DataTableDateFilter
+                key={column.id}
+                column={column}
+                title={getColumnLabelByName(column.id) ?? column.id}
+              />
+            );
+          }
+          return (
+            <Input
+              key={column.id}
+              placeholder={getColumnLabelByName(column.id) ?? column.id}
+              value={
+                (column.getFilterValue() as string[] | undefined)?.[0] ?? ''
               }
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Input
-          placeholder='Поиск...'
-          value={valueFilterText ?? ''}
-          onChange={(e) => setValueFilterText(e.target.value)}
-          className='h-8 w-[150px]'
-        />
-        {enumColumns.map((col) => (
-          <DataTableFacetedFilter
-            key={col.id}
-            column={col}
-            title='Роли'
-            options={col.columnDef.meta!.enumSource!}
-          />
-        ))}
-        {dateColumns.map((col) => (
-          <DataTableDateFilter
-            key={col.id}
-            column={col}
-            title={getColumnLabelByName(col.id) ?? col.id}
-          />
-        ))}
-        {(isFiltered || valueFilterColumn || valueFilterText) && (
+              onChange={(e) => column.setFilterValue([ e.target.value ])}
+              className='h-8 w-[150px] border-dashed'
+            />
+          );
+        })}
+        {(isFiltered) && (
           <Button
             variant='ghost'
-            onClick={() => reset()}
+            onClick={() => table.resetColumnFilters()}
             className='h-8 px-2 lg:px-3'
           >
 						Сбросить

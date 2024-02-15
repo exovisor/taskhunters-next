@@ -1,12 +1,12 @@
 export const columns: Record<string, string> = {
   'id': '№',
-  'value': 'значение',
+  'value': 'Значение',
   'username': 'Telegram',
-  'displayName': 'отображаемое имя',
+  'displayName': 'Отображаемое имя',
   'email': 'Почта',
-  'role': 'роль',
-  'createdAt': 'создано',
-  'updatedAt': 'изменено',
+  'role': 'Роль',
+  'createdAt': 'Создано',
+  'updatedAt': 'Изменено',
 };
 
 export function getColumnLabelByName(name: string): string | undefined {

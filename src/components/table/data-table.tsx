@@ -106,7 +106,6 @@ export function DataTable<TValue, TData>({
 
   return (
     <div className='space-y-4'>
-      {JSON.stringify(columnFilters)}
       <DataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table>
