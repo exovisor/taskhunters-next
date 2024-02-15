@@ -28,17 +28,32 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{getColumnLabelByName(column.id) ?? column.id}</div>;
+    return (
+      <div
+        className={cn(
+          column.getIsPinned() ? 'bg-background sticky right-0' : '',
+          className,
+        )}
+      >
+        {getColumnLabelByName(column.id) ?? column.id}
+      </div>
+    );
   }
 
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
+    <div
+      className={cn(
+        'flex items-center space-x-2',
+        column.getIsPinned() ? 'sticky' : '',
+        className,
+      )}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant='ghost'
             size='sm'
-            className='-ml-3 h-8 data-[state=open]:bg-accent'
+            className='data-[state=open]:bg-accent -ml-3 h-8'
           >
             <span>{getColumnLabelByName(column.id) ?? column.id}</span>
             {column.getIsSorted() === 'desc' ? (
@@ -52,17 +67,17 @@ export function DataTableColumnHeader<TData, TValue>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUpNarrowWide className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-						По возрастанию
+            <ArrowUpNarrowWide className='text-muted-foreground/70 mr-2 h-3.5 w-3.5' />
+            По возрастанию
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDownWideNarrow className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-						По убыванию
+            <ArrowDownWideNarrow className='text-muted-foreground/70 mr-2 h-3.5 w-3.5' />
+            По убыванию
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOff className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-						Скрыть
+            <EyeOff className='text-muted-foreground/70 mr-2 h-3.5 w-3.5' />
+            Скрыть
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

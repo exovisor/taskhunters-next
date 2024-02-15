@@ -21,3 +21,8 @@ export const userRoleSchema = z.object({
   role: z.nativeEnum(Role),
 });
 
+export const createUserSchema = z.object({
+  telegramId: z.string(),
+  email: z.string().email().optional(),
+  role: z.nativeEnum(Role).optional(),
+});

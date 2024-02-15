@@ -1,7 +1,14 @@
 import { db } from '@/server/db';
 import { createTRPCRouter, adminProcedure } from '@/server/api/trpc';
-import { userIdSchema, userRoleSchema } from '@/server/schema/user';
-import { buildQueryFromOptions, queryOptionsSchema } from '@/server/schema/query';
+import {
+  createUserSchema,
+  userIdSchema,
+  userRoleSchema,
+} from '@/server/schema/user';
+import {
+  buildQueryFromOptions,
+  queryOptionsSchema,
+} from '@/server/schema/query';
 import { TRPCError } from '@trpc/server';
 import { Prisma } from '@prisma/client';
 import UserWhereInput = Prisma.UserWhereInput;
@@ -68,7 +75,8 @@ export const userRouter = createTRPCRouter({
       if (role === 'SUPERADMIN') {
         throw new TRPCError({
           code: 'FORBIDDEN',
-          message: 'Only one user with ROOT privileges can exist in application',
+          message:
+            'Only one user with ROOT privileges can exist in application',
         });
       }
       return db.user.update({
@@ -77,6 +85,17 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           role: role,
+        },
+      });
+    }),
+
+  createUser: adminProcedure
+    .input(createUserSchema)
+    .mutation(async ({ input }) => {
+      return db.user.create({
+        data: {
+          ...input,
+          displayName: '[Регистрация не завершена]',
         },
       });
     }),

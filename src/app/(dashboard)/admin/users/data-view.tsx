@@ -14,48 +14,49 @@ import { format } from 'date-fns';
 import { UserTableDropdown } from '@/components/user/user-table-dropdown';
 
 export const getColumns: (
-  refetch: () => Promise<unknown>
-) => ColumnDef<User>[] = (
-  refetch
-) => ([
+  refetch: () => Promise<unknown>,
+) => ColumnDef<User>[] = (refetch) => [
   {
     accessorKey: 'id',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Id' />),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    meta: {
+      filterType: 'value',
+    },
+  },
+  {
+    accessorKey: 'telegramId',
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     meta: {
       filterType: 'value',
     },
   },
   {
     accessorKey: 'username',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Имя Telegram' />),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     meta: {
       filterType: 'value',
     },
   },
   {
     accessorKey: 'displayName',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Отображаемое имя' />),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     meta: {
       filterType: 'value',
     },
   },
   {
     accessorKey: 'email',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Электронная почта' />),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     meta: {
       filterType: 'value',
     },
   },
   {
     accessorKey: 'role',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Роль' />),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) =>
-      (getRoleByValue(row.getValue('role'))?.label ?? String(row.getValue('role'))),
+      getRoleByValue(row.getValue('role'))?.label ??
+      String(row.getValue('role')),
     meta: {
       filterType: 'enum',
       enumSource: roles,
@@ -63,18 +64,22 @@ export const getColumns: (
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Дата создания' />),
-    cell: ({ row }) => format(new Date(row.getValue('createdAt')), 'HH:mm dd.MM.yyyy', { locale: ru }),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) =>
+      format(new Date(row.getValue('createdAt')), 'HH:mm dd.MM.yyyy', {
+        locale: ru,
+      }),
     meta: {
       filterType: 'date',
     },
   },
   {
     accessorKey: 'updatedAt',
-    header: ({ column }) =>
-      (<DataTableColumnHeader column={column} title='Дата обновления' />),
-    cell: ({ row }) => format(new Date(row.getValue('updatedAt')), 'HH:mm dd.MM.yyyy', { locale: ru }),
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    cell: ({ row }) =>
+      format(new Date(row.getValue('updatedAt')), 'HH:mm dd.MM.yyyy', {
+        locale: ru,
+      }),
     meta: {
       filterType: 'date',
     },
@@ -86,15 +91,23 @@ export const getColumns: (
       return <UserTableDropdown user={user} refetch={refetch} />;
     },
   },
-]);
+];
 
 export function UsersDataView() {
-  const [ queryOptions, setQueryOptions ] = useState<z.infer<typeof queryOptionsSchema>>({
+  const [ queryOptions, setQueryOptions ] = useState<
+    z.infer<typeof queryOptionsSchema>
+  >({
     paginationOptions: {
       pageIndex: 0,
       pageSize: 10,
     },
   });
   const { data, refetch } = api.user.getUsers.useQuery(queryOptions);
-  return <DataTable columns={getColumns(refetch)} setQueryOptions={setQueryOptions} payload={data} />;
+  return (
+    <DataTable
+      columns={getColumns(refetch)}
+      setQueryOptions={setQueryOptions}
+      payload={data}
+    />
+  );
 }

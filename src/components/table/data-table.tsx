@@ -23,33 +23,36 @@ import type { filterTypes, queryOptionsSchema } from '@/server/schema/query';
 import { DataTableToolbar } from '@/components/table/toolbar';
 import type { RowData } from '@tanstack/table-core';
 import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
-    filterType?: typeof filterTypes[number] | undefined;
+    filterType?: (typeof filterTypes)[number] | undefined;
     enumSource?: {
-      label: string
-      value: string
-      icon?: React.ComponentType<{ className?: string }>
+      label: string;
+      value: string;
+      icon?: React.ComponentType<{ className?: string }>;
     }[];
   }
 }
 
 interface DataTableProps<TValue, TData> {
   columns: ColumnDef<TData, TValue>[];
-  payload: {
-    rows: TData[];
-    meta: {
-      totalCount: number;
+  payload:
+    | {
+      rows: TData[];
+      meta: {
+        totalCount: number;
+      };
     }
-  } | undefined;
+    | undefined;
   setQueryOptions: (opts: z.infer<typeof queryOptionsSchema>) => void;
 }
 
 export function DataTable<TValue, TData>({
   columns,
- 	payload,
- 	setQueryOptions,
+  payload,
+  setQueryOptions,
 }: DataTableProps<TValue, TData>) {
   const [ { pageIndex, pageSize }, setPagination ] = useState<PaginationState>({
     pageIndex: 0,
@@ -60,7 +63,7 @@ export function DataTable<TValue, TData>({
       pageIndex,
       pageSize,
     }),
-    [ pageIndex, pageSize ]
+    [ pageIndex, pageSize ],
   );
 
   const defaultSort = {
@@ -68,7 +71,7 @@ export function DataTable<TValue, TData>({
     desc: true,
   };
   const [ sortingState, setSorting ] = useState<SortingState>([ defaultSort ]);
-  const sorting = useMemo(() => (sortingState), [ sortingState ]);
+  const sorting = useMemo(() => sortingState, [ sortingState ]);
 
   const [ filtersState, setFiltersState ] = useState<ColumnFiltersState>([]);
   const columnFilters = useMemo(() => filtersState, [ filtersState ]);
@@ -76,11 +79,21 @@ export function DataTable<TValue, TData>({
   const table = useReactTable({
     data: payload?.rows ?? [],
     columns,
-    pageCount: payload?.meta?.totalCount ? Math.ceil(payload.meta.totalCount / pageSize) : -1,
+    pageCount: payload?.meta?.totalCount
+      ? Math.ceil(payload.meta.totalCount / pageSize)
+      : -1,
     state: {
       pagination: pagination,
       sorting: sorting,
       columnFilters: columnFilters,
+    },
+    initialState: {
+      columnVisibility: {
+        id: false,
+      },
+      columnPinning: {
+        right: [ 'actions' ],
+      },
     },
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
@@ -96,18 +109,21 @@ export function DataTable<TValue, TData>({
     setQueryOptions({
       paginationOptions: pagination,
       sortingOptions: sorting.length > 0 ? sorting[0] : undefined,
-      filterOptions: columnFilters.length > 0 ? columnFilters.map((cf) => ({
-        id: cf.id,
-        value: cf.value as string[],
-        type: table.getColumn(cf.id ?? '')?.columnDef?.meta?.filterType,
-      })) : undefined,
+      filterOptions:
+        columnFilters.length > 0
+          ? columnFilters.map((cf) => ({
+            id: cf.id,
+            value: cf.value as string[],
+            type: table.getColumn(cf.id ?? '')?.columnDef?.meta?.filterType,
+          }))
+          : undefined,
     });
   }, [ table, setQueryOptions, pagination, sorting, columnFilters ]);
 
   return (
     <div className='space-y-4'>
       <DataTableToolbar table={table} />
-      <div className='rounded-md border'>
+      <div className='relative rounded-md border'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -119,7 +135,7 @@ export function DataTable<TValue, TData>({
                         ? null
                         : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                     </TableHead>
                   );
@@ -135,16 +151,28 @@ export function DataTable<TValue, TData>({
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        cell.column.getIsPinned() === 'right' &&
+                          'bg-background sticky right-0 border-l',
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
-									Нет результатов
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  Нет результатов
                 </TableCell>
               </TableRow>
             )}

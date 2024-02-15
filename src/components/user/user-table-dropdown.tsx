@@ -6,10 +6,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { MessageSquareShare, MoreHorizontal, Trash2, User as UserIcon } from 'lucide-react';
 import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel,
-  AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+  MessageSquareShare,
+  MoreHorizontal,
+  Trash2,
+  User as UserIcon,
+} from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -20,7 +29,7 @@ import { api } from '@/trpc/react';
 import Link from 'next/link';
 
 type Props = {
-  user: User
+  user: User;
   refetch: () => Promise<unknown>;
 };
 
@@ -59,29 +68,44 @@ export function UserTableDropdown({ user, refetch }: Props) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <Link href={'/admin-old/users/' + user.id} passHref legacyBehavior>
-            <DropdownMenuItem><UserIcon className='mr-2 w-4 h-4'/><span>Открыть профиль</span></DropdownMenuItem>
+            <DropdownMenuItem>
+              <UserIcon className='mr-2 h-4 w-4' />
+              <span>Открыть профиль</span>
+            </DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
           <a href={'https://t.me/' + user.username} target='_blank'>
-            <DropdownMenuItem><MessageSquareShare className='mr-2 w-4 h-4'/><span>Открыть чат Telegram</span></DropdownMenuItem>
+            <DropdownMenuItem>
+              <MessageSquareShare className='mr-2 h-4 w-4' />
+              <span>Открыть чат Telegram</span>
+            </DropdownMenuItem>
           </a>
-          { user.role !== 'SUPERADMIN' && (
+          {user.role !== 'SUPERADMIN' && (
             <>
               <DropdownMenuSeparator />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}><Trash2 className='mr-2 w-4 h-4'/><span>Удалить</span></DropdownMenuItem>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <Trash2 className='mr-2 h-4 w-4' />
+                    <span>Удалить</span>
+                  </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Данное действие не может быть отменено. Это навсегда удалит пользователя и связанные с ним действия.
+                      Данное действие не может быть отменено. Это навсегда
+                      удалит пользователя и связанные с ним действия.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Отмена</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => deleteUser()}>Подтвердить</AlertDialogAction>
+                    <AlertDialogAction
+                      variant='destructive'
+                      onClick={() => deleteUser()}
+                    >
+                      Удалить
+                    </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
