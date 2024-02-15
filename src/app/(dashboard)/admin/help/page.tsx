@@ -31,7 +31,7 @@ export default function StudentHelp() {
           <AccordionItem value='telegram-id'>
             <AccordionTrigger>Как узнать Telegram ID?</AccordionTrigger>
             <AccordionContent>
-              <ul className='list-disc'>
+              <ol className='list-disc ml-4'>
                 <li>
                   Запустите Telegram и в поиске введите{' '}
                   <a
@@ -50,7 +50,7 @@ export default function StudentHelp() {
                   указанному боту. В поле <code>Forwarded from</code> вы увидите
                   ID пользователя.
                 </li>
-              </ul>
+              </ol>
             </AccordionContent>
           </AccordionItem>
         </Accordion>

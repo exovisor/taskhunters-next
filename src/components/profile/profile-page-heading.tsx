@@ -1,12 +1,14 @@
-import { getServerAuthSession } from '@/server/auth';
 import { type PropsWithChildren } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getRoleByValue } from '@/lib/roles';
+import { type SessionUser } from '@/server/types';
 
-export async function ProfilePageHeading({ children }: PropsWithChildren) {
-  const session = await getServerAuthSession();
-  const profile = session!.user;
-  const role = getRoleByValue(profile.role);
+export type ProfilePageHeadingProps = PropsWithChildren<{
+  user: SessionUser;
+}>;
+
+export async function ProfilePageHeading({ children, user }: ProfilePageHeadingProps) {
+  const role = getRoleByValue(user.role);
   return (
     <div>
       <div>
@@ -16,9 +18,9 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
         <div className='-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5'>
           <div className='flex'>
             <Avatar className='h-24 w-24 text-4xl font-semibold ring-4 ring-background'>
-              <AvatarImage src={profile.image ?? undefined} />
+              <AvatarImage src={user.image ?? undefined} />
               <AvatarFallback>
-                {profile.displayName
+                {user.displayName
                   .split(' ')
                   .map((str) => str.charAt(0))
                   .join('')}
@@ -29,20 +31,20 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
             <div className='mt-6 flex min-w-0 flex-1 gap-4 sm:hidden md:block'>
               <div className='flex items-baseline gap-2'>
                 <h1 className='truncate text-2xl font-bold'>
-                  {profile.displayName}
+                  {user.displayName}
                 </h1>
-                {profile.telegramId &&
-                profile.username &&
-                profile.username !== '[hidden]' ? (
+                {user.telegramId &&
+                user.username &&
+                user.username !== '[hidden]' ? (
                     <a
-                      href={'https://t.me/' + profile.username}
+                      href={'https://t.me/' + user.username}
                       target='_blank'
                       className='text-sm text-muted-foreground hover:underline'
                     >
-                    @{profile.username}
+                    @{user.username}
                     </a>
                   ) : (
-                    <span>Id: {profile.telegramId ?? '[hidden]'}</span>
+                    <span>Id: {user.telegramId ?? '[hidden]'}</span>
                   )}
               </div>
               {role && (
@@ -58,7 +60,7 @@ export async function ProfilePageHeading({ children }: PropsWithChildren) {
         </div>
         <div className='mt-6 hidden min-w-0 flex-1 sm:block md:hidden'>
           <h1 className='truncate text-2xl font-bold'>
-            {profile.displayName}
+            {user.displayName}
           </h1>
         </div>
       </div>

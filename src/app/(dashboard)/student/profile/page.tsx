@@ -19,7 +19,7 @@ export default async function StudentProfilePage() {
   return (
     <>
       <FillProfileAlert defaultOpen={!profileFilled} />
-      <ProfilePageHeading />
+      <ProfilePageHeading user={session!.user} />
       <Tabs defaultValue='studentProfile' className='px-4'>
         <TabsList className='mt-4 md-2'>
           <TabsTrigger value='studentProfile'>

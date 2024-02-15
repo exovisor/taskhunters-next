@@ -35,7 +35,7 @@ export const userRouter = createTRPCRouter({
       };
     }),
 
-  getUserWithProfilesById: adminProcedure
+  getUserWithProfileById: adminProcedure
     .input(userIdSchema)
     .query(async ({ input: { id } }) => {
       return db.user.findFirst({
@@ -95,7 +95,7 @@ export const userRouter = createTRPCRouter({
       return db.user.create({
         data: {
           ...input,
-          displayName: '[Регистрация не завершена]',
+          displayName: 'Новый пользователь',
         },
       });
     }),

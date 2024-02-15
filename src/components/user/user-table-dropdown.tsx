@@ -67,7 +67,7 @@ export function UserTableDropdown({ user, refetch }: Props) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <Link href={'/admin-old/users/' + user.id} passHref legacyBehavior>
+          <Link href={'/admin/users/' + user.id} passHref legacyBehavior>
             <DropdownMenuItem>
               <UserIcon className='mr-2 h-4 w-4' />
               <span>Открыть профиль</span>

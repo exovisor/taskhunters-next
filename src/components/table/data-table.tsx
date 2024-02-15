@@ -155,7 +155,7 @@ export function DataTable<TValue, TData>({
                       key={cell.id}
                       className={cn(
                         cell.column.getIsPinned() === 'right' &&
-                          'bg-background sticky right-0 border-l',
+                          'sticky right-0 bg-background/60 backdrop-blur backdrop-filter',
                       )}
                     >
                       {flexRender(
