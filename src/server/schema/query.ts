@@ -53,7 +53,7 @@ function buildWhereQueryItem({ type, id, value }: z.infer<typeof filterOptionsSc
   }
   if (id && type === 'number' && value && value.length > 0) {
     where[id] = {
-      equals: value[0] ? parseInt(value[0]) : undefined,
+      contains: value[0] ? parseInt(value[0]) : undefined,
     };
   }
   if (id && type === 'enum' && value && value.length > 0) {
