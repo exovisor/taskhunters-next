@@ -55,7 +55,7 @@ export function DeleteUserButton({ id }: { id: string }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
-            <AlertDialogAction onClick={() => deleteUser()}>Подтвердить</AlertDialogAction>
+            <AlertDialogAction variant='destructive' onClick={() => deleteUser()}>Удалить</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
