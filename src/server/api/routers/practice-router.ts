@@ -1,4 +1,4 @@
-import { createTRPCRouter, studentProcedure } from '@/server/api/trpc';
+import { adminProcedure, createTRPCRouter, studentProcedure } from '@/server/api/trpc';
 import {
   attachReportSchema,
   createPracticeSchema,
@@ -6,7 +6,7 @@ import {
   updatePracticeSchema
 } from '@/server/schema/practice';
 import { db } from '@/server/db';
-import { buildQueryFromOptions } from '@/server/schema/query';
+import { buildQueryFromOptions, queryOptionsSchema } from '@/server/schema/query';
 import { type Prisma } from '@prisma/client';
 import { dictionaryIdSchema } from '@/server/schema/dictionary';
 import { TRPCError } from '@trpc/server';
@@ -48,6 +48,41 @@ export const practiceRouter = createTRPCRouter({
         meta: {
           totalCount: count,
         },
+      };
+    }),
+
+  getPractices: adminProcedure
+    .input(queryOptionsSchema)
+    .query(async ({ input }) => {
+      const { where, ...query } = buildQueryFromOptions(input);
+      const [ practices, count ] = await db.$transaction([
+        db.practice.findMany({
+          where: where as Prisma.PracticeWhereInput,
+          ...query,
+          include: {
+            type: true,
+            institute: true,
+            speciality: true,
+            student: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                  }
+                }
+              }
+            },
+          },
+        }),
+        db.practice.count({
+          where: where as Prisma.PracticeWhereInput,
+        }),
+      ]);
+      return {
+        rows: practices,
+        meta: {
+          totalCount: count,
+        }
       };
     }),
 

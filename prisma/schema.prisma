@@ -49,7 +49,7 @@ model StudentProfile {
 	phone    String
 
 	practices Practice[]
-	User      User?
+	user      User?
 }
 
 enum PracticeStatus {

@@ -8,6 +8,12 @@ export const columns: Record<string, string> = {
   role: 'Роль',
   createdAt: 'Создано',
   updatedAt: 'Изменено',
+
+  status: 'Статус',
+  type: 'Тип практики',
+  institute: 'Институт',
+  speciality: 'Специальность',
+  student: 'ФИО',
 };
 
 export function getColumnLabelByName(name: string): string | undefined {

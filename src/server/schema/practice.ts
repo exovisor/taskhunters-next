@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { queryOptionsSchema } from '@/server/schema/query';
+import { type Prisma } from '@prisma/client';
 
 export const studentPracticesQuerySchema = queryOptionsSchema.extend({
   studentProfileId: z.number(),
@@ -42,3 +43,12 @@ export const attachReportSchema = z.object({
   practiceId: z.number(),
   reportFileId: z.number(),
 });
+
+export type PracticeWithIncludes = Prisma.PracticeGetPayload<{
+  include: {
+    type: true,
+    institute: true,
+    speciality: true,
+    student: true,
+  }
+}>;
